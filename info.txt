@@ -1,0 +1,6 @@
+We need to keep all of our html files in templates folder otherwise python file
+will not be able to detect it 
+
+Keep other files like images , css and js files in subfolders of static folder
+
+Keep Same names for html and css files to avoid confusion in later part
