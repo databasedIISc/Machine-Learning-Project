@@ -77,21 +77,23 @@ body {
 
 .start-button {
     color: white;
+    display: flex;
+    justify-content: center;
     text-align: center;
     text-decoration: none;
-    margin-top: 7%;
+    margin-top: 10%;
 }
 
 .button {
+    text-align: center;
     width: 150px;
     height: 150px;
-    border-radius: 50%;
-    text-align: center;
-    transform: 0.3s;
+    background-image: url("../images/start/start_nofocus.png");
+    background-size: cover;
+    transition: background-image 0.3s;
 }
 
 .button:hover {
-    background-color: #7943e648;
-    color: white;
+    background-image: url("../images/start/start_focus.png");
     
 }
