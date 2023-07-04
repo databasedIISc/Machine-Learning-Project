@@ -11,5 +11,15 @@ app = Flask(__name__)
 def home():
     return render_template("index.html")
 
+#Introduction Page
+@app.route("/introduction")
+def introduction():
+    return render_template("intro.html")
+
+#Upload Page
+@app.route("/upload")
+def upload():
+    return render_template("upload.html")
+
 if __name__=="__main__":
     app.run(host="0.0.0.0")
