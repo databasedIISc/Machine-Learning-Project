@@ -1,13 +1,70 @@
-/* Please add the css code for home page here */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600&family=Oswald:wght@700&family=Prompt:wght@500&family=Roboto:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alegreya:ital@1&display=swap');
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: aquamarine;
+    background-image: url("../images/start/background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
 }
+
+.headers {
+  text-transform: uppercase;
+  
+  color: #7843e6;
+  font-family: Alegreya;
+  font-size: 45px;
+  text-align: center;
+  border: 2px solid white;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;  /*Change it to column and see if it looks better*/
+  justify-content: space-around;
+  margin-top: 0px;/*Change position of image container here*/
+  /*border: 2px solid white;*/
+  padding-top: 110px;
+  padding-bottom: 120px;
+  padding-right: 70px;
+  background-color: #7943e648;
+  height: 1000px;
+  gap: 50px;
+  overflow: auto;
+}
+.member-img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+ /*   border: 7px solid #7843e6;
+    padding: 10px;*/
+    margin-bottom: 2%;
+    margin-top: 2%;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+    float: left;
+    border: 2px;
+    border-color: #7943e648;
+    transition: transform 0.3s;
+}
+
+.member-img:hover{
+    transform: scale(1.1);
+}
+
+.image-caption {
+  color: white;
+  font-family: 'Trebuchet MS', monospace; /*Change Font for names here*/
+  font-size: 30px;
+  text-align: left;
+  width: 250px;
+ 
+  
+}
+
+
