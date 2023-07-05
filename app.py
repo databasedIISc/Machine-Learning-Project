@@ -21,5 +21,24 @@ def introduction():
 def upload():
     return render_template("upload.html")
 
+#Receiving the dataset here
+@app.route("/upload", methods=['POST'])
+def upload_dataset():
+    global df
+    if request.method == "POST":
+        file = request.files["file"]
+        if file:
+            df = pd.read_csv(file)
+            return render_template("upload1.html", message = "Dataset Uploaded Successfully")
+
+        else:
+            return render_template("upload.html", message = "Dataset Not Uploaded")
+
+
+#Start
+@app.route("/main_page")
+def main_page():
+    return render_template("main_page.html")
+
 if __name__=="__main__":
     app.run(host="0.0.0.0")
