@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-image: url("../images/start/background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+
+}
+.upload {
+    position: relative;
+    display: inline-block;
+    background-color: rgba(210, 255, 30, 0.264);
+    position: absolute;
+    left: 65%;
+    top: 10%;
+    width: 450px;
+    height: 450px;
+    border-radius: 50px;
+    border: 3px solid white;
+    padding: 20px;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    color: rgb(109, 172, 235);
+    
+    
+}
+
+.upload:hover {
+    background-color: rgba(1, 8, 8, 0.319);
+    color: white;
+    transition-duration: 1s;
+}
+
+.file {
+    position:   absolute;
+    left: 5%;
+    top: 30%;
+    font-size: 30px;
+    font-weight: bold;
+    color: whitesmoke;
+    border: 3px solid white;
+    width: 400px;
+    height: 400px;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    cursor: pointer;
+    
+    
+
+}
+
+.file:hover {
+    background-color: rgba(7, 8, 1, 0.245);
+    color: white;
+    transition-duration: 1s;
+}
+
+.submit {
+    font-weight: bold;
+    position: absolute;
+    left: 5.5%;
+    top: 100.5%;
+    width: 396px;
+    height: 84px;
+    font-size: 30px;
+    border-radius: 5px;
+    background-color: aqua;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    
+    
+    
+}
+
+.submit:hover {
+    background-color: rgba(7, 8, 1, 0.245);
+    color: white;
+    transition-duration: 1s;
+}
+
+
+.head {
+    padding: 20px;
+    font-size: 40px;
+    font-weight: bold;
+    color: rgb(109, 172, 235);
+    text-align: center;
+    border: 3px solid white;
+    border-radius: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    
+}
+
+.done {
+    position: absolute;
+    background-color: rgba(30, 255, 203, 0.177);
+    color: dodgerblue;
+    font-size: 20px;
+    font-weight: bold;
+    border: 3px solid white;
+    border-radius: 20px;
+    width: 350px;
+    height: 100px;
+    left: 68.2%;
+    top: 45%;
+    padding: 10px;
+    text-align: center;
+    transition-duration: 1s;
+}
+
+.success {
+    position: absolute;
+    left: 71.6%;
+    top: 87%;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: antiquewhite;
+    border: 3px solid dodgerblue;
+    width: 250px;
+    height: 70px;
+    
+  
+    padding: 10px;
+    
+}
+
+.success:hover {
+    background-color: BLACK;
+    color: white;
+    transition-duration: 1s;
+    
+}

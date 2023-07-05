@@ -7,3 +7,8 @@ function upload() {
 function intro() {
     window.location.href = "/introduction";
 }
+
+// this redirects the user from upload page to main page where tool starts
+function reachmain() {
+    window.open("/main_page", "_blank");
+}
