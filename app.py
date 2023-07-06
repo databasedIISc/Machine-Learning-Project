@@ -30,11 +30,9 @@ def upload_dataset():
         if file:
             df = pd.read_csv(file)
             next_var=True
-
         else:
             next_var=False
     return render_template("upload.html", next_var=next_var)
-
 
 #Start
 @app.route("/main_page")
