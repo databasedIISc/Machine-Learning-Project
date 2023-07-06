@@ -29,10 +29,11 @@ def upload_dataset():
         file = request.files["file"]
         if file:
             df = pd.read_csv(file)
-            return render_template("upload1.html", message = "Dataset Uploaded Successfully")
+            next_var=True
 
         else:
-            return render_template("upload.html", message = "Dataset Not Uploaded")
+            next_var=False
+    return render_template("upload.html", next_var=next_var)
 
 
 #Start
