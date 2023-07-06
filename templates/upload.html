@@ -11,6 +11,7 @@
     
     <div class="upload">
         <h2 class = "head">Upload the dataset</h2>
+        
         <form action="/upload" method = "POST" enctype = "multipart/form-data">
                 
                 <input type="file" name="file" id="file" class="file" accept = ".csv">
@@ -21,9 +22,19 @@
 
     <div class="done">
         <h2>
-          {{message}}
+          {% if next_var %}
+            Upload Succcessful
+          {% else %}
+            No file Uploaded
+          {% endif %}
         </h2>
       </div>
+      {% if next_var %}
+        <button class = "success" onclick = "reachmain()">
+          Next
+        </button>
+      {% endif %}
+      
       
     
     
