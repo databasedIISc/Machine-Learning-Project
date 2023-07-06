@@ -37,7 +37,27 @@ def upload_dataset():
 #Start
 @app.route("/main_page")
 def main_page():
-    return render_template("main_page.html")
+    return render_template("slot2intro.html")
+
+
+#Show Dataset
+@app.route("/show")
+def show():
+    return render_template("dataset.html", dataset = df.to_html())
+
+#Insights1
+@app.route("/insights1")
+def insights1():
+    # Code to be added
+    return render_template("insights1.html")
+
+#insights2
+@app.route("/insights2")
+def insights2():
+    #code to be added
+    return render_template("insights2.html")
+
+
 
 if __name__=="__main__":
     app.run(host="0.0.0.0")
