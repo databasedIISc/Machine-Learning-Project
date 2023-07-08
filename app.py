@@ -50,26 +50,29 @@ def show():
 #Insights1
 @app.route("/insights1")
 def insights1():
-    #Row 1:-Missing values 
-missing = df.isnull()
-#row 2 :- count missing values 
-
-count = df.sum()
-
-#row 3:-types of data types 
-data_types = df.dtypes
-
-#row 4:- unique values 
-unique_values = []
-for column in df.column:
-    unique_values.append(df[column].unique):
-
-row1 = pd.DataFrame([Missing], column= cols)
-row2 = pd.DataFrame([Count], column =cols)
-row3 = pd.DataFrame([data_types], column = cols)
-row4 = pd.DataFrame([unique_values], column = cols)
- df_req = pd.concat([row1, row2, row3,row4], keys = ["Missing","Count","data_types","unique_values"]
-    return render_template("insights1.html")
+    #column names
+    cols = list(df.columns)
+    
+    # Row 1:- no. of missing values
+    misses = df.isnull().sum()
+    
+    # Row 2:- no. of present values
+    present = list(df.count())
+    
+    # Row 3:- type of data
+    dtypes = list(df.dtypes.astype("str"))
+    
+    # Row 4:- no. of unique values
+    unique = list(df.nunique())
+    
+    row1 = pd.DataFrame([present], columns=cols)
+    row2 = pd.DataFrame([misses], columns=cols)
+    row3 = pd.DataFrame([dtypes], columns=cols)
+    row4 = pd.DataFrame([unique], columns=cols)
+   
+    df_req = pd.concat([row1, row2, row3,row4], keys = ["Counts","Missing Values","Type","Unique Values"])
+    df_req = df_req.droplevel(1)
+    return render_template("insightsI.html", dataset = df_req.to_html())
 
 #insights2
 @app.route("/insights2")
