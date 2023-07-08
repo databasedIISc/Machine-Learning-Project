@@ -50,7 +50,25 @@ def show():
 #Insights1
 @app.route("/insights1")
 def insights1():
-    # Code to be added
+    #Row 1:-Missing values 
+missing = df.isnull()
+#row 2 :- count missing values 
+
+count = df.sum()
+
+#row 3:-types of data types 
+data_types = df.dtypes
+
+#row 4:- unique values 
+unique_values = []
+for column in df.column:
+    unique_values.append(df[column].unique):
+
+row1 = pd.DataFrame([Missing], column= cols)
+row2 = pd.DataFrame([Count], column =cols)
+row3 = pd.DataFrame([data_types], column = cols)
+row4 = pd.DataFrame([unique_values], column = cols)
+ df_req = pd.concat([row1, row2, row3,row4], keys = ["Missing","Count","data_types","unique_values"]
     return render_template("insights1.html")
 
 #insights2
