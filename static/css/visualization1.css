@@ -1,0 +1,239 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    height: auto;
+    width: 100%;
+    background: linear-gradient(to bottom,#041b65, #06A77D);
+}
+
+.container {
+    display: flex;
+    min-height: 500vh;
+    flex-direction: row;
+    gap: 20px;
+    position: relative;
+}
+
+/*Design for Heading */
+.heading {
+    border: 2px solid white;
+    position: absolute;
+    background-color: #190B28;
+    color: #EE6C4D;
+    min-width: 100%;
+    height: 150px;
+    font-size: 50px;
+}
+
+.head {
+    position: absolute;
+    left: 100px;
+    top: 8px;
+}
+
+/*Design for Python Logo */
+.pylogo {
+    border: 2px solid white;
+    
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    position: absolute;
+    top: 20px;
+    right: 50px;
+    border-radius: 50%;
+    background-color: whitesmoke;
+}
+
+.pylogo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.robot {
+    border: 2px solid white;
+    
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    position: absolute;
+    top: 20px;
+    right: 150px;
+    border-radius: 50%;
+    background-color: whitesmoke;
+}
+
+.robot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.insightsI {
+    position: absolute;
+    top: 160px;
+    color: white;
+    font-size: 20px;
+    background: linear-gradient(to bottom, #23323d, #041b65)
+
+}
+
+.insightsII {
+    position: absolute;
+    top: 250px;
+    color: white;
+    font-size: 20px;
+    background: linear-gradient(to bottom, #23323d, #041b65)
+
+}
+
+.category {
+    position: absolute;
+    top: 200px;
+    color: white;
+    font-size: 20px;
+    background: linear-gradient(to bottom, #23323d, #041b65);
+    margin: 20px;
+}
+
+table {
+    width: auto;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    font-size: 18px;
+    
+}
+
+th, td {
+    padding: 20px;
+    text-align: left;
+    border: 2px solid #ddd;
+  }
+
+th {
+    font-weight: bold;
+  }
+  
+tr:hover {
+    background-color: #01FDF6;
+    color: #000;
+  }
+
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropcontent {
+    display: none;
+    position: absolute;
+    top: 100px;
+    left: 350px;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border:2px solid pink;
+    height: 85px;
+    width: 600px;
+}
+
+.dropcontent a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.dropdown:hover .dropcontent {
+    display: inline-block;
+}
+
+.dropcontent a:hover {
+    background-color: #3e4e8e;
+    color: white;
+    transition: 0.5s;
+}
+
+.drop {
+    position: absolute;
+    font-family: inherit;
+    top: 100px;
+    border: 2px solid white;
+    width: 350px;
+    height: 85px;
+    background-color: #190B28;
+    color: #06A77D;
+    font-size: 30px;
+    padding: 10px;
+}
+
+/**/
+.graph1 {
+    position: absolute;
+    top: 300px;
+    left: 230px;
+    border: 2px solid white;
+    width: 1050px;
+    height: 1100px;
+    background-color: #190B28;
+    color: #06A77D;
+    font-size: 30px;
+    border: 4px solid dodgerblue;
+    overflow: hidden;
+}
+
+.graph1 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.graph2 {
+    position: absolute;
+    top: 1600px;
+    left: 230px;
+    border: 2px solid white;
+    width: 1150px;
+    height: 1100px;
+    background-color: #190B28;
+    color: #06A77D;
+    font-size: 30px;
+    border: 4px solid dodgerblue;
+    overflow: hidden;
+}
+
+.graph2 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.visualm {
+    position: absolute;
+    top: 180px;
+    left: 300px;
+    color: white;
+    font-size: 90px;
+    
+}
+
+.histplot {
+    position: absolute;
+    top: 1480px;
+    left: 200px;
+    color: white;
+    font-size: 85px;
+    
+}
+
