@@ -72,7 +72,7 @@ def insights1():
    
     df_req = pd.concat([row1, row2, row3,row4], keys = ["Counts","Missing Values","Type","Unique Values"])
     df_req = df_req.droplevel(1)
-    return render_template("insightsI.html", dataset = df_req.to_html())
+    return render_template("insights1.html", dataset = df_req.to_html())
 
 #insights2
 @app.route("/insights2")
