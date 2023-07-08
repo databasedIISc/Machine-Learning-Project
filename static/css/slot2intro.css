@@ -98,7 +98,7 @@ body {
 
 .basichead {
     position: absolute;
-    left: 150px;
+    left: 600px;
     background-color: #190B28;
     color: #06A77D;
     font-size: 30px;
@@ -111,7 +111,7 @@ body {
     position: absolute;
     font-family: inherit;
     top: 150px;
-    left: 90px;
+    left: 300px;
     border: 2px solid white;
     width: 350px;
     height: 120px;
@@ -132,7 +132,7 @@ body {
     position: absolute;
     font-family: inherit;
     bottom: 50px;
-    left: 90px;
+    left: 300px;
     border: 2px solid white;
     width: 350px;
     height: 120px;
@@ -143,6 +143,44 @@ body {
 }
 
 .insights2 button:hover {
+    background-color: #06A77D;
+    color: #190B28;
+    transition: 1s;
+}
+.Category button {
+    position: absolute;
+    font-family: inherit;
+    bottom: 50px;
+    left: 800px;
+    border: 2px solid white;
+    width: 350px;
+    height: 120px;
+    background-color: #190B28;
+    color: #06A77D;
+    font-size: 30px;
+    padding: 10px;
+}
+
+.Category button:hover {
+    background-color: #06A77D;
+    color: #190B28;
+    transition: 1s;
+}
+.visual1 button {
+    position: absolute;
+    font-family: inherit;
+    top: 150px;
+    left: 800px;
+    border: 2px solid white;
+    width: 350px;
+    height: 120px;
+    background-color: #190B28;
+    color: #06A77D;
+    font-size: 30px;
+    padding: 10px;
+}
+
+.visual1 button:hover {
     background-color: #06A77D;
     color: #190B28;
     transition: 1s;

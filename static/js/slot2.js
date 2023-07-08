@@ -9,3 +9,11 @@ function insights1() {
 function insights2() {
     window.open("/insights2", "_blank");
 }
+
+function category() {
+    window.open("/category", "_blank");
+}
+
+function visual1() {
+    window.open("/visual1", "_blank");
+}

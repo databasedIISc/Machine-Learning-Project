@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InsightsII</title>
-    <link rel="stylesheet" href="../static/css/insights.css">
+    <title>Visualization-I</title>
+    <link rel="stylesheet" href="../static/css/visualization1.css">
     <script src = ../static/js/redirect.js></script>
 </head>
 <body>
@@ -15,27 +15,18 @@
         <!--heading for page-->
         <div class="heading">
             <h1 class="head">
-                Data Insights: Level II
+                Visualization-I
             </h1>
-
-            <!--Dropdown menu for round off-->
-            <div class="dropdown">
-                <button class="drop">
-                    Round OFF
-                </button>
-                <div class="dropcontent">
-                    <a href = "/round2">2-Decimals</a>
-                    <a href = "/round3">3-Decimals</a>
-                </div>
-            </div>
-               
-
-            <div class="insightsII">
-                {{dataset|safe}}
-            </div>
-    
+            
+        <div class="graph1">
+            <img src="{{graph1_url}}" alt="graph1" class="graph">
         </div>
-        
+
+
+        <div class="graph2">
+            <img src="{{graph2_url}}" alt="graph1" class="graph">
+        </div>
+            
         
         <!--Adding python logo-->
         <div class="pylogo">
@@ -47,7 +38,13 @@
             <img src="../static/images/machine-learning-artificial-intelligence-deep-learning-computer-science-technology-44866d77e0f551758f0ede44987fd317.png" alt="robot" class="robo">
             </div>
 
-        <!--Insights 2 results-->
+        <div class="visualm">
+            {{message1}}
+        </div>
+
+        <div class="histplot">
+           {{message2}}
+        </div>
         
         </main>
         
