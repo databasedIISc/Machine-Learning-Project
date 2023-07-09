@@ -172,6 +172,10 @@ def visual1():
     
     return render_template("visualization1.html", graph1_url = "static/images/visual1/heatmap.png", message1 = "Correlation Heatmap", graph2_url = "static/images/visual1/hist.png", message2 = "Histogram of the Target Variable")
 
+@app.route("/phase2")
+def phase2():
+    return render_template("missvalue.html")
+
     
 
 if __name__=="__main__":

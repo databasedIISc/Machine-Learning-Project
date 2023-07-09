@@ -17,3 +17,7 @@ function category() {
 function visual1() {
     window.open("/visual1", "_blank");
 }
+
+function next1() {
+    window.location.href = "/phase2";
+}
