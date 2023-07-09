@@ -87,11 +87,11 @@ def insights2():
     # Row 1:- minimum values
     rep = "NC"
     min_val = list(df.min())
-    min_val = [rep if type(x) == "str" else x for x in min_val]
+    min_val = [rep if type(x) == str else x for x in min_val]
 
     # Row 2:- maximum values
     max_val = list(df.max())
-    max_val = [rep if type(x) == "str" else x for x in max_val]
+    max_val = [rep if type(x) == str else x for x in max_val]
 
     # Calculation for further steps
     df_copy = df.copy()
