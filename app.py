@@ -174,6 +174,9 @@ def visual1():
 
 @app.route("/phase2")
 def phase2():
+    global df
+    #Count missing values in each column.
+    
     return render_template("missvalue.html")
 
     
