@@ -1,4 +1,5 @@
 Pandas
 Numpy 
 flask
-
+matplotlib
+seaborn

@@ -8,7 +8,50 @@
     <script src = "../static/js/intro.js"></script>
 </head>
 <body>
-    <h1 class="start">Introduction Page</h1>
-    <button onclick = "upload()" class="go">Lets Start</button>
+    <div class="intro">
+
+   <h1 class="start">Introduction Page</h1> 
+    <!-- <button onclick = "upload()" class="go">Lets Start</button> -->
+         <h2 class="intro-head">Various Steps to Train a ML Model on a data</h2>
+         <img src="../static/images/intro/steps_to_learn.jpg" class="img1">
+         <br>
+         <div class="intro-text">
+        We have classified the various steps of the training process into 4 categories:
+        <ol>
+            <li>Data Processing</li>
+            <li>Missing Value Analysis</li>
+            <li>Encoding Techniques</li>
+            <li>Training Models</li>
+            <li>Testing Trained Models</li>
+        </ol>
+        <br>
+        Let us see the purpose and tasks of each one in detail:
+        <br>
+        <h3 class="topic-head">Data Processing:</h3>
+        Here, we extract those features which can be extracted without performing any single change to a dataset. Therfore it will be valid to every dataset.
+        <br>
+        <h3 class="topic-head">Missing Value Analysis:</h3>
+        In missing value analysis, we will be detecting outliers if any and in that case it will replace missing values by median. If outliers are not there mean will be used and for categorical features mode will be used to fill the missing value.
+        <br>
+        <h3 class="topic-head">Encoding Techniques:</h3>
+
+Encoding Techniques will include replacing Categorical Features by numbers 
+Suppose a column has features red , blue , green only so we can replace them by 0, 1, 2 respectively
+<br>
+        <h3 class="topic-head">Training Models:</h3>
+        In this step we will be training our model on the data. We will be using various algorithms to train our model.
+        <br>
+        <h3 class="topic-head">Testing Trained Models:</h3>       
+        In this step we will be testing our trained model on the data. We will be using various algorithms to test our model.
+        In this we have to make a graphical tool, in which user can generate a graph just by selecting any 2 features, from data set and can make different kinds of plots like scatter , box, violin etc.
+        <br>
+        <br>
+        We will also be selecting the best 2 features to select for training the model.
+        </div>
+        </div>
+        <button onclick = "upload()" class="go">Lets Start</button>
+    
+    </div>
+
 </body>
 </html>

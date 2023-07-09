@@ -30,13 +30,13 @@ body {
     color: #EE6C4D;
     width: 100%;
     height: 150px;
-    font-size: 50px;
+    font-size: 40px;
 }
 
 .head {
     position: absolute;
-    left: 100px;
-    top: 8px;
+    left: 50px;
+    top: 20px;
 }
 
 /*Design for Python Logo */
@@ -107,84 +107,7 @@ body {
     top: 50px;
 }
 
-.insights1 button {
-    position: absolute;
-    font-family: inherit;
-    top: 150px;
-    left: 300px;
-    border: 2px solid white;
-    width: 350px;
-    height: 120px;
-    background-color: #190B28;
-    color: #06A77D;
-    font-size: 30px;
-    padding: 10px;
-}
 
-.insights1 button:hover {
-    background-color: #06A77D;
-    color: #190B28;
-    transition: 1s;
-}
-
-
-.insights2 button {
-    position: absolute;
-    font-family: inherit;
-    bottom: 50px;
-    left: 300px;
-    border: 2px solid white;
-    width: 350px;
-    height: 120px;
-    background-color: #190B28;
-    color: #06A77D;
-    font-size: 30px;
-    padding: 10px;
-}
-
-.insights2 button:hover {
-    background-color: #06A77D;
-    color: #190B28;
-    transition: 1s;
-}
-.Category button {
-    position: absolute;
-    font-family: inherit;
-    bottom: 50px;
-    left: 800px;
-    border: 2px solid white;
-    width: 350px;
-    height: 120px;
-    background-color: #190B28;
-    color: #06A77D;
-    font-size: 30px;
-    padding: 10px;
-}
-
-.Category button:hover {
-    background-color: #06A77D;
-    color: #190B28;
-    transition: 1s;
-}
-.visual1 button {
-    position: absolute;
-    font-family: inherit;
-    top: 150px;
-    left: 800px;
-    border: 2px solid white;
-    width: 350px;
-    height: 120px;
-    background-color: #190B28;
-    color: #06A77D;
-    font-size: 30px;
-    padding: 10px;
-}
-
-.visual1 button:hover {
-    background-color: #06A77D;
-    color: #190B28;
-    transition: 1s;
-}
 
 .next1 button {
     position: absolute;
