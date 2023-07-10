@@ -183,9 +183,14 @@ body {
     position: absolute;
     top: 200px;
     color: white;
-    font-size: 20px;
+    font-size: 27px;
     margin: 20px;
     flex-direction: row;
+    border: 2px solid white;
+    width: 80%;
+    left: 100px;
+    gap: 20px;
+
 }
 
 .missed-info {
@@ -203,13 +208,14 @@ table {
 
 .histogram {
     display: flex;
-    padding-left: 50px;
     flex-direction: column;
+    border: 2px solid white;
+    width: 650px;
 }
 
 .hist-img {
-    width: 75%;
-    height: 75%;
+    width: 100%;
+    height: 100%;
 }
 
 th, td {
