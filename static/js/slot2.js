@@ -2,6 +2,10 @@ function show_dataset() {
     window.open("/show", "_blank");
 }
 
+function show_miss_dataset() {
+    window.open("/show_miss", "_blank");
+}
+
 function insights1() {
     window.open("/insights1", "_blank");
 }
