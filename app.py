@@ -177,7 +177,8 @@ def phase2():
     #Count missing values in each column.
     nulldata=df.isnull().sum()
     nulldata_df=pd.DataFrame(nulldata)
-    dict_null = dict(nulldata_df[0])
+    nulldata_df.rename(columns={0:"Count"}, inplace=True)
+    dict_null = dict(nulldata_df["Count"])
 
     data_keys = list(dict_null.keys())
     data_values = list(dict_null.values())
