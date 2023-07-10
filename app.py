@@ -174,11 +174,11 @@ def visual1():
 
 @app.route("/phase2")
 def phase2():
-    global df
     #Count missing values in each column.
-
-    return render_template("missvalue.html")
-
+    nulldata=df.isnull().sum()
+    nulldata_df=pd.DataFrame(nulldata)
+    nulldata_df.rename(columns={0:"Count"},inplace=True)
+    return render_template("missvalue.html", dataset = nulldata_df.to_html())
     
 
 if __name__=="__main__":
