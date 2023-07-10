@@ -177,8 +177,18 @@ def phase2():
     #Count missing values in each column.
     nulldata=df.isnull().sum()
     nulldata_df=pd.DataFrame(nulldata)
-    nulldata_df.rename(columns={0:"Count"},inplace=True)
-    return render_template("missvalue.html", dataset = nulldata_df.to_html())
+    dict_null = dict(nulldata_df[0])
+
+    data_keys = list(dict_null.keys())
+    data_values = list(dict_null.values())
+    fig, ax = plt.subplots(figsize=(10, 6))  # Increase the figure size as desired
+    ax.bar(data_keys, data_values)
+    plt.xticks(rotation=90)
+
+
+    plt.savefig("static/images/phase2/hist.png",bbox_inches='tight',dpi=300)
+    return render_template("missvalue.html", dataset = nulldata_df.to_html(), hist_url = "static/images/phase2/hist.png")
+    
     
 
 if __name__=="__main__":
