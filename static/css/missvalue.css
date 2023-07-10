@@ -67,6 +67,14 @@ body {
     z-index: 1;
 }
 
+.missbutton {
+    position: absolute;
+    top: 150px;
+    min-height: 130vh;
+    left: 0;
+    z-index: 1;
+}
+
 .start {
     font-family: inherit;
     position: sticky;
@@ -83,6 +91,26 @@ body {
 }
 
 .start:hover {
+    background-color: #EE6C4D;
+    color: #190B28;
+    transition: 1s;
+}
+
+.start_1 {
+    font-family: inherit;
+    position: absolute;
+    left: 0px;
+    border: 2px solid white;
+    background-color: #190B28;
+    color: #EE6C4D;
+    width: 150px;
+    height: 50px;
+    font-size: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.start_1:hover {
     background-color: #EE6C4D;
     color: #190B28;
     transition: 1s;

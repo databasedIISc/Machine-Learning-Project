@@ -194,7 +194,9 @@ def phase2():
     encoded_img_data = base64.b64encode(data_img.getvalue())
     return render_template("missvalue.html", dataset = nulldata_df.to_html(), hist_url=encoded_img_data.decode('utf-8')) #send the plot to the browser, in a proper format
     
-    
+@app.route("/show_miss")
+def show_miss():
+    return render_template("miss_dataset.html", dataset = df[df.isnull().any(axis=1)].to_html())
 
 if __name__=="__main__":
     app.run(host="0.0.0.0")
