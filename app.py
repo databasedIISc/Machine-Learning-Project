@@ -3,6 +3,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import io
+import base64
 
 # This is our main python file that will run the flask app
 
@@ -186,9 +188,11 @@ def phase2():
     ax.bar(data_keys, data_values)
     plt.xticks(rotation=90)
 
-
-    plt.savefig("static/images/phase2/hist.png",bbox_inches='tight',dpi=300)
-    return render_template("missvalue.html", dataset = nulldata_df.to_html(), hist_url = "static/images/phase2/hist.png")
+    #Package the image and send it to the browser, without saving in a file
+    data_img=io.BytesIO()
+    plt.savefig(data_img, bbox_inches='tight',dpi=300) #save the plot to data_img
+    encoded_img_data = base64.b64encode(data_img.getvalue())
+    return render_template("missvalue.html", dataset = nulldata_df.to_html(), hist_url=encoded_img_data.decode('utf-8')) #send the plot to the browser, in a proper format
     
     
 
