@@ -70,7 +70,7 @@ def insights1():
     row3 = pd.DataFrame([dtypes], columns=cols)
     row4 = pd.DataFrame([unique], columns=cols)
    
-    df_req = pd.concat([row1, row2, row3,row4], keys = ["Counts","Missing Values","Type","Unique Values"])
+    df_req = pd.concat([row1, row2, row3,row4], keys = ["No. of Values","Missing Values","Data Type","Unique Values"])
     df_req = df_req.droplevel(1)
     return render_template("insights1.html", dataset = df_req.to_html())
 
@@ -176,7 +176,7 @@ def visual1():
 def phase2():
     global df
     #Count missing values in each column.
-    
+
     return render_template("missvalue.html")
 
     
