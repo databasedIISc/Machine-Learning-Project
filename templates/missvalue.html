@@ -37,20 +37,35 @@
                 Check Dataset
             </button>    
         </div>
+       
+        <div class="missed">
+            <div class="missed-info">
+                Missing Values of the features in the dataset:
+            
+            <br>
 
-        <div class="basics">
+            {{dataset|safe}}
+            </div>
+<br>
+            <div class="histogram">
+                Histogram of the Missing values of Various Features:
+                <img src="data:image/png;base64, {{ hist_url }}" alt="histogram" class="hist-img">
+
+            </div>
+        </div>
+
+
+     <!--   <div class="basics">
             
         
         
-        
-        
-        </div>
+        </div> -->
 
-        <div class="next1">
+      <!--  <div class="next1">
             <button onclick = "next()">
                 Continue to Phase 3
             </button>
-        </div>
+        </div> -->
         
         </main>
         

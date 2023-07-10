@@ -99,11 +99,10 @@ body {
 .basichead {
     position: absolute;
     left: 600px;
-    background-color: #190B28;
-    color: #06A77D;
+    color: #EE6C4D;
     font-size: 30px;
-    border: 2px solid white;
-    padding: 10px;
+    text-align: center;
+    left: 395px;
     top: 50px;
 }
 
