@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualization-I</title>
+    <title>Visualization-HIstogram</title>
     <link rel="stylesheet" href="../static/css/visualization1.css">
     <script src = ../static/js/intro.js></script>
 </head>
@@ -18,8 +18,8 @@
                 Visualization-I
             </h1>
             
-        <div class="graph1">
-            <img src="{{graph1_url}}" alt="graph1" class="graph">
+        <div class="graph3">
+            <img src="{{graph3_url}}" alt="graph1" class="graph">
         </div>
 
 
@@ -39,24 +39,9 @@
             </div>
 
         <div class="visualm">
-            {{message1}}
+            {{message}}
         </div>
 
-        <div class="histplot">
-            <p class = "head1">Some Histograms to Understand Distribution</p>
-
-            <p class = "head2">Select upto 9 features you want to plot histogram for:</p>
-            <form action="/histograms" method="POST" class = "features">
-
-                {% for i in columns %}
-                    <input type = "checkbox" id = "columns" name = "columns" value = {{i.replace(" ",",")}}> {{i}}
-                {% endfor %}
-            
-                <input type="submit" value="Plot Histograms" class="submit">
-            </form>
-            
-            
-        </div>
         
         </main> 
         
