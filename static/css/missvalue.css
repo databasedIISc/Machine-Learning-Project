@@ -8,7 +8,7 @@
 
 body {
     font-family: 'Roboto', sans-serif;
-    min-height: 100vh;
+    min-height: 200vh;
     width: auto;
     background: linear-gradient(to bottom,#041b65, #06A77D);
 }
