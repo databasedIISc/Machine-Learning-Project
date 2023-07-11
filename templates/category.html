@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>categorical analysis</title>
-    <link rel="stylesheet" href="../static/css/category.css">
+    <link rel="stylesheet" href="../static/css/insights.css">
     <script src = ../static/js/redirect.js></script>
 </head>
 <body>
@@ -34,22 +34,6 @@
         <!--Insights 1 results-->
         <div class="category">
             {{dataset|safe}}
-        </div>
-
-        <div class="histplot">
-            <p class = "head1">Some Histograms to Understand Distribution</p>
-
-            <p class = "head2">Select upto 9 features you want to plot histogram for:</p>
-            <form action="/histograms" method="POST" class = "features">
-
-                {% for i in columns %}
-                    <input type = "checkbox" id = "columns" name = "columns" value = {{i.replace(" ",",")}}> {{i}}
-                {% endfor %}
-            
-                <input type="submit" value="Plot Histograms" class="submit">
-            </form>
-            
-            
         </div>
         
         </main>

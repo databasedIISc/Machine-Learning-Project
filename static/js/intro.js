@@ -12,7 +12,3 @@ function intro() {
 function reachmain() {
     window.open("/main_page", "_blank");
 }
-
-function show_hist() {
-    window.open("/histogram", "_blank");
-}

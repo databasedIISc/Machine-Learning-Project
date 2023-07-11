@@ -7,6 +7,7 @@ import io
 import base64
 
 # This is our main python file that will run the flask app
+
 app = Flask(__name__)
 
 #Home Page
@@ -156,12 +157,10 @@ def category():
     categorical_features = df.select_dtypes(include=["object"])
     if categorical_features.empty:
         return render_template("category.html", dataset = "No Categorical Features")
-    
-    arr = categorical_features.columns.tolist()
-    return render_template("category.html", dataset = categorical_features.describe().to_html(), columns = arr)
+    return render_template("category.html", dataset = categorical_features.describe().to_html())
 
 #Visualization-I
-@app.route("/visual1", methods = ["GET", "POST"])
+@app.route("/visual1")
 def visual1():
     num = df.select_dtypes(include=["int64","float64"])
     if num.empty:
@@ -173,61 +172,7 @@ def visual1():
     sns.histplot(data=df,x=df.columns[-1], bins = 60, color = "r")
     plt.savefig("static/images/visual1/hist.png", bbox_inches = 'tight')
     
-    
-    # for histograms
-    columns = list(num.columns)    
-    return render_template("visualization1.html", graph1_url = "static/images/visual1/heatmap.png", message1 = "Correlation Heatmap", graph2_url = "static/images/visual1/hist.png", message2 = "Histogram of the Target Variable",columns=columns)
-
-
-@app.route("/histograms", methods = ["GET", "POST"])
-def histograms():
-    arr = request.form.getlist('columns')
-    arr = [i.replace(","," ") for i in arr]
-    if len(arr) != 0:
-        sns.set_style("darkgrid")
-        
-        if(len(arr) == 1):
-            sns.histplot(x = df[arr[0]], bins = 30, kde = True, color = "r")
-        
-        elif(len(arr) > 1 and len(arr) < 5):
-            fig, axes = plt.subplots(nrows = 2, ncols = 2, figsize = (15,15))
-            for i in range(len(arr)):
-                if (i == 0):
-                    sns.histplot(x = df[arr[0]], ax = axes[0, 0], bins = 30, kde = True, color = "r")
-                if (i == 1):
-                    sns.histplot(x = df[arr[1]], ax = axes[0, 1], bins = 30, kde = True, color = "b")
-                if (i == 2):
-                    sns.histplot(x = df[arr[2]], ax = axes[1, 0], bins = 30, kde = True, color = "b")
-                if (i == 3):
-                    sns.histplot(x = df[arr[3]], ax = axes[1, 1], bins = 30, kde = True, color = "black")
-                    
-        else:
-            fig, axes = plt.subplots(nrows = 3, ncols = 3, figsize = (15,15))
-            for i in range(len(arr)):
-                if (i == 0):
-                    sns.histplot(x = df[arr[0]], ax = axes[0, 0], bins = 30, kde = True, color = "r")
-                if (i == 1):
-                    sns.histplot(x = df[arr[1]], ax = axes[0, 1], bins = 30, kde = True, color = "b")
-                if (i == 2):
-                    sns.histplot(x = df[arr[2]], ax = axes[0, 2], bins = 30, kde = True, color = "black")
-                if (i == 3):
-                    sns.histplot(x = df[arr[3]], ax = axes[1, 0], bins = 30, kde = True, color = "b")
-                if (i == 4):
-                    sns.histplot(x = df[arr[4]], ax = axes[1, 1], bins = 30, kde = True, color = "r")
-                if (i == 5):
-                    sns.histplot(x = df[arr[5]], ax = axes[1, 2], bins = 30, kde = True, color = "g")
-                if (i == 6):
-                    sns.histplot(x = df[arr[6]], ax = axes[2, 0], bins = 30, kde = True, color = "black")
-                if (i == 7):
-                    sns.histplot(x = df[arr[7]], ax = axes[2, 1], bins = 30, kde = True, color = "g")
-                if (i == 8):
-                    sns.histplot(x = df[arr[8]], ax = axes[2, 2], bins = 30, kde = True, color = "r")
-                    
-        plt.savefig("static/images/visual1.1/histograms.png", bbox_inches = 'tight') 
-        return render_template("visualization2.html", graph3_url = "static/images/visual1.1/histograms.png", message = "Histograms of the Selected Features")
-    else:
-        return render_template("visualization2.html", message = "Please select atleast one feature")
-        
+    return render_template("visualization1.html", graph1_url = "static/images/visual1/heatmap.png", message1 = "Correlation Heatmap", graph2_url = "static/images/visual1/hist.png", message2 = "Histogram of the Target Variable")
 
 @app.route("/phase2")
 def phase2():

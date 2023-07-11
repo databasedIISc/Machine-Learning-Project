@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visualization-I</title>
     <link rel="stylesheet" href="../static/css/visualization1.css">
-    <script src = ../static/js/intro.js></script>
+    <script src = ../static/js/redirect.js></script>
 </head>
 <body>
 
@@ -23,9 +23,9 @@
         </div>
 
 
-        <!-- <div class="graph2">
+        <div class="graph2">
             <img src="{{graph2_url}}" alt="graph1" class="graph">
-        </div> -->
+        </div>
             
         
         <!--Adding python logo-->
@@ -43,22 +43,10 @@
         </div>
 
         <div class="histplot">
-            <p class = "head1">Some Histograms to Understand Distribution</p>
-
-            <p class = "head2">Select upto 9 features you want to plot histogram for:</p>
-            <form action="/histograms" method="POST" class = "features">
-
-                {% for i in columns %}
-                    <input type = "checkbox" id = "columns" name = "columns" value = {{i.replace(" ",",")}}> {{i}}
-                {% endfor %}
-            
-                <input type="submit" value="Plot Histograms" class="submit">
-            </form>
-            
-            
+           Some Histograms to Understand Distribution
         </div>
         
-        </main> 
+        </main>
         
         
 </body>
