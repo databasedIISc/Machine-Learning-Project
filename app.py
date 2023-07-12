@@ -185,6 +185,11 @@ def visual1():
 def histograms():
     arr = request.form.getlist('columns')
     arr = [i.replace(","," ") for i in arr]
+    
+    if(len(arr) == 1):
+        return render_template("visualization2.html", message = "Select at least 2 features")
+    if(len(arr) > 9):
+        return render_template("visualization2.html", message = "Select maximum 9 features")
     if len(arr) != 0:
         sns.set_style("darkgrid")
         
@@ -252,11 +257,21 @@ def phase2():
     data_img=io.BytesIO()
     plt.savefig(data_img, bbox_inches='tight',dpi=300) #save the plot to data_img
     encoded_img_data = base64.b64encode(data_img.getvalue())
-    return render_template("missvalue.html", dataset = nulldata_df.to_html(), hist_url=encoded_img_data.decode('utf-8')) #send the plot to the browser, in a proper format
+    
+    if nulldata_df.empty == False:
+        return render_template("missvalue.html", dataset = nulldata_df.to_html(), hist_url=encoded_img_data.decode('utf-8')) #send the plot to the browser, in a proper format
+    else:
+        return render_template("missvalue.html", dataset = "No missing values found in the dataset")
+    
     
 @app.route("/show_miss")
 def show_miss():
     return render_template("miss_dataset.html", dataset = df[df.isnull().any(axis=1)].to_html())
+
+@app.route("/phase3")
+def phase3():
+    return render_template("Encoding.html")
+
 
 if __name__=="__main__":
     app.run(host="0.0.0.0")

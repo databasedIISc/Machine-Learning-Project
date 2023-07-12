@@ -39,25 +39,7 @@ body {
     top: 20px;
 }
 
-/*Design for Python Logo */
-.pylogo {
-    border: 2px solid white;
-    
-    width: 100px;
-    height: 100px;
-    overflow: hidden;
-    position: absolute;
-    top: 20px;
-    right: 50px;
-    border-radius: 50%;
-    background-color: whitesmoke;
-}
 
-.pylogo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
 
 .forbutton {
     position: absolute;
@@ -137,7 +119,7 @@ body {
 
 
 
-.next1 button {
+.next3 button {
     position: absolute;
     font-family: inherit;
     bottom: 0px;
@@ -152,83 +134,12 @@ body {
     border-radius: 10px;
 }
 
-.next1 button:hover {
+.next3 button:hover {
     background-color: #EE6C4D;
     color: #190B28;
     transition: 1s;
 }
 
 
-.robot {
-    border: 2px solid white;
-    
-    width: 100px;
-    height: 100px;
-    overflow: hidden;
-    position: absolute;
-    top: 20px;
-    right: 150px;
-    border-radius: 50%;
-    background-color: whitesmoke;
-}
 
-.robot img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
 
-.missed {
-    display:flex;
-    position: absolute;
-    top: 200px;
-    color: white;
-    font-size: 27px;
-    margin: 20px;
-    flex-direction: row;
-    border: 2px solid white;
-    width: 80%;
-    left: 100px;
-    gap: 20px;
-
-}
-
-.missed-info {
-    display: flex;
-    flex-direction: column;
-}
-
-table {
-    width: auto;
-    border-collapse: collapse;
-    border: 1px solid #ddd;
-    font-size: 18px;
-    
-}
-
-.histogram {
-    display: flex;
-    flex-direction: column;
-    border: 2px solid white;
-    width: 650px;
-}
-
-.hist-img {
-    width: 100%;
-    height: 100%;
-}
-
-th, td {
-    padding: 10px;
-    text-align: left;
-    border: 2px solid #ddd;
-  }
-
-th {
-    font-weight: bold;
-  }
-  
-tr:hover {
-    background-color: #01FDF6;
-    color: #000;
-  }
