@@ -25,3 +25,7 @@ function visual1() {
 function next1() {
     window.location.href = "/phase2";
 }
+
+function next2() {
+    window.location.href = "/phase3";
+}

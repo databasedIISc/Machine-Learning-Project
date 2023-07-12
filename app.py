@@ -1,13 +1,14 @@
 from flask import Flask, render_template, request
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
+import matplotlib
 import seaborn as sns
 import io
 import base64
+matplotlib.use('Agg')
+plt=matplotlib.pyplot
 
 # This is our main python file that will run the flask app
-
 app = Flask(__name__)
 
 #Home Page
@@ -157,10 +158,12 @@ def category():
     categorical_features = df.select_dtypes(include=["object"])
     if categorical_features.empty:
         return render_template("category.html", dataset = "No Categorical Features")
-    return render_template("category.html", dataset = categorical_features.describe().to_html())
+    
+    arr = categorical_features.columns.tolist()
+    return render_template("category.html", dataset = categorical_features.describe().to_html(), columns = arr)
 
 #Visualization-I
-@app.route("/visual1")
+@app.route("/visual1", methods = ["GET", "POST"])
 def visual1():
     num = df.select_dtypes(include=["int64","float64"])
     if num.empty:
@@ -172,13 +175,75 @@ def visual1():
     sns.histplot(data=df,x=df.columns[-1], bins = 60, color = "r")
     plt.savefig("static/images/visual1/hist.png", bbox_inches = 'tight')
     
-    return render_template("visualization1.html", graph1_url = "static/images/visual1/heatmap.png", message1 = "Correlation Heatmap", graph2_url = "static/images/visual1/hist.png", message2 = "Histogram of the Target Variable")
+    
+    # for histograms
+    columns = list(num.columns)    
+    return render_template("visualization1.html", graph1_url = "static/images/visual1/heatmap.png", message1 = "Correlation Heatmap", graph2_url = "static/images/visual1/hist.png", message2 = "Histogram of the Target Variable",columns=columns)
+
+
+@app.route("/histograms", methods = ["GET", "POST"])
+def histograms():
+    arr = request.form.getlist('columns')
+    arr = [i.replace(","," ") for i in arr]
+    
+    if(len(arr) == 1):
+        return render_template("visualization2.html", message = "Select at least 2 features")
+    if(len(arr) > 9):
+        return render_template("visualization2.html", message = "Select maximum 9 features")
+    if len(arr) != 0:
+        sns.set_style("darkgrid")
+        
+        if(len(arr) == 1):
+            sns.histplot(x = df[arr[0]], bins = 30, kde = True, color = "r")
+        
+        elif(len(arr) > 1 and len(arr) < 5):
+            fig, axes = plt.subplots(nrows = 2, ncols = 2, figsize = (15,15))
+            for i in range(len(arr)):
+                if (i == 0):
+                    sns.histplot(x = df[arr[0]], ax = axes[0, 0], bins = 30, kde = True, color = "r")
+                if (i == 1):
+                    sns.histplot(x = df[arr[1]], ax = axes[0, 1], bins = 30, kde = True, color = "b")
+                if (i == 2):
+                    sns.histplot(x = df[arr[2]], ax = axes[1, 0], bins = 30, kde = True, color = "b")
+                if (i == 3):
+                    sns.histplot(x = df[arr[3]], ax = axes[1, 1], bins = 30, kde = True, color = "black")
+                    
+        else:
+            fig, axes = plt.subplots(nrows = 3, ncols = 3, figsize = (15,15))
+            for i in range(len(arr)):
+                if (i == 0):
+                    sns.histplot(x = df[arr[0]], ax = axes[0, 0], bins = 30, kde = True, color = "r")
+                if (i == 1):
+                    sns.histplot(x = df[arr[1]], ax = axes[0, 1], bins = 30, kde = True, color = "b")
+                if (i == 2):
+                    sns.histplot(x = df[arr[2]], ax = axes[0, 2], bins = 30, kde = True, color = "black")
+                if (i == 3):
+                    sns.histplot(x = df[arr[3]], ax = axes[1, 0], bins = 30, kde = True, color = "b")
+                if (i == 4):
+                    sns.histplot(x = df[arr[4]], ax = axes[1, 1], bins = 30, kde = True, color = "r")
+                if (i == 5):
+                    sns.histplot(x = df[arr[5]], ax = axes[1, 2], bins = 30, kde = True, color = "g")
+                if (i == 6):
+                    sns.histplot(x = df[arr[6]], ax = axes[2, 0], bins = 30, kde = True, color = "black")
+                if (i == 7):
+                    sns.histplot(x = df[arr[7]], ax = axes[2, 1], bins = 30, kde = True, color = "g")
+                if (i == 8):
+                    sns.histplot(x = df[arr[8]], ax = axes[2, 2], bins = 30, kde = True, color = "r")
+                    
+        plt.savefig("static/images/visual1.1/histograms.png", bbox_inches = 'tight') 
+        return render_template("visualization2.html", graph3_url = "static/images/visual1.1/histograms.png", message = "Histograms of the Selected Features")
+    else:
+        return render_template("visualization2.html", message = "Please select atleast one feature")
+        
 
 @app.route("/phase2")
 def phase2():
     #Count missing values in each column.
     nulldata=df.isnull().sum()
     nulldata_df=pd.DataFrame(nulldata)
+    for i in nulldata_df.index:
+        if(nulldata_df[0][i]==0):
+            nulldata_df.drop(i,inplace=True)
     nulldata_df.rename(columns={0:"Count"}, inplace=True)
     dict_null = dict(nulldata_df["Count"])
 
@@ -192,11 +257,21 @@ def phase2():
     data_img=io.BytesIO()
     plt.savefig(data_img, bbox_inches='tight',dpi=300) #save the plot to data_img
     encoded_img_data = base64.b64encode(data_img.getvalue())
-    return render_template("missvalue.html", dataset = nulldata_df.to_html(), hist_url=encoded_img_data.decode('utf-8')) #send the plot to the browser, in a proper format
+    
+    if nulldata_df.empty == False:
+        return render_template("missvalue.html", dataset = nulldata_df.to_html(), hist_url=encoded_img_data.decode('utf-8')) #send the plot to the browser, in a proper format
+    else:
+        return render_template("missvalue.html", dataset = "No missing values found in the dataset")
+    
     
 @app.route("/show_miss")
 def show_miss():
     return render_template("miss_dataset.html", dataset = df[df.isnull().any(axis=1)].to_html())
+
+@app.route("/phase3")
+def phase3():
+    return render_template("Encoding.html")
+
 
 if __name__=="__main__":
     app.run(host="0.0.0.0")
