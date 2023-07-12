@@ -1,10 +1,12 @@
 from flask import Flask, render_template, request
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
+import matplotlib
 import seaborn as sns
 import io
 import base64
+matplotlib.use('Agg')
+plt=matplotlib.pyplot
 
 # This is our main python file that will run the flask app
 app = Flask(__name__)
@@ -234,6 +236,9 @@ def phase2():
     #Count missing values in each column.
     nulldata=df.isnull().sum()
     nulldata_df=pd.DataFrame(nulldata)
+    for i in nulldata_df.index:
+        if(nulldata_df[0][i]==0):
+            nulldata_df.drop(i,inplace=True)
     nulldata_df.rename(columns={0:"Count"}, inplace=True)
     dict_null = dict(nulldata_df["Count"])
 
