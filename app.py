@@ -238,35 +238,26 @@ def histograms():
 
 @app.route("/phase2")
 def phase2():
-    #Count missing values in each column.
-    nulldata=df.isnull().sum()
-    nulldata_df=pd.DataFrame(nulldata)
-    for i in nulldata_df.index:
-        if(nulldata_df[0][i]==0):
-            nulldata_df.drop(i,inplace=True)
-    nulldata_df.rename(columns={0:"Count"}, inplace=True)
-    dict_null = dict(nulldata_df["Count"])
-
-    data_keys = list(dict_null.keys())
-    data_values = list(dict_null.values())
-    fig, ax = plt.subplots(figsize=(10, 6))  # Increase the figure size as desired
-    ax.bar(data_keys, data_values)
-    plt.xticks(rotation=90)
-
-    #Package the image and send it to the browser, without saving in a file
-    data_img=io.BytesIO()
-    plt.savefig(data_img, bbox_inches='tight',dpi=300) #save the plot to data_img
-    encoded_img_data = base64.b64encode(data_img.getvalue())
+    null_df = pd.DataFrame(df.isnull().sum().astype(int), columns = ["Null Count"])
+    if (null_df["Null Count"].sum() == 0):
+        return render_template("missvalue.html", dataset = "No Missing Values Found")
+    null_df=null_df[null_df["Null Count"] != 0]
+    null_df["Null Percentage"] = (null_df["Null Count"] / len(df)) * 100
+    null_df["Null Percentage"] = null_df["Null Percentage"].round(2)
+    null_df["Null Count"].plot(kind="bar", title = "Bar Plot",
+                           ylabel="Miss Value Count", color = "g")   
+    plt.savefig("static/images/miss/miss_bar.png", bbox_inches ="tight") 
+    null_df = null_df.sort_values("Null Count", ascending = False)
+    message = "Your dataset has " + str(len(null_df)) + " features with missing values out of " + str(len(df.columns)) + " features."
+    null_df.loc["Total"] = null_df.sum()
     
-    if nulldata_df.empty == False:
-        return render_template("missvalue.html", dataset = nulldata_df.to_html(), hist_url=encoded_img_data.decode('utf-8')) #send the plot to the browser, in a proper format
-    else:
-        return render_template("missvalue.html", dataset = "No missing values found in the dataset")
     
+    return render_template("missvalue.html", dataset = null_df.to_html(), message = message, bar_url = "static/images/miss/miss_bar.png")
+
     
 @app.route("/show_miss")
 def show_miss():
-    return render_template("miss_dataset.html", dataset = df[df.isnull().any(axis=1)].to_html())
+    return render_template("miss_dataset.html", dataset = df[df.isnull().any(axis=1)].replace(np.nan, '', regex=True).to_html())
 
 @app.route("/phase3")
 def phase3():

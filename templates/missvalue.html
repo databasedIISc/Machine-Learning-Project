@@ -44,21 +44,19 @@
             </button>    
         </div>
        
-        <div class="missed">
-            <div class="missed-info">
-                Missing Values of the features in the dataset:
-            
-            <br>
-
-            {{dataset|safe}}
-            </div>
-            <div class="histogram">
-                Histogram of the Missing values of Various Features:
-                <img src="data:image/png;base64, {{ hist_url }}" alt="histogram" class="hist-img">
-
-            </div>
+        <div class="miss_table">
+            {{dataset|safe}}<br>
+            {{message}}<br>
+            <img src = "{{bar_url}}" alt="barplot" class="barplot">
         </div>
 
+        
+
+            
+        </div>
+            
+
+        
         <div class="next1">
             <button onclick = "next2()">
                 Continue to Phase 3
@@ -67,18 +65,7 @@
         
 
 
-     <!--   <div class="basics">
-            
-        
-        
-        </div> -->
-
-      <!--  <div class="next1">
-            <button onclick = "next()">
-                Continue to Phase 3
-            </button>
-        </div> -->
-        
+     
         </main>
         
         
