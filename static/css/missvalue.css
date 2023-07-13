@@ -13,6 +13,12 @@ body {
     background: linear-gradient(to bottom,#041b65, #06A77D);
 }
 
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
 .container {
     display: flex;
     border: 2px solid white;
@@ -233,3 +239,51 @@ tr:hover {
     object-fit: cover;
 }
 
+.histplot {
+    position: absolute;
+    top: 680px;
+    left: 150px;
+    color: white;
+    font-size: 20px;
+    border: 2px solid white;
+    width: 80%;
+    margin-top: 2em;
+}
+
+.head1 {
+    font-size: 35px;
+}
+
+.features {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    flex-wrap: wrap;
+    width: 90%;
+    padding-left: 0px;
+}
+
+.boxplot {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 30px;
+    transform: translate(0%,13%);
+    
+}
+
+.boxplot img {
+    width: 750px;
+    height: 500px;
+    object-fit: cover;
+}
+
+
+.visualm {
+    position: absolute;
+    top: 180px;
+    left: 200px;
+    color: white;
+    font-size: 70px;
+    
+}

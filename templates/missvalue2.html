@@ -43,37 +43,17 @@
                 Check Misses
             </button>    
         </div>
-       
-        <div class="miss_table">
-            {{dataset|safe}}<br>
-            {{message}}<br>
-            <img src = "{{bar_url}}" alt="barplot" class="barplot">
-        </div>
-        <br>
-        <div class="histplot">
-            <p class = "head1">Select Features: Missing Values will be filled Considering these Features</p>
-
-            <p class = "head2">Select Only 1</p>
-            <form action="/boxplots" method="POST" class = "features">
-
-                {% for i in features %}
-                    <input type = "checkbox" id = "columns" name = "columns" value = {{i.replace(" ",",")}}> {{i}}
-                {% endfor %}
-            
-                <input type="submit" value="Next" class="submit">
-            </form>
-        </div>
-            
-
         
-        <div class="next1">
-            <button onclick = "next2()">
-                Continue to Phase 3
-            </button>
+        <div class="visualm">
+            {{message}}
         </div>
-        
 
-
+        <div class="boxplot">
+            {% for image in images %}
+            <img src = "{{ image }}" alt="boxplot" class="boxplot1">
+            {% endfor %}
+            
+        </div>
      
         </main>
         

@@ -238,22 +238,55 @@ def histograms():
 
 @app.route("/phase2")
 def phase2():
+    global null_df_copy
     null_df = pd.DataFrame(df.isnull().sum().astype(int), columns = ["Null Count"])
     if (null_df["Null Count"].sum() == 0):
         return render_template("missvalue.html", dataset = "No Missing Values Found")
     null_df=null_df[null_df["Null Count"] != 0]
     null_df["Null Percentage"] = (null_df["Null Count"] / len(df)) * 100
     null_df["Null Percentage"] = null_df["Null Percentage"].round(2)
+    plt.clf()
     null_df["Null Count"].plot(kind="bar", title = "Bar Plot",
                            ylabel="Miss Value Count", color = "g")   
-    plt.savefig("static/images/miss/miss_bar.png", bbox_inches ="tight") 
+    plt.savefig("static/images/miss/miss_bar.png", bbox_inches ="tight")
+    plt.clf() 
+    null_df_copy = null_df.copy()
     null_df = null_df.sort_values("Null Count", ascending = False)
     message = "Your dataset has " + str(len(null_df)) + " features with missing values out of " + str(len(df.columns)) + " features."
     null_df.loc["Total"] = null_df.sum()
     
     
-    return render_template("missvalue.html", dataset = null_df.to_html(), message = message, bar_url = "static/images/miss/miss_bar.png")
+    # Imputation Technique through median of feature having no missing values and only few unique values
+    feat_list = df.nunique().to_list()
+    feat_list_idx = []
+    for i in range(len(feat_list)):
+        if(feat_list[i] > 1 and feat_list[i] < 10):
+            feat_list_idx.append(i)
+    feat_list = [df.columns.to_list()[i] for i in feat_list_idx] # Feature list having less unique values    
+    return render_template("missvalue.html", dataset = null_df.to_html(), message = message, bar_url = "static/images/miss/miss_bar.png", features = feat_list)
 
+
+@app.route("/boxplots", methods = ["POST"])
+def boxplots():
+    select_list = request.form.getlist("columns") # Feature list selected by user
+    
+    if(len(select_list) != 1):
+        return render_template("missvalue2.html", message="Please select exactly one feature")
+    x=df.isnull().sum().to_list()
+    count=0
+    for i in range(len(x)):
+        if(x[i]==0):
+            count += 1
+    x=null_df_copy.index.to_list()
+    
+    for i in range(len(x)):
+        plt.figure(figsize=(15,10))
+        sns.boxplot(x=df[select_list[0]], y=df[x[i]], data=df, palette = "winter")
+        plt.savefig(f"static/images/miss/boxplot{i}.png", bbox_inches ="tight")
+        plt.clf()
+    images = [f"static/images/miss/boxplot{i}.png" for i in range(len(x))]
+        
+    return render_template("missvalue2.html", length = len(x), images=images, message = "BoxPlots to see the outliers!")
     
 @app.route("/show_miss")
 def show_miss():
