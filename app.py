@@ -180,7 +180,7 @@ def visual1():
     columns = list(num.columns)    
     return render_template("visualization1.html", graph1_url = "static/images/visual1/heatmap.png", message1 = "Correlation Heatmap", graph2_url = "static/images/visual1/hist.png", message2 = "Histogram of the Target Variable",columns=columns)
 
-
+# Histogram Generator
 @app.route("/histograms", methods = ["GET", "POST"])
 def histograms():
     arr = request.form.getlist('columns')
@@ -235,7 +235,7 @@ def histograms():
     else:
         return render_template("visualization2.html", message = "Please select atleast one feature")
         
-
+# Missing Value Analysis
 @app.route("/phase2")
 def phase2():
     global null_df_copy
@@ -260,12 +260,12 @@ def phase2():
     feat_list = df.nunique().to_list()
     feat_list_idx = []
     for i in range(len(feat_list)):
-        if(feat_list[i] > 1 and feat_list[i] < 10):
+        if(feat_list[i] > 1 and feat_list[i] < 15):
             feat_list_idx.append(i)
     feat_list = [df.columns.to_list()[i] for i in feat_list_idx] # Feature list having less unique values    
     return render_template("missvalue.html", dataset = null_df.to_html(), message = message, bar_url = "static/images/miss/miss_bar.png", features = feat_list)
 
-
+# Detecting Outliers Through Boxplots
 @app.route("/boxplots", methods = ["POST"])
 def boxplots():
     global select_list
@@ -289,10 +289,12 @@ def boxplots():
         
     return render_template("missvalue2.html", length = len(x), images=images, message = "BoxPlots to see the outliers!", columns = x)
     
+# Dataset Containing rows with missing values only
 @app.route("/show_miss")
 def show_miss():
     return render_template("miss_dataset.html", dataset = df[df.isnull().any(axis=1)].replace(np.nan, '', regex=True).to_html())
 
+# Missing Value Imputation
 @app.route("/fill_misses", methods = ["POST"])
 def miss_fill():
     features=request.form.getlist("columns")
