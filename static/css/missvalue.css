@@ -254,6 +254,10 @@ tr:hover {
     font-size: 35px;
 }
 
+.head5 {
+    font-size: 25px;
+}
+
 .features {
     display: flex;
     flex-direction: row;
@@ -276,6 +280,40 @@ tr:hover {
     width: 750px;
     height: 500px;
     object-fit: cover;
+}
+
+.boxplot form {
+    display: flex;
+    flex-direction: row;
+    border: 2px solid white;
+    width: 750px;
+    height: 500px;
+    background-color: #190B28;
+    color: #EE6C4D;
+    font-size: 42px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.submit {
+    position: relative;
+    font-family: inherit;
+    left: 100px;
+    bottom: 0px;
+    border: 2px solid white;
+    width: 350px;
+    height: 80px;
+    background-color: #190B28;
+    color: #EE6C4D;
+    font-size: 42px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.submit hover {
+    background-color: #EE6C4D;
+    color: #190B28;
+    transition: 1s;
 }
 
 

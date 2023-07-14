@@ -53,6 +53,15 @@
             <img src = "{{ image }}" alt="boxplot" class="boxplot1">
             {% endfor %}
             
+
+            <form action="/fill_misses" method="POST" class = "features">
+                <p class = "head5">Select Features: Missing Values will be filled by median of your selected feature</p>
+                {% for i in columns %}
+                    <input type = "checkbox" id = "columns" name = "columns" value = {{i.replace(" ",",")}}> {{i}}
+                {% endfor %}
+            
+                <input type="submit" value="Fill Feature" class="submit">
+            </form>
         </div>
      
         </main>

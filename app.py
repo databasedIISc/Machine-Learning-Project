@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import pandas as pd
 import numpy as np
 import matplotlib
@@ -268,6 +268,7 @@ def phase2():
 
 @app.route("/boxplots", methods = ["POST"])
 def boxplots():
+    global select_list
     select_list = request.form.getlist("columns") # Feature list selected by user
     
     if(len(select_list) != 1):
@@ -286,12 +287,29 @@ def boxplots():
         plt.clf()
     images = [f"static/images/miss/boxplot{i}.png" for i in range(len(x))]
         
-    return render_template("missvalue2.html", length = len(x), images=images, message = "BoxPlots to see the outliers!")
+    return render_template("missvalue2.html", length = len(x), images=images, message = "BoxPlots to see the outliers!", columns = x)
     
 @app.route("/show_miss")
 def show_miss():
     return render_template("miss_dataset.html", dataset = df[df.isnull().any(axis=1)].replace(np.nan, '', regex=True).to_html())
 
+@app.route("/fill_misses", methods = ["POST"])
+def miss_fill():
+    features=request.form.getlist("columns")
+    features = [i.replace(","," ") for i in features]
+
+    array=list(np.unique(df[select_list[0]]))
+
+    for i in range(len(features)):
+        for j in range(len(array)):
+            feature = features[i]
+            target=array[j]
+            median=df[df[select_list[0]]==target][feature].median()
+            df[feature].fillna(median,inplace=True)
+    
+    return redirect(url_for("phase2"))
+            
+            
 @app.route("/phase3")
 def phase3():
     return render_template("Encoding.html")
