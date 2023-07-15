@@ -206,3 +206,44 @@ body {
     color: #190B28;
     transition: 1s;
 }
+
+.confirm {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border: 2px solid white;
+    background-color: #190B28;
+    width: 600px;
+    height: 900px;
+    position: relative;
+    top: 180px;
+    left: 300px;
+    font-size: 20px;
+    color: papayawhip;
+    gap: 20px;
+}
+
+.confirm p {
+    color: #06A77D;
+    font-size: 40px;
+    border: 2px solid white;
+    height: 100px;
+    
+}
+
+.confirm ul {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border: 2px solid white;
+    height: 750px;
+    width: 100%;
+    gap: 40px;
+    padding-left: 70px;
+    overflow: auto;
+}
+
+.confirm li {
+    font-size: 20px;
+    padding-left: 10px;
+}
