@@ -19,9 +19,26 @@
             </h1>
         </div>
         
+        <div class="message">
+           {{message1}}
+           <hr>
+            <p>{{message2}}</p>
+        </div>
         
         
+            
 
+        <div class="encoding">
+            {% for feature in feature_names%}
+            <form action = "/encoding" method = "POST" class = "features">
+                
+                    <label>{{feature}}</label>
+                    <input type="text" name = "{{ feature }}"><br><br>
+                
+                <input type="submit" value="Encode" class = "submit">
+            </form>
+            {% endfor %}
+        </div>
 
         <!--Button for checking dataset uploaded-->
         <div class="forbutton">

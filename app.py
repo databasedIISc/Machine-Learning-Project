@@ -279,7 +279,6 @@ def boxplots():
         if(x[i]==0):
             count += 1
     x=null_df_copy.index.to_list()
-    
     for i in range(len(x)):
         plt.figure(figsize=(15,10))
         sns.boxplot(x=df[select_list[0]], y=df[x[i]], data=df, palette = "winter")
@@ -287,7 +286,7 @@ def boxplots():
         plt.clf()
     images = [f"static/images/miss/boxplot{i}.png" for i in range(len(x))]
         
-    return render_template("missvalue2.html", length = len(x), images=images, message = "BoxPlots to see the outliers!", columns = x)
+    return render_template("missvalue2.html", length = len(x), images=images, message = "BoxPlots to see the outliers!", columns_numerical = x)
     
 # Dataset Containing rows with missing values only
 @app.route("/show_miss")
@@ -311,10 +310,24 @@ def miss_fill():
     
     return redirect(url_for("phase2"))
             
-            
+#Encoding Categorical Features
 @app.route("/phase3")
 def phase3():
-    return render_template("Encoding.html")
+    x=df.dtypes.astype(str).to_list()
+    count = 0
+    idx=[]
+    unique_features=[]
+    for i in range(len(x)):
+        if x[i]=="object":
+            count+=1;
+            idx.append(i)
+            unique_features.append(list(df[df.columns.to_list()[i]].unique()))
+    if count==0:
+        return render_template("Encoding.html", message1="No Categorical Features Found",message2="Your can proceed to next step")
+
+    
+    return render_template("Encoding.html", message1="Your dataset has "+str(count)+" categorical features",message2="Encoding them to Numeric Values here"
+                           ,x=count,feature_names=[df.columns.to_list()[i] for i in idx],unique_features=unique_features)
 
 
 if __name__=="__main__":
