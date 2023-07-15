@@ -26,23 +26,6 @@
         </div>
         
         
-            
-
-        <div class="encoding">
-            {% for features,values in send.items() %}
-            <form action = "/encoding" method = "POST" class = "features">
-                
-                    <h2>{{features}}</h2> <br><br>
-
-                    {% for value in values %}
-                    <input type="number" name = "{{value}}" placeholder = "Enter Integer Only!"> {{value}}<br><br>
-                    {% endfor %}
-                    
-                
-                <input type="submit" value="Encode" class = "submit">
-            </form>
-            {% endfor %}
-        </div>
 
         <!--Button for checking dataset uploaded-->
         <div class="forbutton">
@@ -52,9 +35,6 @@
         </div>
         
         
-       
-        
-
         <div class="next3">
             <button onclick = "next3()">
                 Continue to Phase 4

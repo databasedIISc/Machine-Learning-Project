@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Encoding</title>
-    <link rel="stylesheet" href="../static/css/Encoding.css">
+    <link rel="stylesheet" href="../static/css/ML.css">
     <script src = ../static/js/slot2.js></script>
 </head>
 <body>
@@ -20,30 +20,15 @@
         </div>
         
         <div class="message">
-           {{message1}}
+           Here on Intro Page of ML first we need to show
            <hr>
-            <p>{{message2}}</p>
+            <p>what we have done till now</p>
         </div>
         
         
             
 
-        <div class="encoding">
-            {% for features,values in send.items() %}
-            <form action = "/encoding" method = "POST" class = "features">
-                
-                    <h2>{{features}}</h2> <br><br>
-
-                    {% for value in values %}
-                    <input type="number" name = "{{value}}" placeholder = "Enter Integer Only!"> {{value}}<br><br>
-                    {% endfor %}
-                    
-                
-                <input type="submit" value="Encode" class = "submit">
-            </form>
-            {% endfor %}
-        </div>
-
+       
         <!--Button for checking dataset uploaded-->
         <div class="forbutton">
             <button onclick = "show_dataset()" class = "start">
@@ -56,8 +41,8 @@
         
 
         <div class="next3">
-            <button onclick = "next3()">
-                Continue to Phase 4
+            <button onclick = "start_ML()">
+                Start Machine Learning
             </button>
         </div>
         

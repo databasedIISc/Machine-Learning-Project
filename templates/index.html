@@ -1,40 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel = "stylesheet" href = "../static/css/index.css">
-    <script src = "../static/js/intro.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+   
     <title>Home Page</title>
-</head>
-<body>
-    <h1 class="headers">Data Dynamics: Exploring Patterns, Possibilities and Predictions</h1>
-    <!--<h2 class="headers">and Possibilities</h2>-->
+    <style>
 
-<div class="container">
-    <div class="images">
-    <div class="member-img"><img src="../static/images/start/sirjan.png" class="member-img">
-        <p class="image-caption">Sirjan Hansda</p>
+        body {
+            background-image: url("../static/images/start/bg2.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-color: #1b0e42;
+        
+        }
+        
+
+        .container {
+            /* padding: 3rem; */
+            margin-top: 3rem;
+            background-color: none;
+        }
+
+        .play-container {
+            display: flex;
+            justify-content: center;
+            padding-top: 2rem;
+        }
+
+
+        .card{
+            margin: 5%;
+            background-color: #1b0e420f !important;
+            border: 1pt solid #cda6fa !important;
+            max-width: 80%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+        }
+
+        .card-img-top {
+            max-width: 60%;
+            border-radius: 50%;
+            margin: 1rem;
+        }
+
+        .card-title {
+            text-align: center;
+            color: #f2e6ff;;
+        }
+
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+
+        .btn-primary {
+            text-align: center;
+            width: 100%;
+            background-color: #7108c1;
+            border: 2pt solid #f2e6ff;
+        }
+
+        .btn-lg {
+            width: 20vw;
+            height: 20vw;
+            min-height: 250px;
+            min-width: 250px;
+            border-radius: 50%;
+            color: #f2e6ff;
+            background-color: #7108c1;
+            border: none;
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            text-align: center;
+            font-size: 6vw;
+            color: #f2e6ff;
+        }
+
+        h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            text-align: center;
+            font-size: vw;
+            padding-top: 5rem;
+            color: #cda6fa;
+        }
+
+        .bi-play-circle {
+            max-height: 100%;
+        }
+
+
+    </style>
+</head>
+
+
+<body >
+        
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12"><h1>Data Dynamics: Exploring Patterns, Possibilities and Predictions</h1></div>
+            <div class="col-12 play-container">
+                <button type="button" class="btn btn-primary btn-lg" onclick="window.location.href='/introduction'">
+                    <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-play-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z"/>
+                    </svg>
+                </button>
+            </div>
         </div>
-    <div class="member-img"><img src="../static/images/start/ayush.png" class="member-img">
-        <p class="image-caption">Ayush Raina</p>
+        
+    </div>
+
+
+    <div class="container"> 
+
+        <div class="row">
+            <div class="col">
+                <h3>Text</h3>
+            </div>
         </div>
-    <div class="member-img"><img src="../static/images/start/saivinayak.png" class="member-img">
-        <p class="image-caption">Saivinayak</p>
+
+        <div class="row">
+
+            <div class="col-md-6 col-xl-3 p-md-0 p-xl-0 d-flex justify-content-center">
+                <div class="card shadow-lg p-3 mb-5 bg-body-tertiary rounded bg-gradient" >
+                    <img src="../static/images/start/sirjan.png" class="card-img-top shadow-lg" alt="Sirjan">
+                    <div class="card-body">
+                      <h5 class="card-title">Sirjan Hansda</h5>
+                      <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                      <a href="#" class="btn btn-primary">See profile ></a>
+                    </div>
+                  </div>
+            </div>
+
+            <div class="col-md-6 col-xl-3 p-md-0 p-xl-0 d-flex justify-content-center">
+                <div class="card shadow-lg p-3 mb-5 bg-body-tertiary rounded bg-gradient" >
+                    <img src="../static/images/start/ayush.png" class="card-img-top shadow-lg" alt="Sirjan">
+                    <div class="card-body">
+                      <h5 class="card-title">Ayush Raina</h5>
+                      <a href="#" class="btn btn-primary">See profile ></a>
+                    </div>
+                  </div>
+            </div>
+
+            <div class="col-md-6 col-xl-3 p-md-0 p-xl-0 d-flex justify-content-center">
+                <div class="card shadow-lg p-3 mb-5 bg-body-tertiary rounded bg-gradient" >
+                    <img src="../static/images/start/saivinayak.png" class="card-img-top shadow-lg" alt="Sirjan">
+                    <div class="card-body">
+                      <h5 class="card-title">Saivinayak</h5>
+                      <a href="#" class="btn btn-primary">See profile ></a>
+                    </div>
+                  </div>
+            </div>
+
+            <div class="col-md-6 col-xl-3 p-md-0 p-xl-0 d-flex justify-content-center">
+                <div class="card shadow-lg p-3 mb-5 bg-body-tertiary rounded bg-gradient" >
+                    <img src="../static/images/start/sirjan.png" class="card-img-top shadow-lg" alt="Sirjan">
+                    <div class="card-body">
+                      <h5 class="card-title">Aastha</h5>
+                      <a href="#" class="btn btn-primary">See profile ></a>
+                    </div>
+                  </div>
+            </div>
+
         </div>
     </div>
 
-    <!--when you will add button just add "onclick = intro()" attribute in it
-    i am linking files according this-->
-    <!--Srian Change this piece according to you just insert onlick thing-->
-    
-    <div class="start-button">
-       <div class="button" onclick="intro()"></div> 
-       </div>
-</div>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src = "../static/js/intro.js"></script>
 
 </body>
 </html>

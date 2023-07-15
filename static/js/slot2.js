@@ -29,3 +29,15 @@ function next1() {
 function next2() {
     window.location.href = "/phase3";
 }
+
+function encoder() {
+    window.location.href = "/encode_it";
+}
+
+function next3() {
+    window.location.href = "/phase4";
+}
+
+function next4() {
+    window.location.href = "/phase5";
+}
