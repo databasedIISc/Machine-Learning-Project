@@ -71,9 +71,8 @@
             margin: 1rem 1rem 2rem 1em;            
         }
 
-        .bg-text {
-            padding-top: 1rem;
-            padding-bottom: 1rem;
+        .choose-box {
+            padding: 1rem;
         }
 
         p {
@@ -139,103 +138,18 @@
 
     <div class="container">
         <div class="top">
-            <h1>Introduction</h1>
-            <h3>Various Steps to Train an ML Model on some data</h3>
+            <h1>Upload the dataset</h1>
+        </div>
+
+        <div class="choose-box">
+          <form action="/upload" method = "POST" enctype = "multipart/form-data">
+                
+            <input type="file" name="file" id="file" class="file" accept = ".csv">
+            <input type="submit" value="Upload" class="submit">
         
-            <div class="img-container">
-                <img src="../static/images/intro/steps_to_learn.jpg" class="img-steps img-fluid shadow-lg" alt="steps to learm">
-            </div>
-
+    </form>
         </div>
-
-        <div class="bg-text">
-            <p>We have classified the various steps of the training process into 5 categories:</p>
-                <ol>
-                    <li>Data Processing</li>
-                    <li>Missing Value Analysis</li>
-                    <li>Encoding Techniques</li>
-                    <li>Training Models</li>
-                    <li>Testing Trained Models</li>
-                </ol>
-                <p>Let us see the purpose and tasks of each one in detail:</p>
-        </div>
-
-        <div class="body-text shadow-lg">
-            <h3 class="topic-head">Data Processing:</h3>
-            <div class="row">
-                <div class="col-sm-12 col-md-6">
-                    <p>Here, we extract those features which can be extracted without performing any single change to a dataset. Therefore it will be valid to every dataset.</p>
-                </div>
-                <div class="col-sm-12 col-md-6">
-                    <img src="../static/images/intro/data-preprocessing.png" class=" body-img" alt="data-preprocessing">
-                </div>
-            </div>
             
-        </div>
-
-        <div class="body-text shadow-lg">
-            <h3 class="topic-head">Missing Value Analysis:</h3>
-            <div class="row">
-                <div class="col-sm-12 col-md-6">
-                    <p>In missing value analysis, we will be detecting outliers if any and in that case it will replace missing values by median. If outliers are not there mean will be used and for categorical features mode will be used to fill the missing value. There are three main types of missing data: (1) Missing Completely at Random (MCAR), (2) Missing at Random (MAR), and (3) Missing Not at Random (MNAR).</p>
-                </div>
-                <div class="col-sm-12 col-md-6">
-                    <img src="../static/images/intro/missing-data-analysis.jpg" class=" body-img" alt="data-preprocessing">
-                </div>
-            </div>
-            
-        </div>
-
-        <div class="body-text shadow-lg">
-            <h3 class="topic-head">Encoding Techniques:</h3>
-            <div class="row">
-                <div class="col-sm-12 col-md-6">
-                    <p>Encoding Techniques will include replacing Categorical Features by numbers. Suppose a column has features red, blue, green only so we can replace them by 0, 1, 2 respectively.</p>
-                </div>
-                <div class="col-sm-12 col-md-6">
-                    <img src="../static/images/intro/Encoding.png" class=" body-img" alt="data-preprocessing">
-                </div>
-            </div>
-            
-        </div>
-
-        <div class="body-text shadow-lg">
-            <h3 class="topic-head">Training Models:</h3>
-            <div class="row">
-                <div class="col-sm-12 col-md-6">
-                    <p>In this step we will be training our model on the data. We will be using various algorithms to train our model.</p>
-                </div>
-                <div class="col-sm-12 col-md-6">
-                    <img src="../static/images/intro/models.jpg" class=" body-img" alt="data-preprocessing">
-                </div>
-            </div>
-            
-        </div>
-
-        <div class="body-text shadow-lg">
-            <h3 class="topic-head">Testing Trained Models: </h3>
-            <div class="row">
-                <div class="col-sm-12 col-md-6">
-                    <p>In this step we will be testing our trained model on the data. We will be using various algorithms to test our model.
-                        In this we have to make a graphical tool, in which user can generate a graph just by selecting any 2 features, from data set and can make different kinds of plots like scatter, box, violin etc.</p>
-                </div>
-                <div class="col-sm-12 col-md-6">
-                    <img src="../static/images/intro/training models.png" class=" body-img" alt="data-preprocessing">
-                </div>
-            </div>
-            
-        </div>
-
-        <div class="bg-text">
-            <p>We will also be selecting the best 2 features to select for training the model.</p>
-        </div>
-
-        <div class="start-button"> <a href="#" class="btn btn-primary"  onclick="window.location.href='./upload.html'">Let's start!  
-            <svg xmlns="http://www.w3.org/2000/svg" width="2rem"  fill="currentColor" class="bi bi-play" viewBox="0 0 16 16">
-                <path d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z"/>
-              </svg>
-        </a></div>
-
         
 
     </div>
