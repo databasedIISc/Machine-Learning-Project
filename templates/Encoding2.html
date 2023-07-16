@@ -19,30 +19,25 @@
             </h1>
         </div>
         
-        <div class="message">
-           {{message1}}
-           <hr>
-            <p>{{message2}}</p>
-        </div>
         
         
-            
+        <div class="confirm">
+            <p>Confirm Your Changes:</p>
 
-        <div class="encoding">
-            {% for features,values in send.items() %}
-            <form action = "/encoding" method = "POST" class = "features">
-                
-                    <h2>{{features}}</h2> <br><br>
+            <ul>
+                {% for features,values in encodings.items() %}
+                <li>{{features}}: {{values}}</li>
+                {% endfor %}
+            </ul>
 
-                    {% for value in values %}
-                    <input type="number" name = "{{value}}" placeholder = "Enter Integer Only!"> {{value}}<br><br>
-                    {% endfor %}
-                    
-                
-                <input type="submit" value="Encode" class = "submit">
-            </form>
-            {% endfor %}
+            <div class="Confirm">
+                <button onclick = "encoder()" class = "start">
+                    Confirm
+                </button>    
+            </div>
         </div>
+
+        
 
         <!--Button for checking dataset uploaded-->
         <div class="forbutton">
@@ -55,11 +50,7 @@
        
         
 
-        <div class="next3">
-            <button onclick = "next3()">
-                Continue to Phase 4
-            </button>
-        </div>
+        
         
         
         </main>

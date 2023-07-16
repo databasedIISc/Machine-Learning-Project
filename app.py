@@ -180,7 +180,7 @@ def visual1():
     columns = list(num.columns)    
     return render_template("visualization1.html", graph1_url = "static/images/visual1/heatmap.png", message1 = "Correlation Heatmap", graph2_url = "static/images/visual1/hist.png", message2 = "Histogram of the Target Variable",columns=columns)
 
-
+# Histogram Generator
 @app.route("/histograms", methods = ["GET", "POST"])
 def histograms():
     arr = request.form.getlist('columns')
@@ -235,7 +235,7 @@ def histograms():
     else:
         return render_template("visualization2.html", message = "Please select atleast one feature")
         
-
+# Missing Value Analysis
 @app.route("/phase2")
 def phase2():
     global null_df_copy
@@ -260,12 +260,12 @@ def phase2():
     feat_list = df.nunique().to_list()
     feat_list_idx = []
     for i in range(len(feat_list)):
-        if(feat_list[i] > 1 and feat_list[i] < 10):
+        if(feat_list[i] > 1 and feat_list[i] < 15):
             feat_list_idx.append(i)
     feat_list = [df.columns.to_list()[i] for i in feat_list_idx] # Feature list having less unique values    
     return render_template("missvalue.html", dataset = null_df.to_html(), message = message, bar_url = "static/images/miss/miss_bar.png", features = feat_list)
 
-
+# Detecting Outliers Through Boxplots
 @app.route("/boxplots", methods = ["POST"])
 def boxplots():
     global select_list
@@ -279,7 +279,6 @@ def boxplots():
         if(x[i]==0):
             count += 1
     x=null_df_copy.index.to_list()
-    
     for i in range(len(x)):
         plt.figure(figsize=(15,10))
         sns.boxplot(x=df[select_list[0]], y=df[x[i]], data=df, palette = "winter")
@@ -287,12 +286,14 @@ def boxplots():
         plt.clf()
     images = [f"static/images/miss/boxplot{i}.png" for i in range(len(x))]
         
-    return render_template("missvalue2.html", length = len(x), images=images, message = "BoxPlots to see the outliers!", columns = x)
+    return render_template("missvalue2.html", length = len(x), images=images, message = "BoxPlots to see the outliers!", columns_numerical = x)
     
+# Dataset Containing rows with missing values only
 @app.route("/show_miss")
 def show_miss():
     return render_template("miss_dataset.html", dataset = df[df.isnull().any(axis=1)].replace(np.nan, '', regex=True).to_html())
 
+# Missing Value Imputation
 @app.route("/fill_misses", methods = ["POST"])
 def miss_fill():
     features=request.form.getlist("columns")
@@ -309,11 +310,66 @@ def miss_fill():
     
     return redirect(url_for("phase2"))
             
-            
+#Encoding Categorical Features
 @app.route("/phase3")
 def phase3():
-    return render_template("Encoding.html")
+    global send
+    x=df.dtypes.astype(str).to_list()
+    count = 0
+    idx=[] #idx of categorical features
+    unique_features=[]
+    for i in range(len(x)):
+        if x[i]=="object":
+            count+=1;
+            idx.append(i)
+            unique_features.append(list(df[df.columns.to_list()[i]].unique()))
+    if count==0:
+        return render_template("Encoding1.html", message1="No Categorical Features Found",message2="Your can proceed to next step")
+    feature_names=[df.columns.to_list()[i] for i in idx] #categorical feature names
+    send={} # dictionary of categorical features and their unique values
+    for i in range(len(feature_names)):
+        send[feature_names[i]]=unique_features[i]
+    return render_template("Encoding.html", message1="Your dataset has "+str(count)+" categorical features",message2="Encoding them to Numeric Values here"
+                           ,send=send)
 
+@app.route("/encoding",methods=["GET","POST"])
+def encode():
+    global encodings,feature
+    encoded_values=[] #list of encoded values
+    array=[] #list of categorical features
+    feature=[] #list of categorical features
+    for features,values in send.items():
+        array.append(send[features])
+        encoded_values.append([request.form.get(f"{value}") for value in values])
+        
+    encoded_values=[[int(x) if x is not None else None for x in sub_list] for sub_list in encoded_values]
+    child_list=[] #list of index and encoded values
+    x=[sublist for sublist in encoded_values if None not in sublist]
+    child_list.append([encoded_values.index(x[0]),x[0]])
+    encodings={} #dictionary of encoded values
+    for i in range(len(child_list[0][1])):
+        encodings[array[child_list[0][0]][i]]=child_list[0][1][i]
+    for features in send.keys():
+        feature.append(features)
+    feature=feature[child_list[0][0]]
+    
+    return render_template("Encoding2.html",encodings=encodings)
+
+@app.route("/encode_it",methods=["GET","POST"])
+def encode_1():
+    
+    df[feature]=[encodings[x] for x in df[feature]]
+    return redirect(url_for("phase3"))
+
+@app.route("/phase4")
+def phase4():
+    return render_template("EDA.html")
+
+
+@app.route("/phase5")
+def phase5():
+    return render_template("ML_intro.html")
 
 if __name__=="__main__":
     app.run(host="0.0.0.0")
+
