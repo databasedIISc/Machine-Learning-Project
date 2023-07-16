@@ -3,55 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
+
     <title>Introduction</title>
-    <link rel = "stylesheet" href = "../static/css/intro.css">
-    <script src = "../static/js/intro.js"></script>
+        
+    <style>
+
+        body {
+            background-image: url("../static/images/start/bg2.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-color: #050111;
+        }
+
+        .container {
+            background-color: #f3eff9;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+            padding: 0;
+            border-radius: 1rem;
+        }
+
+        .top {
+            background-color: #dcc0fd;
+            border-radius: 1rem 1rem 0 0;
+           
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            text-align: center;
+            font-size: 6vw;
+            color: #1b0e42;
+            padding: 2rem 1rem 1rem 1rem;
+        }
+
+        h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            text-align: center;
+            font-size: 3vw;
+            margin: 1rem;
+            padding: 0rem 2rem;
+            color: #7108c1;
+        }
+
+        .img-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .img-steps {
+            width: 70vw;
+            border-radius: 1rem;
+            margin: 1rem 1rem 2rem 1em;            
+        }
+
+        .bg-text {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        p {
+            font-family: 'Open Sans', sans-serif;
+            text-align: justify;
+            margin: 1rem 2rem;
+            color: #050111;
+            font-weight: 500;
+        }
+        
+        ol {
+            margin: 1rem 1rem;
+        }
+
+        li {
+            font-family: 'Open Sans', sans-serif;
+            text-align: left;
+            padding: 0rem 1rem;
+            color: #050111;
+            font-weight: 500;
+        }
+
+        .body-text {
+            margin: 2rem;
+            padding: 1rem;
+            border-radius: 1rem;
+            background-color: #ffffff;
+            transition: transform .5s;
+        }
+
+        .body-text:hover {
+            transform: scale(1.05);
+        }
+
+        .start-button {
+            display: flex;
+            justify-content: center;
+            padding-bottom: 3rem;
+        }
+
+        .btn-primary {
+            text-align: center;
+            width: 50%;
+            height: 10vh;
+            background-color: #7108c1;
+            border: 2pt solid #f2e6ff;
+            font-family: 'Open Sans', sans-serif;
+            font-size: larger;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        .body-img {
+            width: 100%;
+        }
+
+    </style>
 </head>
+
 <body>
-    <div class="intro">
 
-   <h1 class="start">Introduction Page</h1> 
-    <!-- <button onclick = "upload()" class="go">Lets Start</button> -->
-         <h2 class="intro-head">Various Steps to Train a ML Model on a data</h2>
-         <img src="../static/images/intro/steps_to_learn.jpg" class="img1">
-         <br>
-         <div class="intro-text">
-        We have classified the various steps of the training process into 4 categories:
-        <ol>
-            <li>Data Processing</li>
-            <li>Missing Value Analysis</li>
-            <li>Encoding Techniques</li>
-            <li>Training Models</li>
-            <li>Testing Trained Models</li>
-        </ol>
-        <br>
-        Let us see the purpose and tasks of each one in detail:
-        <br>
-        <h3 class="topic-head">Data Processing:</h3>
-        Here, we extract those features which can be extracted without performing any single change to a dataset. Therfore it will be valid to every dataset.
-        <br>
-        <h3 class="topic-head">Missing Value Analysis:</h3>
-        In missing value analysis, we will be detecting outliers if any and in that case it will replace missing values by median. If outliers are not there mean will be used and for categorical features mode will be used to fill the missing value.
-        <br>
-        <h3 class="topic-head">Encoding Techniques:</h3>
+    <div class="container">
+        <div class="top">
+            <h1>Introduction</h1>
+            <h3>Various Steps to Train an ML Model on some data</h3>
+        
+            <div class="img-container">
+                <img src="../static/images/intro/steps_to_learn.jpg" class="img-steps img-fluid shadow-lg" alt="steps to learm">
+            </div>
 
-Encoding Techniques will include replacing Categorical Features by numbers 
-Suppose a column has features red , blue , green only so we can replace them by 0, 1, 2 respectively
-<br>
-        <h3 class="topic-head">Training Models:</h3>
-        In this step we will be training our model on the data. We will be using various algorithms to train our model.
-        <br>
-        <h3 class="topic-head">Testing Trained Models:</h3>       
-        In this step we will be testing our trained model on the data. We will be using various algorithms to test our model.
-        In this we have to make a graphical tool, in which user can generate a graph just by selecting any 2 features, from data set and can make different kinds of plots like scatter , box, violin etc.
-        <br>
-        <br>
-        We will also be selecting the best 2 features to select for training the model.
         </div>
+
+        <div class="bg-text">
+            <p>We have classified the various steps of the training process into 5 categories:</p>
+                <ol>
+                    <li>Data Processing</li>
+                    <li>Missing Value Analysis</li>
+                    <li>Encoding Techniques</li>
+                    <li>Training Models</li>
+                    <li>Testing Trained Models</li>
+                </ol>
+                <p>Let us see the purpose and tasks of each one in detail:</p>
         </div>
-        <button onclick = "upload()" class="go">Lets Start</button>
-    
+
+        <div class="body-text shadow-lg">
+            <h3 class="topic-head">Data Processing:</h3>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <p>Here, we extract those features which can be extracted without performing any single change to a dataset. Therefore it will be valid to every dataset.</p>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <img src="../static/images/intro/data-preprocessing.png" class=" body-img" alt="data-preprocessing">
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="body-text shadow-lg">
+            <h3 class="topic-head">Missing Value Analysis:</h3>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <p>In missing value analysis, we will be detecting outliers if any and in that case it will replace missing values by median. If outliers are not there mean will be used and for categorical features mode will be used to fill the missing value. There are three main types of missing data: (1) Missing Completely at Random (MCAR), (2) Missing at Random (MAR), and (3) Missing Not at Random (MNAR).</p>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <img src="../static/images/intro/missing-data-analysis.jpg" class=" body-img" alt="data-preprocessing">
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="body-text shadow-lg">
+            <h3 class="topic-head">Encoding Techniques:</h3>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <p>Encoding Techniques will include replacing Categorical Features by numbers. Suppose a column has features red, blue, green only so we can replace them by 0, 1, 2 respectively.</p>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <img src="../static/images/intro/Encoding.png" class=" body-img" alt="data-preprocessing">
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="body-text shadow-lg">
+            <h3 class="topic-head">Training Models:</h3>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <p>In this step we will be training our model on the data. We will be using various algorithms to train our model.</p>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <img src="../static/images/intro/models.jpg" class=" body-img" alt="data-preprocessing">
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="body-text shadow-lg">
+            <h3 class="topic-head">Testing Trained Models: </h3>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <p>In this step we will be testing our trained model on the data. We will be using various algorithms to test our model.
+                        In this we have to make a graphical tool, in which user can generate a graph just by selecting any 2 features, from data set and can make different kinds of plots like scatter, box, violin etc.</p>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <img src="../static/images/intro/training models.png" class=" body-img" alt="data-preprocessing">
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="bg-text">
+            <p>We will also be selecting the best 2 features to select for training the model.</p>
+        </div>
+
+        <div class="start-button"> <a href="#" class="btn btn-primary"  onclick=upload()>Let's start!  
+            <svg xmlns="http://www.w3.org/2000/svg" width="2rem"  fill="currentColor" class="bi bi-play" viewBox="0 0 16 16">
+                <path d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z"/>
+              </svg>
+        </a></div>
+
+        
+
     </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src = "../static/js/intro.js"></script>
 
 </body>
 </html>
