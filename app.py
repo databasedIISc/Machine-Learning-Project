@@ -24,23 +24,20 @@ def introduction():
 #Upload Page
 @app.route("/upload")
 def upload():
-    return render_template("upload.html")
+    return render_template("upload copy.html")
 
 #Receiving the dataset here
-@app.route("/upload", methods=['POST'])
+@app.route("/upload2", methods=['POST'])
 def upload_dataset():
     global df
     if request.method == "POST":
         file = request.files["file"]
         if file:
             df = pd.read_csv(file)
-            next_var=True
-        else:
-            next_var=False
-    return render_template("upload.html", next_var=next_var)
-
+        
+    return redirect(url_for("main_page"))
 #Start
-@app.route("/main_page")
+@app.route("/main_page", methods=["GET","POST"])
 def main_page():
     return render_template("slot2intro.html")
 
