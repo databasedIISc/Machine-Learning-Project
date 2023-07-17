@@ -3,51 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
     <title>Regression</title>
     <link rel="stylesheet" href="../static/css/regression.css">
     <script src = ../static/js/slot2.js></script>
 </head>
 <body>
+        <div class="container">
+            <div class="title">Regression Algorithms</div>
 
+            <div class="datasize">
+                <p>Training Size: {{training}}</p>
+                <p>Testing Size: {{testing}}</p>
+            </div>
 
-    <main class="container">
+            <div class="head">
+                Training
+            </div>
 
-        <!--heading for page-->
-        <div class="heading">
-            <h1 class="head">
-                Regression Algorithms
-            </h1>
+            <div class="models">
 
-            <p>Training Set: {{training}}</p>
-            
-            <p>Testing Set: {{testing}}</p>
-        </div>
-        
-        <div class="message">
-           Here on Intro Page of ML first we need to show
-           <hr>
-            <p>what we have done till now</p>
-        </div>
-        
-        
-            
-
-       
-        <!--Button for checking dataset uploaded-->
-        <div class="forbutton">
-            <button onclick = "show_dataset()" class = "start">
-                Check Dataset
-            </button>    
-        </div>
-        
-        
+                <form action="train_reg_models" class = "form" method="post">
+                    <div class="LinearReg">
+                        
+                        <input type="checkbox" name="regression_models" id ="regression_models" value = "linear_reg">Linear Regression
+                    </div>
     
-        
-        </main>
-        
-           
-        
-            
+                    <div class="Elastic Net">
+                        
+                        <input type="checkbox" name="regression_models" id ="regression_models" value = "elastic_net">Elastic Net
+                        
+                    </div>
+    
+                    <div class="LassoRegression">
+                        <input type="checkbox" name="regression_models" id = "regression_models" value = "lasso_reg">Lasso Regression
+                    </div>
+    
+                    <div class="SVR">
+                        <input type="checkbox" name="regression_models" id = "regression_models" value = "svr">  Support Vector Regression
+                    </div>
+    
+                    <div class="DecisionTreeReg">
+                        <input type="checkbox" name="regression_models" id="regression_models" value = "decision_tree_reg">    Decision Tree Regression
+                    </div>
+    
+                    <div class="RandomForestReg">
+                        <input type="checkbox" name="regression_models" id ="regression_models" value = "random_forest_reg">    Random Forest Regression
+                    </div>
+    
+                    <div class="GaussianProcess">
+                        <input type="checkbox" name="regression_models" id="regression_models" value = "gaussian_process">   Gaussian Process Regression
+                    </div>
+
+                    <div class="submit">
+                        <input type="submit" value="Start Training" class = "submit">
+                    </div>
+                </form>
+                
+            </div>
+
+        </div>
+
         
 </body>
 </html>

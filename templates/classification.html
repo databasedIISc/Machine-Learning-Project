@@ -3,43 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
     <title>Classification</title>
-    <link rel="stylesheet" href="../static/css/regression.css">
-    <script src = ../static/js/slot2.js></script>
+    <link rel="stylesheet" href="../static/css/classification.css">
+    <script src = ../static/js/models.js></script>
 </head>
 <body>
+        <div class="container">
+            <div class="title">Classification Algorithms</div>
 
+            <div class="datasize">
+                <p>Training Size: {{training}}</p>
+                <p>Testing Size: {{testing}}</p>
+            </div>
 
-    <main class="container">
+            <div class="models">
+                <form action="train_cls_models" class = "form" method="post">
+                    <div class="Logistic">
+                        <input type="checkbox" name="classification_models" id ="classification_models" value = "logistic">Logistic Regression
+                    </div>
 
-        <!--heading for page-->
-        <div class="heading">
-            <h1 class="head">
-                Classification Algorithms
-            </h1>
+                    <div class="NaiveBayes">
+                        <input type="checkbox" name="classification_models" id ="classification_models" value = "naive_bayes">Naive Bayes
+                    </div>
 
+                    <div class="KNN">
+                        <input type="checkbox" name="classification_models" id ="classification_models" value = "knn">K Nearest Neighbors
+                    </div>
 
-            <p>Training Set: {{training}}</p>
-            
-            <p>Testing Set: {{testing}}</p>
+                    <div class="SVR">
+                        <input type="checkbox" name="classification_models" id ="classification_models" value = "svr">Support Vector Classifier
+                    </div>
+
+                    <div class="DecisionTreeCLS">
+                        <input type="checkbox" name="classification_models" id ="classification_models" value = "decision_tree_cls">Decision Tree Classifier
+                    </div>
+
+                    <div class="RandomForestCLS">
+                        <input type="checkbox" name="classification_models" id ="classification_models" value = "random_forest_cls">Random Forest Classifier
+                    </div>
+
+                    <div class="GaussianProcess">
+                        <input type="checkbox" name="classification_models" id ="classification_models" value = "gaussian_process">Gaussian Process Classifier
+                    </div>
+
+                    <div class="submit">
+                        <input type="submit" value="Start Training" class = "submit">
+                    </div>
+                </form>
+            </div>
+
         </div>
-       
-        
-            
 
-       
-        <!--Button for checking dataset uploaded-->
-        <div class="forbutton">
-            <button onclick = "show_dataset()" class = "start">
-                Check Dataset
-            </button>    
-        </div>
-        
-        
-    
-        
-        </main>
-            
         
 </body>
 </html>

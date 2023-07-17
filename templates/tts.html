@@ -142,7 +142,7 @@
         </div>
 
         <div class="choose-box">
-          <form action="/start_machine" method = "POST" enctype = "multipart/form-data">
+          <form action="/start_machine" method = "POST" enctype = "multipart/form-data" target="_blank">
             <p>Enter Test Size</p>
             <input type="float" name="test_size" id="test_size" class="file" placeholder="Enter between 0 and 1">
             <br><br>
@@ -153,6 +153,11 @@
             <p>Select Target Feature</p>
             {% for column in columns %}
                 <input type = "checkbox" id = "columns" name = "columns" value = {{column.replace(" ",",")}}> {{column}}
+            {% endfor %}
+            <br><br>
+            <p>Select Training Features</p>
+            {% for column in columns %}
+                <input type = "checkbox" id = "columns1" name = "columns1" value = {{column.replace(" ",",")}}> {{column}}
             {% endfor %}
             <br><br>
             <input type="submit" value="Proceed" class="submit">

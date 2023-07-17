@@ -257,7 +257,7 @@ def phase2():
     feat_list = df.nunique().to_list()
     feat_list_idx = []
     for i in range(len(feat_list)):
-        if(feat_list[i] > 1 and feat_list[i] < 15):
+        if(feat_list[i] > 1 and feat_list[i] < zz15):
             feat_list_idx.append(i)
     feat_list = [df.columns.to_list()[i] for i in feat_list_idx] # Feature list having less unique values    
     return render_template("missvalue.html", dataset = null_df.to_html(), message = message, bar_url = "static/images/miss/miss_bar.png", features = feat_list)
@@ -267,7 +267,7 @@ def phase2():
 def boxplots():
     global select_list
     select_list = request.form.getlist("columns") # Feature list selected by user
-    
+    select_list = [i.replace(","," ") for i in select_list]
     if(len(select_list) != 1):
         return render_template("missvalue2.html", message="Please select exactly one feature")
     x=df.isnull().sum().to_list()
@@ -370,20 +370,25 @@ def phase5():
 
 @app.route("/show_tts")
 def tts():
+    df=pd.read_csv("winequalityN.csv") #Remove it
     return render_template("tts.html",columns=df.columns.to_list())
     
 @app.route("/start_machine", methods = ["GET","POST"])
 def start_machine():
     global X_train,X_test,y_train,y_test
-    
+    df=pd.read_csv("winequalityN.csv") #Remove it
     test=request.form.get("test_size")
     problem=request.form.get("problem")
+    
     target = request.form.getlist('columns')
     target = [i.replace(","," ") for i in target]
     target=target[0]
     
+    training = request.form.getlist('columns1')
+    training = [i.replace(","," ") for i in training]
+    
     # Separating Independent and Dependent Features
-    X = df.drop(target, axis = 1)
+    X = df[training]
     y=df[target]
     
     
@@ -398,6 +403,19 @@ def start_machine():
     else:
         return render_template("classification.html", test_size=test,
                                training=X_train.shape, testing=X_test.shape)
+    
+    
+@app.route("/train_reg_models", methods = ["GET","POST"])
+def train_reg_models():
+    regression_models=request.form.getlist("regression_models")
+    return render_template("test.html", message="Regression Models", message2=regression_models)
+
+
+@app.route("/train_cls_models", methods = ["GET","POST"])
+def train_reg_models():
+    classification_models=request.form.getlist("classification_models")
+    return render_template("test.html", message="Classification Models", message2=classification_models)
+    
     
 if __name__=="__main__":
     app.run(host="0.0.0.0")
