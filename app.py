@@ -257,7 +257,7 @@ def phase2():
     feat_list = df.nunique().to_list()
     feat_list_idx = []
     for i in range(len(feat_list)):
-        if(feat_list[i] > 1 and feat_list[i] < zz15):
+        if(feat_list[i] > 1 and feat_list[i] < 15):
             feat_list_idx.append(i)
     feat_list = [df.columns.to_list()[i] for i in feat_list_idx] # Feature list having less unique values    
     return render_template("missvalue.html", dataset = null_df.to_html(), message = message, bar_url = "static/images/miss/miss_bar.png", features = feat_list)
