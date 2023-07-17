@@ -354,8 +354,9 @@ def encode():
 
 @app.route("/encode_it",methods=["GET","POST"])
 def encode_1():
-    
+    global df1
     df[feature]=[encodings[x] for x in df[feature]]
+    df1= df.copy()
     return redirect(url_for("phase3"))
 
 @app.route("/phase4")
@@ -367,6 +368,37 @@ def phase4():
 def phase5():
     return render_template("ML_intro.html")
 
+@app.route("/show_tts")
+def tts():
+    return render_template("tts.html",columns=df.columns.to_list())
+    
+@app.route("/start_machine", methods = ["GET","POST"])
+def start_machine():
+    global X_train,X_test,y_train,y_test
+    
+    test=request.form.get("test_size")
+    problem=request.form.get("problem")
+    target = request.form.getlist('columns')
+    target = [i.replace(","," ") for i in target]
+    target=target[0]
+    
+    # Separating Independent and Dependent Features
+    X = df.drop(target, axis = 1)
+    y=df[target]
+    
+    
+    #splitting
+    from sklearn.model_selection import train_test_split
+    X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=float(test),random_state=42)
+    
+    
+    if problem=="Regression":
+        return render_template("regression.html", test_size=test,
+                               training=X_train.shape, testing=X_test.shape)
+    else:
+        return render_template("classification.html", test_size=test,
+                               training=X_train.shape, testing=X_test.shape)
+    
 if __name__=="__main__":
     app.run(host="0.0.0.0")
 

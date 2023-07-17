@@ -24,6 +24,8 @@ body {
 
 /*Design for Heading */
 .heading {
+    display: flex;
+    flex-direction: column;
     border: 2px solid white;
     position: absolute;
     background-color: #190B28;
@@ -37,6 +39,12 @@ body {
     position: absolute;
     left: 50px;
     top: 26px;
+}
+
+.heading p {
+   transform: translate(70%,25px);
+   font-size: 40px;
+   color: white;
 }
 
 
@@ -72,73 +80,3 @@ body {
     transition: 1s;
 }
 
-.next3 button {
-    position: absolute;
-    font-family: inherit;
-    bottom: 0px;
-    left: 500px;
-    border: 2px solid white;
-    width: 450px;
-    height: 120px;
-    background-color: #190B28;
-    color: #EE6C4D;
-    font-size: 42px;
-    padding: 10px;
-    border-radius: 10px;
-}
-
-.next3 button:hover {
-    background-color: #EE6C4D;
-    color: #190B28;
-    transition: 1s;
-}
-
-
-
-.type {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    padding: 20px;
-    position: relative;
-}
-
-.submit {
-    position: relative;
-    top: 0;
-    border: 2px solid white;
-    background-color: #190B28;
-    color: #EE6C4D;
-    width: 350px;
-    height: 50px;
-    font-size: 20px;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.submit:hover {
-    background-color: #EE6C4D;
-    color: #190B28;
-    transition: 1s;
-}
-
-.message {
-    position: absolute;
-    font-size: 30px;
-    top: 155px;
-    left: 450px;
-    color: #EE6C4D;
-    background-color: #190B28;
-    border: 1px solid #EE6C4D;
-    padding: 10px;
-}
-
-.message hover {
-    background-color: #EE6C4D;
-    color: #190B28;
-    transition: 1s;
-}
-
-.message p {
-    padding-left: 20px;
-}
