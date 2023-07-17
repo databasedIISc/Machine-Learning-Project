@@ -412,7 +412,7 @@ def train_reg_models():
 
 
 @app.route("/train_cls_models", methods = ["GET","POST"])
-def train_reg_models():
+def train_cls_models():
     classification_models=request.form.getlist("classification_models")
     return render_template("test.html", message="Classification Models", message2=classification_models)
     
