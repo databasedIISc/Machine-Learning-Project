@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-image: url('../images/start/bg2.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid white;
+    gap: 10px;
+}
+
+.title {
+    border-bottom: 2px solid white;
+    color: white;
+    font-size: 40px;
+    text-align: center;
+}
+
+.datasize {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 2px solid white;
+    justify-content: space-between;
+    color: aquamarine;   
+}
+
+.datasize p {
+    font-size: 25px;
+    padding-bottom: 10px;
+    padding: 10px;
+}
+
+.models {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border: 2px solid white;
+    justify-content: space-around;
+    
+}
+
+.models div {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    border: 1px solid white;
+    background-color: #190b288b;
+    border-radius: 3px;
+    width: 300px;
+    height: 100px;
+    text-align: center;
+    font-size: 20px;
+    padding: 10px;
+    gap: 20px;    
+}
+
+.models div button {
+    font-family: inherit;
+    width: 100px;
+    height: 40px;
+    border-radius: 3px;
+    border: 1px solid white;
+    background-color: #190b288b;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 10px;
+    
+}
+
+.form div {
+    display: flex;
+    flex-direction: column;
+    color: rgb(220, 220, 28);
+    border: 2px solid white;
+    
+}
+
+
+.submit {
+    justify-content: space-around;
+    align-items: center;
+    border: 2px solid white;
+    width: 300px;
+    height: 200px;
+    color: white;
+    background-color: #190b288b;
+    border-radius: 3px;
+    font-size: 20px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.head {
+    border-bottom: 2px solid white;
+    color: white;
+    font-size: 40px;
+    text-align: center;
+    padding-bottom: 10px;
+}

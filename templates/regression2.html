@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    <title>Regression</title>
+    <link rel="stylesheet" href="../static/css/regression.css">
+    <script src = ../static/js/slot2.js></script>
+</head>
+<body>
+        <div class="container">
+            <div class="title">Regression Algorithms</div>
+
+            <div class="datasize">
+                <p>Training Size: {{training}}</p>
+                <p>Testing Size: {{testing}}</p>
+            </div>
+
+            <div class="head">
+                Testing
+            </div>
+
+            <div class="models">
+
+                <form action="test_reg_models" class = "form" method="post">
+                    <div class="LinearReg">
+                        Linear Regression
+                        {{accuracy_linear_reg}}
+                    </div>
+    
+                    <div class="Elastic Net">
+                        Elastic Net
+                        {{accuray_elastic_net}}
+                    </div>
+    
+                    <div class="LassoRegression">
+                        Lasso Regression
+                        {{accuracy_lasso_reg}}    
+                    </div>
+    
+                    <div class="SVR">
+                        Support Vector Regression
+                        {{accuracy_svr}}
+                    </div>
+    
+                    <div class="DecisionTreeReg">
+                        Decision Tree Regression
+                        {{accuracy_decision_tree_reg}}
+                    </div>
+    
+                    <div class="RandomForestReg">
+                        Random Forest Regression
+                        {{accuracy_random_forest_reg}}
+                    </div>
+    
+                    <div class="GaussianProcess">
+                        Gaussian Process Regression
+                        {{accuracy_gaussian_process}}
+                    </div>
+
+                    <div class="submit">
+                        <input type="submit" value="Test Models" class = "submit">
+                    </div>
+                </form>
+                
+            </div>
+
+        </div>
+
+        
+</body>
+</html>

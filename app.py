@@ -11,6 +11,24 @@ plt=matplotlib.pyplot
 # This is our main python file that will run the flask app
 app = Flask(__name__)
 
+# To check accuracy of the model
+def check_r2_score(y_test, y_pred):
+    
+    from sklearn.metrics import r2_score
+    score = r2_score(y_test, y_pred)
+    
+    return score
+
+# Linear Regression
+def linear_regression(X_train,y_train):
+    
+    from sklearn.linear_model import LinearRegression
+    linear_regressor=LinearRegression()
+    linear_regressor.fit(X_train,y_train)
+    
+    return linear_regressor
+    
+    
 #Home Page
 @app.route("/")
 def home():
@@ -24,23 +42,20 @@ def introduction():
 #Upload Page
 @app.route("/upload")
 def upload():
-    return render_template("upload.html")
+    return render_template("upload copy.html")
 
 #Receiving the dataset here
-@app.route("/upload", methods=['POST'])
+@app.route("/upload2", methods=['POST'])
 def upload_dataset():
     global df
     if request.method == "POST":
         file = request.files["file"]
         if file:
             df = pd.read_csv(file)
-            next_var=True
-        else:
-            next_var=False
-    return render_template("upload.html", next_var=next_var)
-
+        
+    return redirect(url_for("main_page"))
 #Start
-@app.route("/main_page")
+@app.route("/main_page", methods=["GET","POST"])
 def main_page():
     return render_template("slot2intro.html")
 
@@ -270,7 +285,7 @@ def phase2():
 def boxplots():
     global select_list
     select_list = request.form.getlist("columns") # Feature list selected by user
-    
+    select_list = [i.replace(","," ") for i in select_list]
     if(len(select_list) != 1):
         return render_template("missvalue2.html", message="Please select exactly one feature")
     x=df.isnull().sum().to_list()
@@ -357,8 +372,9 @@ def encode():
 
 @app.route("/encode_it",methods=["GET","POST"])
 def encode_1():
-    
+    global df1
     df[feature]=[encodings[x] for x in df[feature]]
+    df1= df.copy()
     return redirect(url_for("phase3"))
 
 @app.route("/phase4")
@@ -370,6 +386,79 @@ def phase4():
 def phase5():
     return render_template("ML_intro.html")
 
+@app.route("/show_tts")
+def tts():
+    return render_template("tts.html",columns=df.columns.to_list())
+    
+@app.route("/start_machine", methods = ["GET","POST"])
+def start_machine():
+    global X_train,X_test,y_train,y_test
+    test=request.form.get("test_size")
+    problem=request.form.get("problem")
+    
+    target = request.form.getlist('columns')
+    target = [i.replace(","," ") for i in target]
+    target=target[0]
+    
+    training = request.form.getlist('columns1')
+    training = [i.replace(","," ") for i in training]
+    
+    # Separating Independent and Dependent Features
+    X = df[training]
+    y=df[target]
+    
+    
+    #splitting
+    from sklearn.model_selection import train_test_split
+    X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=float(test),random_state=42)
+    
+    #scaling the data
+    from sklearn.preprocessing import StandardScaler
+    scaler=StandardScaler()
+    X_train=scaler.fit_transform(X_train)
+    X_test=scaler.transform(X_test)
+    
+    
+    if problem=="Regression":
+        return render_template("regression.html", test_size=test,
+                               training=X_train.shape, testing=X_test.shape)
+    else:
+        return render_template("classification.html", test_size=test,
+                               training=X_train.shape, testing=X_test.shape)
+    
+    
+@app.route("/train_reg_models", methods = ["GET","POST"])
+def train_reg_models():
+    global regression_models, linear_regressor
+    regression_models=request.form.getlist("regression_models")
+    for i in regression_models:
+        if i == "linear_reg":
+            linear_regressor=linear_regression(X_train,y_train)
+    return render_template("regression2.html")
+
+
+@app.route("/train_cls_models", methods = ["GET","POST"])
+def train_cls_models():
+    global classification_models
+    classification_models=request.form.getlist("classification_models")
+    return render_template("classification.html")
+    
+    
+@app.route("/test_reg_models", methods = ["GET","POST"])
+def test_reg_models():
+    for i in regression_models:
+        if i == "linear_reg":
+            linear_reg_pred=linear_regressor.predict(X_test)
+            
+    linear_reg_score = check_r2_score(y_test,linear_reg_pred)
+    return render_template("regression2.html",accuracy_linear_reg = linear_reg_score)
+    
+    
+@app.route("/test_cls_models", methods = ["GET","POST"])
+def test_cls_models():
+    return render_template("classification2.html", message="Classification Models", message2=classification_models)
+    
+    
 if __name__=="__main__":
     app.run(host="0.0.0.0")
 

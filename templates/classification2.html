@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    <title>Classification</title>
+    <link rel="stylesheet" href="../static/css/classification.css">
+    <script src = ../static/js/models.js></script>
+</head>
+<body>
+        <div class="container">
+            <div class="title">Classification Algorithms</div>
+
+            <div class="datasize">
+                <p>Training Size: {{training}}</p>
+                <p>Testing Size: {{testing}}</p>
+            </div>
+
+            <div class="head">
+                Training
+            </div>
+
+            <div class="models">
+                <form action="test_cls_models" class = "form" method="post">
+                    <div class="Logistic">
+                        Logistic Regression
+                        {{accuracy_logistic}}
+                    </div>
+
+                    <div class="NaiveBayes">
+                        Naive Bayes
+                        {{accuracy_naive_bayes}}
+                    </div>
+
+                    <div class="KNN">
+                        K Nearest Neighbors
+                        {{accuracy_knn}}
+                    </div>
+
+                    <div class="SVR">
+                        Support Vector Classifier
+                        {{accuracy_svr}}
+                    </div>
+
+                    <div class="DecisionTreeCLS">
+                        Decision Tree Classifier
+                        {{accuracy_decision_tree_cls}}
+                    </div>
+
+                    <div class="RandomForestCLS">
+                        Random Forest Classifier
+                        {{accuracy_random_forest_cls}}
+                    </div>
+
+                    <div class="GaussianProcess">
+                        Gaussian Process Classifier
+                        {{accuracy_gaussian_process}}
+                    </div>
+
+                    <div class="submit">
+                        <input type="submit" value="Test Models" class = "submit">
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+        
+</body>
+</html>
