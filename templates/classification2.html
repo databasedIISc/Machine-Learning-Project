@@ -23,37 +23,44 @@
             </div>
 
             <div class="models">
-                <form action="train_cls_models" class = "form" method="post">
+                <form action="test_cls_models" class = "form" method="post">
                     <div class="Logistic">
-                        <input type="checkbox" name="classification_models" id ="classification_models" value = "logistic">Logistic Regression
+                        Logistic Regression
+                        {{accuracy_logistic}}
                     </div>
 
                     <div class="NaiveBayes">
-                        <input type="checkbox" name="classification_models" id ="classification_models" value = "naive_bayes">Naive Bayes
+                        Naive Bayes
+                        {{accuracy_naive_bayes}}
                     </div>
 
                     <div class="KNN">
-                        <input type="checkbox" name="classification_models" id ="classification_models" value = "knn">K Nearest Neighbors
+                        K Nearest Neighbors
+                        {{accuracy_knn}}
                     </div>
 
                     <div class="SVR">
-                        <input type="checkbox" name="classification_models" id ="classification_models" value = "svr">Support Vector Classifier
+                        Support Vector Classifier
+                        {{accuracy_svr}}
                     </div>
 
                     <div class="DecisionTreeCLS">
-                        <input type="checkbox" name="classification_models" id ="classification_models" value = "decision_tree_cls">Decision Tree Classifier
+                        Decision Tree Classifier
+                        {{accuracy_decision_tree_cls}}
                     </div>
 
                     <div class="RandomForestCLS">
-                        <input type="checkbox" name="classification_models" id ="classification_models" value = "random_forest_cls">Random Forest Classifier
+                        Random Forest Classifier
+                        {{accuracy_random_forest_cls}}
                     </div>
 
                     <div class="GaussianProcess">
-                        <input type="checkbox" name="classification_models" id ="classification_models" value = "gaussian_process">Gaussian Process Classifier
+                        Gaussian Process Classifier
+                        {{accuracy_gaussian_process}}
                     </div>
 
                     <div class="submit">
-                        <input type="submit" value="Start Training" class = "submit">
+                        <input type="submit" value="Test Models" class = "submit">
                     </div>
                 </form>
             </div>

@@ -11,6 +11,24 @@ plt=matplotlib.pyplot
 # This is our main python file that will run the flask app
 app = Flask(__name__)
 
+# To check accuracy of the model
+def check_r2_score(y_test, y_pred):
+    
+    from sklearn.metrics import r2_score
+    score = r2_score(y_test, y_pred)
+    
+    return score
+
+# Linear Regression
+def linear_regression(X_train,y_train):
+    
+    from sklearn.linear_model import LinearRegression
+    linear_regressor=LinearRegression()
+    linear_regressor.fit(X_train,y_train)
+    
+    return linear_regressor
+    
+    
 #Home Page
 @app.route("/")
 def home():
@@ -370,13 +388,11 @@ def phase5():
 
 @app.route("/show_tts")
 def tts():
-    df=pd.read_csv("winequalityN.csv") #Remove it
     return render_template("tts.html",columns=df.columns.to_list())
     
 @app.route("/start_machine", methods = ["GET","POST"])
 def start_machine():
     global X_train,X_test,y_train,y_test
-    df=pd.read_csv("winequalityN.csv") #Remove it
     test=request.form.get("test_size")
     problem=request.form.get("problem")
     
@@ -396,6 +412,12 @@ def start_machine():
     from sklearn.model_selection import train_test_split
     X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=float(test),random_state=42)
     
+    #scaling the data
+    from sklearn.preprocessing import StandardScaler
+    scaler=StandardScaler()
+    X_train=scaler.fit_transform(X_train)
+    X_test=scaler.transform(X_test)
+    
     
     if problem=="Regression":
         return render_template("regression.html", test_size=test,
@@ -407,14 +429,34 @@ def start_machine():
     
 @app.route("/train_reg_models", methods = ["GET","POST"])
 def train_reg_models():
+    global regression_models, linear_regressor
     regression_models=request.form.getlist("regression_models")
-    return render_template("test.html", message="Regression Models", message2=regression_models)
+    for i in regression_models:
+        if i == "linear_reg":
+            linear_regressor=linear_regression(X_train,y_train)
+    return render_template("regression2.html")
 
 
 @app.route("/train_cls_models", methods = ["GET","POST"])
 def train_cls_models():
+    global classification_models
     classification_models=request.form.getlist("classification_models")
-    return render_template("test.html", message="Classification Models", message2=classification_models)
+    return render_template("classification.html")
+    
+    
+@app.route("/test_reg_models", methods = ["GET","POST"])
+def test_reg_models():
+    for i in regression_models:
+        if i == "linear_reg":
+            linear_reg_pred=linear_regressor.predict(X_test)
+            
+    linear_reg_score = check_r2_score(y_test,linear_reg_pred)
+    return render_template("regression2.html",accuracy_linear_reg = linear_reg_score)
+    
+    
+@app.route("/test_cls_models", methods = ["GET","POST"])
+def test_cls_models():
+    return render_template("classification2.html", message="Classification Models", message2=classification_models)
     
     
 if __name__=="__main__":

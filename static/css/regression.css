@@ -83,7 +83,17 @@ body {
     flex-wrap: wrap;
     justify-content: space-around;
     gap: 10px;
+    
 }
+
+.form div {
+    display: flex;
+    flex-direction: column;
+    color: rgb(220, 220, 28);
+    border: 2px solid white;
+    
+}
+
 
 .submit {
     justify-content: space-around;
