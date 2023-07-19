@@ -27,6 +27,34 @@ def linear_regression(X_train,y_train):
     linear_regressor.fit(X_train,y_train)
     
     return linear_regressor
+
+# Ridge Regression
+def ridge_regression(X_train,y_train):
+    
+    from sklearn.linear_model import Ridge
+    ridge_regressor=Ridge()
+    ridge_regressor.fit(X_train,y_train)
+    
+    return ridge_regressor
+
+# Lasso Regression
+def lasso_regression(X_train,y_train):
+    
+    from sklearn.linear_model import Lasso
+    lasso_regressor=Lasso()
+    lasso_regressor.fit(X_train,y_train)
+    
+    return lasso_regressor
+
+
+# Elastic NET  Regression
+def elastic_net_regression(X_train,y_train):
+    
+    from sklearn.linear_model import ElasticNet
+    elastic_net_regressor=ElasticNet()
+    elastic_net_regressor.fit(X_train,y_train)
+    
+    return elastic_net_regressor
     
     
 #Home Page
@@ -429,11 +457,22 @@ def start_machine():
     
 @app.route("/train_reg_models", methods = ["GET","POST"])
 def train_reg_models():
-    global regression_models, linear_regressor
+    global regression_models, linear_regressor, ridge_regressor, lasso_regressor, elastic_net_regressor
     regression_models=request.form.getlist("regression_models")
     for i in regression_models:
+        
         if i == "linear_reg":
             linear_regressor=linear_regression(X_train,y_train)
+            
+        if i == "ridge_reg":
+            ridge_regressor=ridge_regression(X_train,y_train)
+            
+        if i == "lasso_reg":
+            lasso_regressor=lasso_regression(X_train,y_train)
+            
+        if i == "elastic_net":
+            elastic_net_regressor=elastic_net_regression(X_train,y_train)
+            
     return render_template("regression2.html")
 
 
@@ -447,16 +486,33 @@ def train_cls_models():
 @app.route("/test_reg_models", methods = ["GET","POST"])
 def test_reg_models():
     for i in regression_models:
+        
         if i == "linear_reg":
             linear_reg_pred=linear_regressor.predict(X_test)
+            linear_reg_score = check_r2_score(y_test,linear_reg_pred)
             
-    linear_reg_score = check_r2_score(y_test,linear_reg_pred)
-    return render_template("regression2.html",accuracy_linear_reg = linear_reg_score)
+        if i == "ridge_reg":
+            ridge_reg_pred=ridge_regressor.predict(X_test)
+            ridge_reg_score = check_r2_score(y_test,ridge_reg_pred)
+            
+        if i == "lasso_reg":
+            lasso_reg_pred=lasso_regressor.predict(X_test)
+            lasso_reg_score = check_r2_score(y_test,lasso_reg_pred)
+            
+        if i == "elastic_net":
+            elastic_net_pred=elastic_net_regressor.predict(X_test)
+            elastic_net_score = check_r2_score(y_test,elastic_net_pred)
+            
+        
+    return render_template("regression2.html",training=X_train.shape,
+                           testing=X_test.shape, accuracy_linear_reg = linear_reg_score,accuracy_ridge_reg = ridge_reg_score,
+                           accuracy_lasso_reg = lasso_reg_score, accuray_elastic_net=elastic_net_score)
     
     
 @app.route("/test_cls_models", methods = ["GET","POST"])
 def test_cls_models():
-    return render_template("classification2.html", message="Classification Models", message2=classification_models)
+    return render_template("classification2.html",training=X_train.shape,
+                           testing=X_test.shape)  
     
     
 if __name__=="__main__":

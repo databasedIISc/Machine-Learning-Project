@@ -25,19 +25,21 @@
             <div class="models">
 
                 <form action="train_reg_models" class = "form" method="post">
+
                     <div class="LinearReg">
-                        
                         <input type="checkbox" name="regression_models" id ="regression_models" value = "linear_reg">Linear Regression
                     </div>
-    
-                    <div class="Elastic Net">
-                        
-                        <input type="checkbox" name="regression_models" id ="regression_models" value = "elastic_net">Elastic Net
-                        
+
+                    <div class="RidgeRegression">
+                        <input type="checkbox" name="regression_models" id = "regression_models" value = "ridge_reg">Ridge Regression
                     </div>
-    
+
                     <div class="LassoRegression">
                         <input type="checkbox" name="regression_models" id = "regression_models" value = "lasso_reg">Lasso Regression
+                    </div>
+
+                    <div class="Elastic Net">
+                        <input type="checkbox" name="regression_models" id ="regression_models" value = "elastic_net">Elastic Net
                     </div>
     
                     <div class="SVR">
