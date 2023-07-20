@@ -1,65 +1,216 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     
+        <!-- Old External CSS -->
+        <!-- <link rel="stylesheet" href="../static/css/classification.css"> -->
+
+        <!-- fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
     
-    <title>Classification</title>
-    <link rel="stylesheet" href="../static/css/classification.css">
-    <script src = ../static/js/models.js></script>
-</head>
-<body>
+        <title>Classification</title>
+            
+        <style>
+    
+            body {
+                background-image: url("../static/images/start/bg2.jpg");
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-color: #050111;
+               
+            }
+    
+            .container {
+                background-color: #f3eff9;
+                margin-top: 3rem;
+                margin-bottom: 3rem;
+                padding: 0;
+                border-radius: 1rem;
+            }
+    
+            .top {
+                background-color: #dcc0fd;
+                border-radius: 1rem 1rem 0 0;
+               
+            }
+    
+            h1 {
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 900;
+                text-align: center;
+                font-size: 6vw;
+                color: #1b0e42;
+                padding: 2rem 1rem 1rem 1rem;
+                
+            }
+
+            h2 {
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 900;
+                text-align: center;
+                font-size: 1.5rem;
+                color: #1b0e42;
+                padding: 1rem;
+                /* background-color:#f2e6ff; */
+            }
+    
+            h3 {
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 700;
+                text-align: center;
+                font-size: 1rem;
+                margin: auto;
+                padding: 1rem;
+                color: #7108c1;
+            }
+           
+    
+            .start-button {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+    
+            .btn-primary {
+                text-align: center;
+                background-color: #7108c1;
+                border: 2pt solid #f2e6ff;
+                font-family: 'Open Sans', sans-serif;
+                font-size: larger;
+                width: 80%;               
+                height:50%; 
+                margin: 1rem;
+                border-radius: 20px;
+                
+            }
+
+            .form-check-input {
+                padding: 1vw;
+                border-radius: 50% !important;
+            }
+
+            .models {
+                padding-left: 1.5rem;
+                padding-bottom: 2rem;
+            }
+
+            .model {
+                padding: 1rem;
+                margin: 1%;
+                width: 45%;
+                border-radius: 20px;
+                background-image: url("../static/images/regression/regression.png");
+                background-size: cover;
+                background-color: #050111;
+                box-shadow: 2px 2px 15px 2px #05011160 !important;
+            }
+
+            .modelHighlighted{
+                background-image: url("../static/images/regression/regression-highlighted.png");
+                box-shadow: 3px 3px 6px 3px #05011140 !important;
+            }
+
+            .model-name{
+                color: white;
+                font-size: 1rem;
+                padding-bottom: 3rem;
+                text-align: center;
+            }
+
+            p {
+                margin-bottom: 0;
+            }      
+        </style>
+    </head>
+    <body>
+
         <div class="container">
-            <div class="title">Classification Algorithms</div>
 
-            <div class="datasize">
-                <p>Training Size: {{training}}</p>
-                <p>Testing Size: {{testing}}</p>
+            <div class="top">
+                <h1>Classification Algorithms</h1>
             </div>
 
-            <div class="head">
-                Training
+            <div class="row datasize">
+                <div class="col-md-6 col-12">
+                    <h3>Training Size: {{training}}</h3>
+                </div>
+                <div class="col-md-6 col-12">
+                    <h3>Testing Size: {{testing}}</h3>
+                </div>
             </div>
 
-            <div class="models">
-                <form action="train_cls_models" class = "form" method="post">
-                    <div class="Logistic">
-                        <input type="checkbox" name="classification_models" id ="classification_models" value = "logistic">Logistic Regression
-                    </div>
-
-                    <div class="NaiveBayes">
-                        <input type="checkbox" name="classification_models" id ="classification_models" value = "naive_bayes">Naive Bayes
-                    </div>
-
-                    <div class="KNN">
-                        <input type="checkbox" name="classification_models" id ="classification_models" value = "knn">K Nearest Neighbors
-                    </div>
-
-                    <div class="SVR">
-                        <input type="checkbox" name="classification_models" id ="classification_models" value = "svr">Support Vector Classifier
-                    </div>
-
-                    <div class="DecisionTreeCLS">
-                        <input type="checkbox" name="classification_models" id ="classification_models" value = "decision_tree_cls">Decision Tree Classifier
-                    </div>
-
-                    <div class="RandomForestCLS">
-                        <input type="checkbox" name="classification_models" id ="classification_models" value = "random_forest_cls">Random Forest Classifier
-                    </div>
-
-                    <div class="GaussianProcess">
-                        <input type="checkbox" name="classification_models" id ="classification_models" value = "gaussian_process">Gaussian Process Classifier
-                    </div>
-
-                    <div class="submit">
-                        <input type="submit" value="Start Training" class = "submit">
-                    </div>
-                </form>
+            <div class="row training-head">
+                <div class="col-12 "><h2>Training</h2></div>
             </div>
 
+            <form action="/train_cls_models" class = "form" method="post">
+                <div class="row models">                
+
+                    <div class="col-12 col-sm-6 logistic model">
+                        <input type="checkbox" name="classification_models" id ="classification_models" value = "logistic" class="form-check-input">
+                        <h3 class="model-name">Logistic Regression</h3> 
+                    </div>
+
+                    <div class="col-12 col-sm-6 naive_bayes model">
+                        <input type="checkbox" name="classification_models" id ="classification_models" value = "naive_bayes" class="form-check-input">
+                        <h3 class="model-name">Naive Bayes</h3>
+                    </div>
+
+                    <div class="col-12 col-sm-6 knn model">
+                        <input type="checkbox" name="classification_models" id = "classification_models" value = "knn" class="form-check-input">
+                        <h3 class="model-name">K Nearest Neighbors</h3>
+                    </div>
+
+                    <div class="col-12 col-sm-6 svr model">
+                        <input type="checkbox" name="classification_models" id = "classification_models" value = "svr" class="form-check-input">
+                        <h3 class="model-name">Support Vector Classifier</h3>
+                    </div>
+                        
+                    <div class="col-12 col-sm-6 decision_tree_cls model">
+                        <input type="checkbox" name="classification_models" id="classification_models" value = "decision_tree_cls" class="form-check-input">
+                        <h3 class="model-name">Decision Tree Classifier</h3>
+                    </div>
+    
+                    <div class="col-12 col-sm-6 random_forest_cls model">
+                        <input type="checkbox" name="classification_models" id ="classification_models" value = "random_forest_cls" class="form-check-input">
+                        <h3 class="model-name">Random Forest Classifier</h3>
+                    </div>
+    
+                    <div class="col-12 col-sm-6 gaussian_process model">
+                        <input type="checkbox" name="classification_models" id="classification_models" value = "gaussian_process" class="form-check-input">
+                        <h3 class="model-name">Gaussian Process Classifier</h3>
+                    </div>
+
+                    <div class="col-12 col-sm-6  start-button">
+                        <button type="submit" value="Start Training" class = "submit btn btn-primary"><p>Start Training</p></button>
+                    </div>
+                
+                </div>
+            </form>
         </div>
+        <script src = ../static/js/models.js></script>
 
-        
-</body>
+        <script>
+            var checkboxes = document.getElementsByName("classification_models")
+            var noOfCheckboxes = checkboxes.length;
+            for (let i = 0; i < noOfCheckboxes; i++) {
+                checkboxes[i].addEventListener("click", function() {
+                    var clName = this.value;
+                    document.querySelector("." + clName).classList.toggle("modelHighlighted");
+                });
+            }
+        </script>
+
+    </body>
+
 </html>

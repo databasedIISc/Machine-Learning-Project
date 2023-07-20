@@ -1,70 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    
-    <title>Regression</title>
-    <link rel="stylesheet" href="../static/css/regression.css">
-    <script src = ../static/js/slot2.js></script>
-</head>
-<body>
-        <div class="container">
-            <div class="title">Regression Algorithms</div>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-            <div class="datasize">
-                <p>Training Size: {{training}}</p>
-                <p>Testing Size: {{testing}}</p>
-            </div>
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    
+        <!-- Old External CSS -->
+        <!-- <link rel="stylesheet" href="../static/css/regression.css"> -->
 
-            <div class="head">
-                Training
-            </div>
 
-            <div class="models">
-
-                <form action="train_reg_models" class = "form" method="post">
-                    <div class="LinearReg">
-                        
-                        <input type="checkbox" name="regression_models" id ="regression_models" value = "linear_reg">Linear Regression
-                    </div>
+        <!-- fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
     
-                    <div class="Elastic Net">
-                        
-                        <input type="checkbox" name="regression_models" id ="regression_models" value = "elastic_net">Elastic Net
-                        
-                    </div>
+        <title>Regression</title>
+            
+        <style>
     
-                    <div class="LassoRegression">
-                        <input type="checkbox" name="regression_models" id = "regression_models" value = "lasso_reg">Lasso Regression
-                    </div>
+            body {
+                background-image: url("../static/images/start/bg2.jpg");
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-color: #050111;
+               
+            }
     
-                    <div class="SVR">
-                        <input type="checkbox" name="regression_models" id = "regression_models" value = "svr">  Support Vector Regression
-                    </div>
+            .container {
+                background-color: #f3eff9;
+                margin-top: 3rem;
+                margin-bottom: 3rem;
+                padding: 0;
+                border-radius: 1rem;
+            }
     
-                    <div class="DecisionTreeReg">
-                        <input type="checkbox" name="regression_models" id="regression_models" value = "decision_tree_reg">    Decision Tree Regression
-                    </div>
+            .top {
+                background-color: #dcc0fd;
+                border-radius: 1rem 1rem 0 0;
+               
+            }
     
-                    <div class="RandomForestReg">
-                        <input type="checkbox" name="regression_models" id ="regression_models" value = "random_forest_reg">    Random Forest Regression
-                    </div>
-    
-                    <div class="GaussianProcess">
-                        <input type="checkbox" name="regression_models" id="regression_models" value = "gaussian_process">   Gaussian Process Regression
-                    </div>
-
-                    <div class="submit">
-                        <input type="submit" value="Start Training" class = "submit">
-                    </div>
-                </form>
+            h1 {
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 900;
+                text-align: center;
+                font-size: 6vw;
+                color: #1b0e42;
+                padding: 2rem 1rem 1rem 1rem;
                 
+            }
+
+            h2 {
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 900;
+                text-align: center;
+                font-size: 1.5rem;
+                color: #1b0e42;
+                padding: 1rem;
+                /* background-color:#f2e6ff; */
+            }
+    
+            h3 {
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 700;
+                text-align: center;
+                font-size: 1rem;
+                margin: auto;
+                padding: 1rem;
+                color: #7108c1;
+            }
+           
+    
+            .start-button {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+    
+            .btn-primary {
+                text-align: center;
+                background-color: #7108c1;
+                border: 2pt solid #f2e6ff;
+                font-family: 'Open Sans', sans-serif;
+                font-size: larger;
+                width: 80%;               
+                height:50%; 
+                margin: 1rem;
+                border-radius: 20px;
+                
+            }
+
+            .form-check-input {
+                padding: 1vw;
+                border-radius: 50% !important;
+            }
+
+            .models {
+                padding-left: 1.5rem;
+                padding-bottom: 2rem;
+            }
+
+            .model {
+                padding: 1rem;
+                margin: 1%;
+                width: 45%;
+                border-radius: 20px;
+                background-image: url("../static/images/regression/regression.png");
+                background-size: cover;
+                background-color: #050111;
+                box-shadow: 2px 2px 15px 2px #05011160 !important;
+            }
+
+            .modelHighlighted{
+                background-image: url("../static/images/regression/regression-highlighted.png");
+                box-shadow: 3px 3px 6px 3px #05011140 !important;
+            }
+
+            .model-name{
+                color: white;
+                font-size: 1rem;
+                padding-bottom: 3rem;
+                text-align: center;
+            }
+
+            p {
+                margin-bottom: 0;
+            }      
+        </style>
+    </head>
+    <body>
+
+        <div class="container">
+
+            <div class="top">
+                <h1>Regression Algorithms</h1>
             </div>
 
-        </div>
+            <div class="row datasize">
+                <div class="col-md-6 col-12">
+                    <h3>Training Size: {{training}}</h3>
+                </div>
+                <div class="col-md-6 col-12">
+                    <h3>Testing Size: {{testing}}</h3>
+                </div>
+            </div>
 
-        
-</body>
+            <div class="row training-head">
+                <div class="col-12 "><h2>Training</h2></div>
+            </div>
+
+            <form action="/train_reg_models" class = "form" method="POST">
+                <div class="row models">                
+
+                    <div class="col-12 col-sm-6 linear_reg model">
+                        <input type="checkbox" name="regression_models" id ="regression_models" value = "linear_reg" class="form-check-input">
+                        <h3 class="model-name">Linear Regression</h3> 
+                    </div>
+
+                    <div class="col-12 col-sm-6 elastic_net model">
+                        <input type="checkbox" name="regression_models" id ="regression_models" value = "elastic_net" class="form-check-input">
+                        <h3 class="model-name">Elastic Net</h3>
+                    </div>
+
+                    <div class="col-12 col-sm-6 lasso_reg model">
+                        <input type="checkbox" name="regression_models" id = "regression_models" value = "lasso_reg" class="form-check-input">
+                        <h3 class="model-name">Lasso Regression</h3>
+                    </div>
+
+                    <div class="col-12 col-sm-6 svr model">
+                        <input type="checkbox" name="regression_models" id = "regression_models" value = "svr" class="form-check-input">
+                        <h3 class="model-name">Support Vector Regression</h3>
+                    </div>
+                        
+                    <div class="col-12 col-sm-6 decision_tree_reg model">
+                        <input type="checkbox" name="regression_models" id="regression_models" value = "decision_tree_reg" class="form-check-input">
+                        <h3 class="model-name">Decision Tree Regression</h3>
+                    </div>
+    
+                    <div class="col-12 col-sm-6 random_forest_reg model">
+                        <input type="checkbox" name="regression_models" id ="regression_models" value = "random_forest_reg" class="form-check-input">
+                        <h3 class="model-name">Random Forest Regression</h3>
+                    </div>
+    
+                    <div class="col-12 col-sm-6 gaussian_process model">
+                        <input type="checkbox" name="regression_models" id="regression_models" value = "gaussian_process" class="form-check-input">
+                        <h3 class="model-name">Gaussian Process Regression</h3>
+                    </div>
+
+                    <div class="col-12 col-sm-6  start-button">
+                        <button type="submit" value="Start Training" class = "submit btn btn-primary"><p>Start Training</p></button>
+                    </div>
+                
+                </div>
+            </form>
+        </div>
+        <script src = ../static/js/slot2.js></script>
+
+        <script>
+            var checkboxes = document.getElementsByName("regression_models")
+            var noOfCheckboxes = checkboxes.length;
+            for (let i = 0; i < noOfCheckboxes; i++) {
+                checkboxes[i].addEventListener("click", function() {
+                    var clName = this.value;
+                    document.querySelector("." + clName).classList.toggle("modelHighlighted");
+                });
+            }
+        </script>
+
+    </body>
+
 </html>

@@ -50,25 +50,14 @@
             padding: 2rem 1rem 1rem 1rem;
         }
 
-        h3 {
+        .instruction, .instruction-1 {
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
-            text-align: center;
-            font-size: 3vw;
-            margin: 1rem;
-            padding: 0rem 2rem;
+            text-align: left;
+            font-size: 1rem;
+            margin: 1rem 1rem 0rem 1rem;
+            padding: 1rem 2rem 0rem 2rem;
             color: #7108c1;
-        }
-
-        .img-container {
-            display: flex;
-            justify-content: center;
-        }
-
-        .img-steps {
-            width: 70vw;
-            border-radius: 1rem;
-            margin: 1rem 1rem 2rem 1em;            
         }
 
         .choose-box {
@@ -83,34 +72,10 @@
             font-weight: 500;
         }
         
-        ol {
-            margin: 1rem 1rem;
-        }
 
-        li {
-            font-family: 'Open Sans', sans-serif;
-            text-align: left;
-            padding: 0rem 1rem;
-            color: #050111;
-            font-weight: 500;
-        }
-
-        .body-text {
-            margin: 2rem;
-            padding: 1rem;
-            border-radius: 1rem;
-            background-color: #ffffff;
-            transition: transform .5s;
-        }
-
-        .body-text:hover {
-            transform: scale(1.05);
-        }
-
-        .start-button {
+        .proceed-button {
             display: flex;
-            justify-content: center;
-            padding-bottom: 3rem;
+            flex-direction: row;
         }
 
         .btn-primary {
@@ -121,15 +86,31 @@
             border: 2pt solid #f2e6ff;
             font-family: 'Open Sans', sans-serif;
             font-size: larger;
-            display: flex;
             justify-content: center;
             align-items: center;
+            margin: auto;
+            margin-top: 3rem;
         }
 
 
         .body-img {
             width: 100%;
         }
+        
+        .row-1 {
+            display: flex;
+        }
+
+        .instruction-1{
+            flex-basis: 40%;
+            margin: 1rem;
+        }
+
+        .test-size-input{
+            flex-basis: 60%;
+            margin-right: 10%;
+        }
+
 
     </style>
 </head>
@@ -141,37 +122,106 @@
             <h1>Split into Training and Testing Part</h1>
         </div>
 
-        <div class="choose-box">
+        <div class="container choose-box">
           <form action="/start_machine" method = "POST" enctype = "multipart/form-data" target="_blank">
-            <p>Enter Test Size</p>
-            <input type="float" name="test_size" id="test_size" class="file" placeholder="Enter between 0 and 1">
-            <br><br>
-            <p>Select Problem Statement</p>
-            <input type = "checkbox" id = "problem" name = "problem" value = "Regression"> Regression
-            <input type = "checkbox" id = "problem" name = "problem" value = "Classification"> Classification
-            <br><br>
-            <p>Select Target Feature</p>
-            {% for column in columns %}
-                <input type = "checkbox" id = "columns" name = "columns" value = {{column.replace(" ",",")}}> {{column}}
-            {% endfor %}
-            <br><br>
-            <p>Select Training Features</p>
-            {% for column in columns %}
-                <input type = "checkbox" id = "columns1" name = "columns1" value = {{column.replace(" ",",")}}> {{column}}
-            {% endfor %}
-            <br><br>
-            <input type="submit" value="Proceed" class="submit">
-    </form>
 
+            <div class="row">
+                <div class="col row-1">
+                    <p class="instruction-1">Enter Test Size</p>
+                    <input type="number" name="test_size" min="0" max="1" id="test_size" class="file test-size-input form-control" placeholder="Enter a number between 0 and 1" step = ".01">
+                </div>
+            </div>
 
-        </div>
-            
-        
+            <div class="row">
+                <div class="col-12">
+                    <p class="instruction">Select Problem Statement</p>
+                </div>
+            </div>
 
+            <div class="row ps-5">
+                <div class="col-md-4 col-sm-12">
+                    <input type = "checkbox" id = "problem-1" name = "problem" value = "Regression" class="form-check-input problem-check"> Regression
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <input type = "checkbox" id = "problem-2" name = "problem" value = "Classification" class="form-check-input problem-check"> Classification
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <input type = "checkbox" id = "problem-select-all" name = "problem" value = "Select All" class="form-check-input problem-check"> Select All
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <p class="instruction">Select Target Feature</p>
+                </div>
+            </div>
+
+            <div class="row ps-5">
+                <div class="col-12">
+                    {% for column in columns %}
+                    <input type = "checkbox" id = "columns" name = "columns" value = {{column.replace(" ",",")}} class="form-check-input target-check"> {{column}}
+                    {% endfor %}
+                </div>
+                <div class="col-12">
+                    <input type = "checkbox" id = "target-select-all" value = "Select All" class="form-check-input target-check"> Select All
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <p class="instruction">Select Training Features</p>
+                </div>
+            </div>
+
+            <div class="row ps-5">
+                <div class="col">
+                    {% for column in columns %}
+                    <input type = "checkbox" id = "columns1" name = "columns1" value = {{column.replace(" ",",")}} class="form-check-input training-check"> {{column}}
+                    {% endfor %}
+                </div>
+                <div class="col-12">
+                    <input type = "checkbox" id = "training-select-all" value = "Select All" class="form-check-input training-check"> Select All
+                </div>
+            </div>
+
+            <div class="proceed-button">
+                <button type="submit" class="submit btn btn-primary">Proceed</button>
+            </div>
+
+          </form>
+          
+        </div>    
     </div>
+
+    <script>
+
+        var problemSelectAll = document.getElementById("problem-select-all");
+        problemSelectAll.addEventListener("click", function(){
+            for (let i = 0; i < document.querySelectorAll(".problem-check").length; i++){
+                document.querySelectorAll(".problem-check")[i].checked = problemSelectAll.checked;
+            }
+        });
+
+        var targetSelectAll = document.getElementById("target-select-all");
+        targetSelectAll.addEventListener("click", function(){
+            for (let i = 0; i < document.querySelectorAll(".target-check").length; i++){
+                document.querySelectorAll(".target-check")[i].checked = targetSelectAll.checked;
+            }
+        });
+
+        var trainingSelectAll = document.getElementById("training-select-all");
+        trainingSelectAll.addEventListener("click", function(){
+            for (let i = 0; i < document.querySelectorAll(".training-check").length; i++){
+                document.querySelectorAll(".training-check")[i].checked = trainingSelectAll.checked;
+            }
+        });
+
+
+    </script>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     <script src = "../static/js/intro.js"></script>
+    
 
 </body>
 </html>
