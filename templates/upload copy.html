@@ -147,8 +147,23 @@
             <input type="file" name="file" id="file" class="file" accept = ".csv">
             <input type="submit" value="Upload" class="submit">
         
-    </form>
+          </form>
         </div>
+
+        <div class="done">
+          <h2>
+            {% if next_var %}
+              Upload Succcessful
+            {% else %}
+              No file Uploaded
+            {% endif %}
+          </h2>
+        </div>
+        {% if next_var %}
+          <button class = "success" onclick = "reachmain()">
+            Next
+          </button>
+        {% endif %}
             
         
 
