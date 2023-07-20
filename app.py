@@ -67,6 +67,42 @@ def elastic_net_regression(X_train,y_train):
     elastic_net_regressor.fit(X_train,y_train)
     
     return elastic_net_regressor
+
+# Decision Tree Regression
+def decision_tree_regression(X_train,y_train):
+    
+    from sklearn.tree import DecisionTreeRegressor
+    tree=DecisionTreeRegressor(random_state=0)
+    tree.fit(X_train,y_train)
+    
+    return tree
+
+# Decision Tree Classification
+def decision_tree_classification(X_train,y_train):
+    
+    from sklearn.tree import DecisionTreeClassifier
+    tree = DecisionTreeClassifier(random_state=0)
+    tree.fit(X_train,y_train)
+    
+    return tree
+
+# Extra Tree Regression
+def extra_tree_regression(X_train,y_train):
+    
+    from sklearn.tree import ExtraTreeRegressor
+    tree=ExtraTreeRegressor(random_state=0)
+    tree.fit(X_train,y_train)
+    
+    return tree
+
+# Extra Tree Classification
+def extra_tree_classification(X_train,y_train):
+    
+    from sklearn.tree import ExtraTreeClassifier
+    tree=ExtraTreeClassifier(random_state=0)
+    tree.fit(X_train,y_train)
+    
+    return tree
     
     
 #Home Page
@@ -473,8 +509,11 @@ def train_reg_models():
         if i == "linear_reg":
             return render_template("models/LinearRegression/LinearRegression.html",
                                    target=target, trains=training)
-            
-    return render_template("regression2.html")
+        if i == "decision_tree_reg":
+            return render_template("models/DecisionTree/DecisionTreeRegressor.html",
+                                   target=target, trains=training)
+        
+        return render_template("regression2.html")
 
 @app.route("/train_linear_reg", methods = ["GET","POST"])
 def train_linear_reg():
@@ -529,14 +568,61 @@ def visualize_linear_reg():
                            graph1="static/images/models/LinearRegression/linear_reg.png")
 
 
+@app.route("/train_decision_tree_reg", methods = ["GET","POST"])
+def train_decision_tree_reg():
+
+    global decision_tree_regressor
+    tree=request.form.get("tree")
+    
+    if tree == "ExtraTreeRegressor":
+        decision_tree_regressor=extra_tree_regression(X_train,y_train)
+        return render_template("models/DecisionTree/DecisionTreeRegressor.html",
+                            target=target, trains=training,train_status="ExtraTree is trained Successfully")    
+    else:
+        decision_tree_regressor=decision_tree_regression(X_train,y_train)
+        return render_template("models/DecisionTree/DecisionTreeRegressor.html",
+                            target=target, trains=training,train_status="Model is trained Successfully")
+        
+@app.route("/test_decision_tree_reg", methods = ["GET","POST"])
+def test_decision_tree_reg():
+    
+    score=check_r2_score(y_test,decision_tree_regressor.predict(X_test))
+    score=score*100
+    return jsonify({"score":score})
+
+
 @app.route("/train_cls_models", methods = ["GET","POST"])
 def train_cls_models():
     global classification_models
     classification_models=request.form.getlist("classification_models")
-    return render_template("classification.html")
     
-    
+    for i in classification_models:
+        
+        if i == "decision_tree_cls":
+            return render_template("models/DecisionTree/DecisionTreeClassifier.html",
+                                   target=target, trains=training)
 
+
+@app.route("/train_decision_tree_classifier", methods = ["GET","POST"])
+def train_decision_tree_classifier():
+    global decision_tree_classifier
+    tree = request.form.get("tree")
+    
+    if tree == "ExtraTreeClassifier":
+        decision_tree_classifier=extra_tree_classification(X_train,y_train)
+        return render_template("models/DecisionTree/DecisionTreeClassifier.html",
+                                target=target, trains=training,train_status="Extra Tree Model is trained Successfully")
+    else:
+        decision_tree_classifier=decision_tree_classification(X_train,y_train)
+        return render_template("models/DecisionTree/DecisionTreeClassifier.html",
+                                target=target, trains=training,train_status="Model is trained Successfully")
+
+@app.route("/test_decision_tree_classifier", methods = ["GET","POST"])
+def test_decision_tree_classifier():
+    
+    score=check_r2_score(y_test,decision_tree_classifier.predict(X_test))
+    score=score*100
+    return jsonify({"score":score})
     
 if __name__=="__main__":
     app.run(host="0.0.0.0")
