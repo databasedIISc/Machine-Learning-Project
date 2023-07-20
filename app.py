@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 import pandas as pd
 import numpy as np
 import matplotlib
@@ -10,6 +10,18 @@ plt=matplotlib.pyplot
 
 # This is our main python file that will run the flask app
 app = Flask(__name__)
+
+
+
+# To scale down training data
+def scale_down(X_train, X_test):
+    
+    from sklearn.preprocessing import StandardScaler
+    scaler=StandardScaler()
+    X_train=scaler.fit_transform(X_train)
+    X_test=scaler.transform(X_test)
+    
+    return X_train, X_test
 
 # To check accuracy of the model
 def check_r2_score(y_test, y_pred):
@@ -28,7 +40,7 @@ def linear_regression(X_train,y_train):
     
     return linear_regressor
 
-# Ridge Regression
+# Ridge Regression (L2 Regularization)
 def ridge_regression(X_train,y_train):
     
     from sklearn.linear_model import Ridge
@@ -37,7 +49,7 @@ def ridge_regression(X_train,y_train):
     
     return ridge_regressor
 
-# Lasso Regression
+# Lasso Regression (L1 Regularization)
 def lasso_regression(X_train,y_train):
     
     from sklearn.linear_model import Lasso
@@ -47,7 +59,7 @@ def lasso_regression(X_train,y_train):
     return lasso_regressor
 
 
-# Elastic NET  Regression
+# Elastic NET  Regression (L1 + L2 Regularization)
 def elastic_net_regression(X_train,y_train):
     
     from sklearn.linear_model import ElasticNet
@@ -417,11 +429,13 @@ def phase5():
 
 @app.route("/show_tts")
 def tts():
+    global df
+    df=pd.read_csv("Real estate.csv")
     return render_template("tts.html",columns=df.columns.to_list())
     
 @app.route("/start_machine", methods = ["GET","POST"])
 def start_machine():
-    global X_train,X_test,y_train,y_test
+    global X_train,X_test,y_train,y_test,training,target
     test=request.form.get("test_size")
     problem=request.form.get("problem")
     
@@ -441,12 +455,6 @@ def start_machine():
     from sklearn.model_selection import train_test_split
     X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=float(test),random_state=42)
     
-    #scaling the data
-    from sklearn.preprocessing import StandardScaler
-    scaler=StandardScaler()
-    X_train=scaler.fit_transform(X_train)
-    X_test=scaler.transform(X_test)
-    
     
     if problem=="Regression":
         return render_template("regression.html", test_size=test,
@@ -458,14 +466,67 @@ def start_machine():
     
 @app.route("/train_reg_models", methods = ["GET","POST"])
 def train_reg_models():
-    global regression_models, linear_regressor
+    global regression_models
     regression_models=request.form.getlist("regression_models")
     for i in regression_models:
         
         if i == "linear_reg":
-            linear_regressor=linear_regression(X_train,y_train)
+            return render_template("models/LinearRegression/LinearRegression.html",
+                                   target=target, trains=training)
             
     return render_template("regression2.html")
+
+@app.route("/train_linear_reg", methods = ["GET","POST"])
+def train_linear_reg():
+    global linear_regressor
+    bias=request.form.get("bias")
+    
+    # is_scale=request.form.get("scaler")
+    # if is_scale=="yes":
+    #     X_train,X_test=scale_down(X_train,X_test)
+    # Above piece of Code is not Working and i do not know why
+    
+    if bias == "L1 Regularization":
+        linear_regressor=lasso_regression(X_train,y_train)
+        return render_template("models/LinearRegression/LinearRegression.html",
+                           target=target, trains=training,train_status="Model is trained Successfully",
+                           message="Click Here")
+        
+    elif bias == "L2 Regularization":
+        linear_regressor=ridge_regression(X_train,y_train)
+        return render_template("models/LinearRegression/LinearRegression.html",
+                           target=target, trains=training,train_status="Model is trained Successfully",
+                           message="Click Here")
+    elif bias == "Both":
+        linear_regressor=ridge_regression(X_train,y_train)
+        return render_template("models/LinearRegression/LinearRegression.html",
+                           target=target, trains=training,train_status="Model is trained Successfully",
+                           message="Click Here")
+    else:
+        linear_regressor=linear_regression(X_train,y_train)
+        return render_template("models/LinearRegression/LinearRegression.html",
+                            target=target, trains=training,train_status="Model is trained Successfully")
+
+@app.route("/test_linear_reg", methods = ["GET","POST"])
+def test_linear_reg():
+    
+    score=check_r2_score(y_test,linear_regressor.predict(X_test))
+    score=score*100
+    return jsonify({"score":score})
+                   
+@app.route("/visualize_linear_reg", methods = ["GET","POST"])
+def visualize_linear_reg():
+    plt.clf()
+    plt.figure(figsize=(15,15))
+    plt.scatter(X_train,y_train,color="red",s=2)
+    plt.plot(X_train,linear_regressor.predict(X_train),color="blue")
+    plt.title("Linear Regression")
+    plt.xlabel("Independent Variable")
+    plt.ylabel("Dependent Variable")
+    plt.savefig("static/images/models/LinearRegression/linear_reg.png", bbox_inches = 'tight')
+    
+    return render_template("models/LinearRegression/LinearRegression2.html",
+                           graph1="static/images/models/LinearRegression/linear_reg.png")
 
 
 @app.route("/train_cls_models", methods = ["GET","POST"])
@@ -475,23 +536,7 @@ def train_cls_models():
     return render_template("classification.html")
     
     
-@app.route("/test_reg_models", methods = ["GET","POST"])
-def test_reg_models():
-    for i in regression_models:
-        
-        if i == "linear_reg":
-            linear_reg_pred=linear_regressor.predict(X_test)
-            linear_reg_score = check_r2_score(y_test,linear_reg_pred)
-        
-    return render_template("regression2.html",training=X_train.shape,
-                           testing=X_test.shape, accuracy_linear_reg = linear_reg_score)
-    
-    
-@app.route("/test_cls_models", methods = ["GET","POST"])
-def test_cls_models():
-    return render_template("classification2.html",training=X_train.shape,
-                           testing=X_test.shape)  
-    
+
     
 if __name__=="__main__":
     app.run(host="0.0.0.0")
