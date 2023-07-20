@@ -148,27 +148,19 @@
                 <div class="col-12 "><h2>Training</h2></div>
             </div>
 
-            <form action="test_reg_models" class = "form" method="post"></form>
+            <form action="/test_reg_models" class = "form" method="post">
                 <div class="row models">                
 
                     <div class="col-12 col-sm-6 linear_reg model">
                         <h3 class="model-name">Linear Regression<br>{{accuracy_linear_reg}}</h3> 
                     </div>
 
-                    <div class="col-12 col-sm-6 elastic_net model">
-                        <h3 class="model-name">Elastic Net<br>{{accuracy_elastic_net}}</h3>
-                    </div>
-
-                    <div class="col-12 col-sm-6 lasso_reg model">
-                        <h3 class="model-name">Lasso Regression<br>{{accuracy_lasso_reg}}</h3>
+                    <div class="col-12 col-sm-6 decision_tree_reg model">
+                        <h3 class="model-name">Decision Tree Regression<br>{{accuracy_decision_tree_reg}}</h3>
                     </div>
 
                     <div class="col-12 col-sm-6 svr model">
                         <h3 class="model-name">Support Vector Regression<br>{{accuracy_svr}}</h3>
-                    </div>
-                        
-                    <div class="col-12 col-sm-6 decision_tree_reg model">
-                        <h3 class="model-name">Decision Tree Regression<br>{{accuracy_decision_tree_reg}}</h3>
                     </div>
     
                     <div class="col-12 col-sm-6 random_forest_reg model">
@@ -180,7 +172,7 @@
                     </div>
 
                     <div class="col-12 col-sm-6  test-button">
-                        <button type="submit" value="Test Models" class = "submit btn btn-primary"><p>Test Models</p></button>
+                        <input type="submit" value="Test Models" class = "submit btn btn-primary">
                     </div>
                 
                 </div>

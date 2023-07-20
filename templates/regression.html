@@ -10,31 +10,7 @@
         <!-- Old External CSS -->
         <!-- <link rel="stylesheet" href="../static/css/regression.css"> -->
 
-<<<<<<< HEAD
-            <div class="head">
-                Training
-            </div>
 
-            <div class="models">
-
-                <form action="train_reg_models" class = "form" method="post">
-
-                    <div class="LinearReg">
-                        <input type="checkbox" name="regression_models" id ="regression_models" value = "linear_reg">Linear Regression
-                    </div>
-
-                    <div class="RidgeRegression">
-                        <input type="checkbox" name="regression_models" id = "regression_models" value = "ridge_reg">Ridge Regression
-                    </div>
-
-                    <div class="LassoRegression">
-                        <input type="checkbox" name="regression_models" id = "regression_models" value = "lasso_reg">Lasso Regression
-                    </div>
-
-                    <div class="Elastic Net">
-                        <input type="checkbox" name="regression_models" id ="regression_models" value = "elastic_net">Elastic Net
-                    </div>
-=======
         <!-- fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -178,7 +154,7 @@
                 <div class="col-12 "><h2>Training</h2></div>
             </div>
 
-            <form action="train_reg_models" class = "form" method="post"></form>
+            <form action="/train_reg_models" class = "form" method="POST">
                 <div class="row models">                
 
                     <div class="col-12 col-sm-6 linear_reg model">
