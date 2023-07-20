@@ -429,8 +429,8 @@ def phase5():
 
 @app.route("/show_tts")
 def tts():
-    global df
-    df=pd.read_csv("Real estate.csv")
+    # global df
+    # df=pd.read_csv("Real estate.csv")
     return render_template("tts.html",columns=df.columns.to_list())
     
 @app.route("/start_machine", methods = ["GET","POST"])
