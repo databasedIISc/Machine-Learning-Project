@@ -621,6 +621,11 @@ def train_cls_models():
         if i == "decision_tree_cls":
             return render_template("models/DecisionTree/DecisionTreeClassifier.html",
                                    target=target, trains=training)
+        if i== "logistic":
+            return render_template("models/LogisticalRegression/Logistic.html",
+                                      target=target, trains=training)
+        
+        
 
 
 @app.route("/train_decision_tree_classifier", methods = ["GET","POST"])
