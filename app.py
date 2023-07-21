@@ -113,12 +113,17 @@ def extra_tree_classification(X_train,y_train):
     return trees
     
 # Logistic Regression
-def logistic_regression(X_train,y_train):
-    
-    from sklearn.linear_model import LogisticRegression
-    log_reg=LogisticRegression(random_state=0)
-    log_reg.fit(X_train,y_train)
-    return log_reg
+def logistic_regression(X_train,y_train,type):
+    if type=="Binary":
+        from sklearn.linear_model import LogisticRegression
+        log_reg=LogisticRegression(random_state=0)
+        log_reg.fit(X_train,y_train)
+        return log_reg
+    if type=="Multinomial":
+        from sklearn.linear_model import LogisticRegression
+        log_reg=LogisticRegression(random_state=0,multi_class="multinomial",solver="lbfgs")
+        log_reg.fit(X_train,y_train)
+        return log_reg
     
 #Home Page
 @app.route("/")
@@ -640,9 +645,13 @@ def train_logistic_regression_classifier():
     logistic = request.form.get("logistic")
     
     if logistic == "Binary":
-        logistic_regression_classifier=logistic_regression(X_train,y_train)
+        logistic_regression_classifier=logistic_regression(X_train,y_train,type="Binary")
         return render_template("models/LogisticalRegression/Logistic.html",
                                 target=target, trains=training,train_status="Binary Logistic Model is trained Successfully")
+    if logistic== "Multinomial":
+        logistic_regression_classifier=logistic_regression(X_train,y_train,type="Multinomial")
+        return render_template("models/LogisticalRegression/Logistic.html",
+                                target=target, trains=training,train_status="Multinomial Logistic Model is trained Successfully")
 
 
 @app.route("/test_logistical_regression_classifier", methods = ["GET","POST"])
@@ -651,6 +660,7 @@ def test_logistical_regression_classifier():
     score=check_accuracy(y_test,logistic_regression_classifier.predict(X_test))
     score=score*100
     return jsonify({"score":score})
+
 
 
 
