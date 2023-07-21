@@ -80,7 +80,7 @@ def elastic_net_regression(X_train,y_train):
 def decision_tree_regression(X_train,y_train):
     
     from sklearn.tree import DecisionTreeRegressor
-    tree=DecisionTreeRegressor(random_state=0)
+    tree=DecisionTreeRegressor(random_state=42)
     tree.fit(X_train,y_train)
     
     return tree
@@ -89,7 +89,7 @@ def decision_tree_regression(X_train,y_train):
 def decision_tree_classification(X_train,y_train):
     
     from sklearn.tree import DecisionTreeClassifier
-    tree = DecisionTreeClassifier(random_state=0)
+    tree = DecisionTreeClassifier(random_state=42)
     tree.fit(X_train,y_train)
     
     return tree
@@ -98,19 +98,19 @@ def decision_tree_classification(X_train,y_train):
 def extra_tree_regression(X_train,y_train):
     
     from sklearn.tree import ExtraTreeRegressor
-    tree=ExtraTreeRegressor(random_state=0)
-    tree.fit(X_train,y_train)
+    trees=ExtraTreeRegressor(random_state=42)
+    trees.fit(X_train,y_train)
     
-    return tree
+    return trees
 
 # Extra Tree Classification
 def extra_tree_classification(X_train,y_train):
     
     from sklearn.tree import ExtraTreeClassifier
-    tree=ExtraTreeClassifier(random_state=0)
-    tree.fit(X_train,y_train)
+    trees=ExtraTreeClassifier(random_state=42)
+    trees.fit(X_train,y_train)
     
-    return tree
+    return trees
     
 # Logistic Regression
 def logistic_regression(X_train,y_train):
