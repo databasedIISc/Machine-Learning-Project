@@ -127,7 +127,7 @@
         </div>
 
         <div class="container choose-box">
-          <form action="/train_decision_tree_classifier" method = "POST" enctype = "multipart/form-data" target="_self">
+          <form action="/train_logistic_regression_classifier" method = "POST" enctype = "multipart/form-data" target="_self">
 
 
             <div class="row">
@@ -139,14 +139,9 @@
             <div class="row ps-5">
 
                 <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "tree-1" name = "tree" value = "Binary" class="form-check-input problem-check"> Binary
+                    <input type = "checkbox" id = "tree-1" name = "logistic" value = "Binary" class="form-check-input problem-check"> Binary
                 </div>
-                <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "tree-2" name = "tree" value = "Multinomial" class="form-check-input problem-check"> Multinomial
-                </div>
-                <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "tree-2" name = "tree" value = "Ordinal" class="form-check-input problem-check"> Ordinal
-                </div>
+                
             </div>
 
             <div class="row">
@@ -183,7 +178,7 @@
 
         document.getElementById("test").addEventListener("click",function(){
             
-            fetch("/test_decision_tree_classifier")
+            fetch("/test_logistical_regression_classifier")
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById("test_accuracy").innerText = "Accuracy is: " + data.score;
