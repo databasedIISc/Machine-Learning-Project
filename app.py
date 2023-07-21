@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, send_file
 import pandas as pd
 import numpy as np
 import matplotlib
@@ -23,11 +23,19 @@ def scale_down(X_train, X_test):
     
     return X_train, X_test
 
-# To check accuracy of the model
+# To check accuracy of the regression models
 def check_r2_score(y_test, y_pred):
     
     from sklearn.metrics import r2_score
     score = r2_score(y_test, y_pred)
+    
+    return score
+
+# To check accuracy of classification models
+def check_accuracy(y_test, y_pred):
+    
+    from sklearn.metrics import accuracy_score
+    score = accuracy_score(y_test, y_pred)
     
     return score
 
@@ -453,6 +461,18 @@ def encode_1():
     df1= df.copy()
     return redirect(url_for("phase3"))
 
+@app.route("/download")
+def download():
+    csv_file=io.StringIO()
+    df.to_csv(csv_file,index=False)
+    
+    return send_file(
+        io.BytesIO(csv_file.getvalue().encode()),
+        as_attachment=True,
+        download_name="Dataset.csv",
+        mimetype='text/csv'
+    )
+
 @app.route("/phase4")
 def phase4():
     return render_template("EDA.html")
@@ -620,7 +640,7 @@ def train_decision_tree_classifier():
 @app.route("/test_decision_tree_classifier", methods = ["GET","POST"])
 def test_decision_tree_classifier():
     
-    score=check_r2_score(y_test,decision_tree_classifier.predict(X_test))
+    score=check_accuracy(y_test,decision_tree_classifier.predict(X_test))
     score=score*100
     return jsonify({"score":score})
     
