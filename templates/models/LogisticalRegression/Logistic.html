@@ -129,6 +129,14 @@
         <div class="container choose-box">
           <form action="/train_logistic_regression_classifier" method = "POST" enctype = "multipart/form-data" target="_self">
 
+            <div class="row">
+                <div class="col row-1">
+                    <p class="instruction-1">Enter Random State</p>
+                    <input type="number" name="random_state"  id="random_state" class="file test-size-input form-control" placeholder="Enter Integer, None(default)" step = "1">
+                    <p class="instruction-1">Enter max_iter</p>
+                    <input type="number" name="max_iter"  id="max_iter" class="file test-size-input form-control" placeholder="Enter Integer, 100(default)" step = "1">
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-12">
@@ -139,11 +147,85 @@
             <div class="row ps-5">
 
                 <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "tree-1" name = "logistic" value = "Binary" class="form-check-input problem-check"> Binary
+                    <input type = "checkbox" id = "log-1" name = "logistic" value = "Binary" class="form-check-input problem-check"> Binary Classifier
                 </div>
                 <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "tree-1" name = "logistic" value = "Multinomial" class="form-check-input problem-check"> Multinomial(using OvR)
+                    <input type = "checkbox" id = "log-1" name = "logistic" value = "MultiClass" class="form-check-input problem-check"> MultiClass Classifier
                 </div>
+                
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <p class="instruction">Select Multiclass</p>
+                </div>
+            </div>
+
+            <div class="row ps-5">
+
+                <div class="col-md-4 col-sm-12">
+                    <input type = "checkbox" id = "multiclass" name = "multiclass" value = "ovr" class="form-check-input problem-check"> ovr
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <input type = "checkbox" id = "multiclass" name = "multiclass" value = "multinomial" class="form-check-input problem-check"> multinomial
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <input type = "checkbox" id = "multiclass" name = "multiclass" value = "auto" class="form-check-input problem-check"> auto (default)
+                </div>
+                
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <p class="instruction">Select bias</p>
+                </div>
+            </div>
+
+            <div class="row ps-5">
+
+                <div class="col-md-4 col-sm-12">
+                    <input type = "checkbox" id = "bias" name = "bias" value = "None" class="form-check-input problem-check"> None
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <input type = "checkbox" id = "bias" name = "bias" value = "l1" class="form-check-input problem-check"> L1 Regularization
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <input type = "checkbox" id = "bias" name = "bias" value = "l2" class="form-check-input problem-check"> L2 Regularization (Default)
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <input type = "checkbox" id = "bias" name = "bias" value = "elasticnet" class="form-check-input problem-check"> L1 + L2 Both
+                </div>
+                
+            </div>
+
+
+            <div class="row">
+                <div class="col-12">
+                    <p class="instruction">Select Solver</p>
+                </div>
+            </div>
+
+            <div class="row ps-5">
+
+                <div class="col-md-4 col-sm-12">
+                    <input type = "checkbox" id = "solver" name = "solver" value = "lbfgs" class="form-check-input problem-check"> lbfgs (default)
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <input type = "checkbox" id = "solver" name = "solver" value = "liblinear" class="form-check-input problem-check"> liblinear
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <input type = "checkbox" id = "solver" name = "solver" value = "newton-cg" class="form-check-input problem-check"> newton-cg
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <input type = "checkbox" id = "solver" name = "solver" value = "newton-cholesky" class="form-check-input problem-check"> newton-cholesky
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <input type = "checkbox" id = "solver" name = "solver" value = "sag" class="form-check-input problem-check"> sag
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <input type = "checkbox" id = "solver" name = "solver" value = "saga" class="form-check-input problem-check"> saga
+                </div>
+
                 
             </div>
 
@@ -165,9 +247,17 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="col-12">
+                    <p class="instruction">To Learn more about these parameters: <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html">HERE</a></p>
+                </div>
+            </div>
+        
+
             <div class="proceed-button">
                 <button type="submit" class="submit btn btn-primary">Train</button>
             </div>
+
 
           </form>
           <div class="proceed-button">
