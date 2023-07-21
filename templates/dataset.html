@@ -6,13 +6,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/css/dataset.css">
     <title>Lets Start</title>
+    <style>
+        body {
+            background-image: url(../static/images/start/bg2.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .check {
+            display: flex;
+            flex-direction: column;
+            border: 2px solid white;
+            width: 100%;
+        
+        }
+
+        .download {
+            display: flex;
+            justify-content: center;
+            flex-direction: row;
+            padding: 1rem;
+            font-size: 2rem;
+            background-color: #dcc0fd;
+        }
+
+        
+    </style>
 </head>
 <body>
     <!--Here we will show the uploaded dataset-->
     
 
     <div class="check">
-        {{dataset|safe}}
+
+        <div class="download">
+            <a href="{{url_for('download')}}" class="btn btn-primary">Download Dataset</a>
+        </div>
+
+        <div class="dataset">
+            {{dataset|safe}}
+        </div>
     </div>
     
 

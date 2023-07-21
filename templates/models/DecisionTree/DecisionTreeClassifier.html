@@ -16,7 +16,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
 
-    <title>Linear Regression</title>
+    <title>Decision Tree Classifier</title>
         
     <style>
 
@@ -123,41 +123,28 @@
 
     <div class="container">
         <div class="top">
-            <h1>Linear Regression</h1>
+            <h1>Decision Tree Classifier</h1>
         </div>
 
         <div class="container choose-box">
-          <form action="/train_linear_reg" method = "POST" enctype = "multipart/form-data" target="_self">
+          <form action="/train_decision_tree_classifier" method = "POST" enctype = "multipart/form-data" target="_self">
+
 
             <div class="row">
                 <div class="col-12">
-                    <p class="instruction">Use Standard Scaler (Currently Not Working)</p>
+                    <p class="instruction">Select Algorithm</p>
                 </div>
             </div>
 
             <div class="row ps-5">
-                <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox"  name = "scaler" value = "yes" class="form-check-input problem-check">Yes
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col-12">
-                    <p class="instruction">Select Bias</p>
-                </div>
-            </div>
-
-            <div class="row ps-5">
                 <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "bias-1" name = "bias" value = "L1 Regularization" class="form-check-input problem-check"> Lasso (L1 Regularization)
+                    <input type = "checkbox" id = "tree-1" name = "tree" value = "DecisionTreeClassifier" class="form-check-input problem-check"> Decision Tree Classifier (default)
                 </div>
                 <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "bias-2" name = "bias" value = "L2 Regularization" class="form-check-input problem-check"> Ridge (L2 Regularization)
+                    <input type = "checkbox" id = "tree-2" name = "tree" value = "ExtraTreeClassifier" class="form-check-input problem-check"> Extra Tree Classifier
                 </div>
-                <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "bias-3" name = "bias" value = "Both" class="form-check-input problem-check"> Elastic Net (Both)
-                </div>
-
+                
             </div>
 
             <div class="row">
@@ -165,7 +152,6 @@
                     <p class="instruction">Target Feature: {{target}}</p>
                 </div>
             </div>
-
 
             <div class="row">
                 <div class="col-12">
@@ -183,17 +169,11 @@
                 <button type="submit" class="submit btn btn-primary">Train</button>
             </div>
 
-            <div class="row">
-                <div class="col-12">
-                    <p class="instruction">Visualization is available in case of 1 Training Feature Only</p>
-                </div>
-            </div>
-
           </form>
           <div class="proceed-button">
-            <button class="submit btn btn-primary" id = "test">Test</button>
-            <button class="submit btn btn-primary" onclick=visualize_linear_reg()>Visualize :)</button>
+            <button type="submit" class="submit btn btn-primary" id = "test">Test</button>
         </div>
+
         </div>    
     </div>
 
@@ -201,17 +181,13 @@
 
         document.getElementById("test").addEventListener("click",function(){
             
-            fetch("/test_linear_reg")
+            fetch("/test_decision_tree_classifier")
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById("test_accuracy").innerText = "Accuracy is: " + data.score;
                 });
         });
-
-        function visualize_linear_reg(){
-            window.open("/visualize_linear_reg", "_self");
-        }
-
+        
     </script>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
