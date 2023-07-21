@@ -80,7 +80,7 @@ def elastic_net_regression(X_train,y_train):
 def decision_tree_regression(X_train,y_train):
     
     from sklearn.tree import DecisionTreeRegressor
-    tree=DecisionTreeRegressor(random_state=0)
+    tree=DecisionTreeRegressor(random_state=42)
     tree.fit(X_train,y_train)
     
     return tree
@@ -89,7 +89,7 @@ def decision_tree_regression(X_train,y_train):
 def decision_tree_classification(X_train,y_train):
     
     from sklearn.tree import DecisionTreeClassifier
-    tree = DecisionTreeClassifier(random_state=0)
+    tree = DecisionTreeClassifier(random_state=42)
     tree.fit(X_train,y_train)
     
     return tree
@@ -98,20 +98,37 @@ def decision_tree_classification(X_train,y_train):
 def extra_tree_regression(X_train,y_train):
     
     from sklearn.tree import ExtraTreeRegressor
-    tree=ExtraTreeRegressor(random_state=0)
-    tree.fit(X_train,y_train)
+    trees=ExtraTreeRegressor(random_state=42)
+    trees.fit(X_train,y_train)
     
-    return tree
+    return trees
 
 # Extra Tree Classification
 def extra_tree_classification(X_train,y_train):
     
     from sklearn.tree import ExtraTreeClassifier
-    tree=ExtraTreeClassifier(random_state=0)
-    tree.fit(X_train,y_train)
+    trees=ExtraTreeClassifier(random_state=42)
+    trees.fit(X_train,y_train)
     
-    return tree
+    return trees
     
+# Logistic Regression
+def logistic_regression(X_train,y_train,types, random_state, max_iter, multiclass, bias, solver):
+    
+    if bias == "None":
+        bias = None
+    
+    if types=="Binary":
+        from sklearn.linear_model import LogisticRegression
+        log_reg=LogisticRegression(random_state=random_state, max_iter=max_iter, penalty=bias, solver=solver)
+        log_reg.fit(X_train,y_train)
+        return log_reg
+   
+    if types=="MultiClass":
+        from sklearn.linear_model import LogisticRegression
+        log_reg=LogisticRegression(random_state=random_state, max_iter=max_iter, multi_class=multiclass, penalty=bias, solver=solver)
+        log_reg.fit(X_train,y_train)
+        return log_reg
     
 #Home Page
 @app.route("/")
@@ -611,6 +628,7 @@ def test_decision_tree_reg():
     return jsonify({"score":score})
 
 
+
 @app.route("/train_cls_models", methods = ["GET","POST"])
 def train_cls_models():
     global classification_models
@@ -621,6 +639,56 @@ def train_cls_models():
         if i == "decision_tree_cls":
             return render_template("models/DecisionTree/DecisionTreeClassifier.html",
                                    target=target, trains=training)
+        if i== "logistic":
+            return render_template("models/LogisticalRegression/Logistic.html",
+                                      target=target, trains=training)
+        
+
+@app.route("/train_logistic_regression_classifier", methods = ["GET","POST"])
+def train_logistic_regression_classifier():
+    global logistic_regression_classifier
+    
+    classify = request.form.get("logistic")
+    random_state = request.form.get("random_state")
+    max_iter = request.form.get("max_iter")
+    multiclass = request.form.get("multiclass")
+    bias = request.form.get("bias")
+    solver = request.form.get("solver")
+    
+    
+    if not random_state:
+        random_state=None
+    else:
+        random_state = int(random_state)
+        
+        
+    if not max_iter:
+        max_iter=100
+    else:
+        max_iter = int(max_iter)
+
+    if not multiclass:
+        multiclass="auto"
+    if not bias:
+        bias = "l2"
+    if not solver:
+        solver="lbfgs"
+        
+    
+    
+    logistic_regression_classifier=logistic_regression(X_train,y_train,types=classify, random_state=random_state, max_iter=max_iter, multiclass=multiclass, bias=bias, solver=solver)
+    return render_template("models/LogisticalRegression/Logistic.html",
+                            target=target, trains=training,train_status=f"{classify} Logistic Model is trained Successfully")
+    
+
+@app.route("/test_logistical_regression_classifier", methods = ["GET","POST"])
+def test_logistical_regression_classifier():
+    
+    score=check_accuracy(y_test,logistic_regression_classifier.predict(X_test))
+    score=score*100
+    return jsonify({"score":score})
+
+
 
 
 @app.route("/train_decision_tree_classifier", methods = ["GET","POST"])
