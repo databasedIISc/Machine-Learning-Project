@@ -130,6 +130,39 @@ def logistic_regression(X_train,y_train,types, random_state, max_iter, multiclas
         log_reg.fit(X_train,y_train)
         return log_reg
     
+#Naive Bias Classifier
+def naive_bayes_classifier(X_train,y_train,types):
+        
+        if types=="Gaussian":
+            from sklearn.naive_bayes import GaussianNB
+            naive=GaussianNB()
+            naive.fit(X_train,y_train)
+            return naive
+        
+        if types=="Multinomial":
+            from sklearn.naive_bayes import MultinomialNB
+            naive=MultinomialNB()
+            naive.fit(X_train,y_train)
+            return naive
+        
+        if types=="Bernoulli":
+            from sklearn.naive_bayes import BernoulliNB
+            naive=BernoulliNB()
+            naive.fit(X_train,y_train)
+            return naive
+        
+        if types=="Complement":
+            from sklearn.naive_bayes import ComplementNB
+            naive=ComplementNB()
+            naive.fit(X_train,y_train)
+            return naive
+        
+        if types=="Categorical":
+            from sklearn.naive_bayes import CategoricalNB
+            naive=CategoricalNB()
+            naive.fit(X_train,y_train)
+            return naive
+        
 #Home Page
 @app.route("/")
 def home():
@@ -642,6 +675,9 @@ def train_cls_models():
         if i== "logistic":
             return render_template("models/LogisticalRegression/Logistic.html",
                                       target=target, trains=training)
+        if i== "naive_bayes":
+            return render_template("models/NaiveBayes/NaiveBayes.html",
+                                      target=target, trains=training)
         
 
 @app.route("/train_logistic_regression_classifier", methods = ["GET","POST"])
@@ -688,8 +724,20 @@ def test_logistical_regression_classifier():
     score=score*100
     return jsonify({"score":score})
 
+@app.route("/train_naive_bayes_classifier", methods = ["GET","POST"])
+def train_native_bayes_classifier():
+    global native_bayes_classifier
+    classify = request.form.get("algos")
+    native_bayes_classifier=naive_bayes_classifier(X_train,y_train,types=classify)
+    return render_template("models/NaiveBayes/NaiveBayes.html",
+                            target=target, trains=training,train_status=f"{classify} Naive Bayes Model is trained Successfully")    
 
-
+@app.route("/test_naive_bayes_classifier", methods = ["GET","POST"])
+def test_native_bayes_classifier():
+        
+        score=check_accuracy(y_test,native_bayes_classifier.predict(X_test))
+        score=score*100
+        return jsonify({"score":score})
 
 @app.route("/train_decision_tree_classifier", methods = ["GET","POST"])
 def train_decision_tree_classifier():
