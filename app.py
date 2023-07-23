@@ -130,6 +130,59 @@ def logistic_regression(X_train,y_train,types, random_state, max_iter, multiclas
         log_reg.fit(X_train,y_train)
         return log_reg
     
+#Naive Bias Classifier
+def naive_bayes_classifier(X_train,y_train,types):
+        
+        if types=="Gaussian":
+            from sklearn.naive_bayes import GaussianNB
+            naive=GaussianNB()
+            naive.fit(X_train,y_train)
+            return naive
+        
+        if types=="Multinomial":
+            from sklearn.naive_bayes import MultinomialNB
+            naive=MultinomialNB()
+            naive.fit(X_train,y_train)
+            return naive
+        
+        if types=="Bernoulli":
+            from sklearn.naive_bayes import BernoulliNB
+            naive=BernoulliNB()
+            naive.fit(X_train,y_train)
+            return naive
+        
+        if types=="Complement":
+            from sklearn.naive_bayes import ComplementNB
+            naive=ComplementNB()
+            naive.fit(X_train,y_train)
+            return naive
+        
+        if types=="Categorical":
+            from sklearn.naive_bayes import CategoricalNB
+            naive=CategoricalNB()
+            naive.fit(X_train,y_train)
+            return naive
+        
+#Support Vector Classification
+def support_vector_classification(X_train,y_train,random_state,max_iter,kernel,parameter,gamma):
+    
+    from sklearn.svm import SVC
+    svc = SVC(kernel=kernel, C=parameter, gamma=gamma, random_state=random_state, max_iter=max_iter)
+    svc.fit(X_train,y_train)
+    
+    return svc
+
+#Support Vector Regression
+def support_vector_regression(X_train,y_train,epsilon,max_iter,kernel,parameter,gamma):
+    
+    from sklearn.svm import SVR
+    svr = SVR(kernel=kernel,epsilon=epsilon, C=parameter, gamma=gamma, max_iter=max_iter)
+    svr.fit(X_train,y_train)
+    
+    return svr
+    
+    
+        
 #Home Page
 @app.route("/")
 def home():
@@ -549,7 +602,9 @@ def train_reg_models():
         if i == "decision_tree_reg":
             return render_template("models/DecisionTree/DecisionTreeRegressor.html",
                                    target=target, trains=training)
-        
+        if i == "svr":
+            return render_template("models/SupportVectorMachines/SupportVectorRegressor.html",
+                                   target=target, trains=training)
         return render_template("regression2.html")
 
 @app.route("/train_linear_reg", methods = ["GET","POST"])
@@ -642,7 +697,12 @@ def train_cls_models():
         if i== "logistic":
             return render_template("models/LogisticalRegression/Logistic.html",
                                       target=target, trains=training)
-        
+        if i== "naive_bayes":
+            return render_template("models/NaiveBayes/NaiveBayes.html",
+                                      target=target, trains=training)
+        if i == "svc":
+            return render_template("models/SupportVectorMachines/SupportVectorClassifier.html",
+                                      target=target, trains=training)
 
 @app.route("/train_logistic_regression_classifier", methods = ["GET","POST"])
 def train_logistic_regression_classifier():
@@ -688,8 +748,20 @@ def test_logistical_regression_classifier():
     score=score*100
     return jsonify({"score":score})
 
+@app.route("/train_naive_bayes_classifier", methods = ["GET","POST"])
+def train_native_bayes_classifier():
+    global native_bayes_classifier
+    classify = request.form.get("algos")
+    native_bayes_classifier=naive_bayes_classifier(X_train,y_train,types=classify)
+    return render_template("models/NaiveBayes/NaiveBayes.html",
+                            target=target, trains=training,train_status=f"{classify} Naive Bayes Model is trained Successfully")    
 
-
+@app.route("/test_naive_bayes_classifier", methods = ["GET","POST"])
+def test_native_bayes_classifier():
+        
+        score=check_accuracy(y_test,native_bayes_classifier.predict(X_test))
+        score=score*100
+        return jsonify({"score":score})
 
 @app.route("/train_decision_tree_classifier", methods = ["GET","POST"])
 def train_decision_tree_classifier():
@@ -711,7 +783,101 @@ def test_decision_tree_classifier():
     score=check_accuracy(y_test,decision_tree_classifier.predict(X_test))
     score=score*100
     return jsonify({"score":score})
+
+@app.route("/train_support_vector_classifier", methods = ["GET","POST"])
+def train_support_vector_classifier():
+    global support_vector_classifier
     
+   
+    random_state = request.form.get("random_state")
+    max_iter = request.form.get("max_iter")
+    kernel = request.form.get("kernel")
+    parameter = request.form.get("parameter")
+    gamma = request.form.get("gamma")
+    
+    if not random_state:
+        random_state=None
+    else:
+        random_state = int(random_state)
+        
+    if not max_iter:
+        max_iter=-1
+    else:
+        max_iter = int(max_iter)
+
+    if not kernel:
+        kernel = "rbf"
+        
+    if not parameter:
+        parameter = 1.0
+    else:
+        parameter = float(parameter)
+        
+    if not gamma:
+        gamma = "scale"
+    elif gamma == "auto":
+        gamma = "auto"
+    else:
+        gamma = float(gamma)
+    
+    support_vector_classifier = support_vector_classification(X_train,y_train,random_state=random_state, max_iter=max_iter, kernel=kernel, parameter=parameter, gamma=gamma)
+    return render_template("models/SupportVectorMachines/SupportVectorClassifier.html",
+                           target=target, trains=training,train_status="Model is trained Successfully")
+
+@app.route("/test_support_vector_classifier", methods = ["GET","POST"])
+def test_support_vector_classifier():
+    
+    score=check_accuracy(y_test,support_vector_classifier.predict(X_test))
+    score=score*100
+    return jsonify({"score":score})
+
+@app.route("/train_support_vector_regressor", methods = ["GET","POST"])
+def train_support_vector_regressor():
+    global support_vector_regressor
+    
+   
+    epsilon = request.form.get("epsilon")
+    max_iter = request.form.get("max_iter")
+    kernel = request.form.get("kernel")
+    parameter = request.form.get("parameter")
+    gamma = request.form.get("gamma")
+    
+    if not epsilon:
+        epsilon=0.1
+    else:
+        epsilon = float(epsilon)
+        
+    if not max_iter:
+        max_iter=-1
+    else:
+        max_iter = int(max_iter)
+
+    if not kernel:
+        kernel = "rbf"
+        
+    if not parameter:
+        parameter = 1.0
+    else:
+        parameter = float(parameter)
+        
+    if not gamma:
+        gamma = "scale"
+    elif gamma == "auto":
+        gamma = "auto"
+    else:
+        gamma = float(gamma)
+    
+    support_vector_regressor = support_vector_regression(X_train,y_train,epsilon=epsilon, max_iter=max_iter, kernel=kernel, parameter=parameter, gamma=gamma)
+    return render_template("models/SupportVectorMachines/SupportVectorRegressor.html",
+                           target=target, trains=training,train_status="Model is trained Successfully")
+
+@app.route("/test_support_vector_regressor", methods = ["GET","POST"])
+def test_support_vector_regressor():
+    
+    score=check_r2_score(y_test,support_vector_regressor.predict(X_test))
+    score=score*100
+    return jsonify({"score":score})
+
 if __name__=="__main__":
     app.run(host="0.0.0.0")
 

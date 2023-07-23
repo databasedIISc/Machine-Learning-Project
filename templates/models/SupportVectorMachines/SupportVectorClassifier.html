@@ -16,7 +16,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
 
-    <title>Logistic Regression</title>
+    <title>Support Vector Classifier</title>
         
     <style>
 
@@ -123,109 +123,68 @@
 
     <div class="container">
         <div class="top">
-            <h1>Logistical Regression Classifier</h1>
+            <h1>Support Vector Classifier (SVC)</h1>
         </div>
 
         <div class="container choose-box">
-          <form action="/train_logistic_regression_classifier" method = "POST" enctype = "multipart/form-data" target="_self">
+          <form action="/train_support_vector_classifier" method = "POST" enctype = "multipart/form-data" target="_self">
 
             <div class="row">
                 <div class="col row-1">
                     <p class="instruction-1">Enter Random State</p>
                     <input type="number" name="random_state"  id="random_state" class="file test-size-input form-control" placeholder="Enter Integer, None(default)" step = "1">
+                    
                     <p class="instruction-1">Enter max_iter</p>
-                    <input type="number" name="max_iter"  id="max_iter" class="file test-size-input form-control" placeholder="Enter Integer, 100(default)" step = "1">
+                    <input type="number" name="max_iter"  id="max_iter" class="file test-size-input form-control" placeholder="Enter Integer, -1(default)" step = "1">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col row-1">
+                    <p class="instruction-1">Enter Regularization Parameter (C)</p>
+                    <input type="number" name="parameter"  id="parameter" class="file test-size-input form-control" placeholder="Enter Integer, 1(default)" step = ".01"> 
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-12">
-                    <p class="instruction">Select Algorithm</p>
+                    <p class="instruction">Enter Gamma</p>
                 </div>
             </div>
 
             <div class="row ps-5">
 
                 <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "log-1" name = "logistic" value = "Binary" class="form-check-input problem-check"> Binary Classifier
+                    <input type = "checkbox" id = "gamma" name = "gamma" value = "scale" class="form-check-input problem-check"> Scale (default)
                 </div>
                 <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "log-1" name = "logistic" value = "MultiClass" class="form-check-input problem-check"> MultiClass Classifier
+                    <input type = "checkbox" id = "gamma" name = "gamma" value = "auto" class="form-check-input problem-check"> Auto
                 </div>
-                
+                <div class="col row-1">
+                    <input type="number" name="gamma"  id="gamma" class="file test-size-input form-control" placeholder="Enter float" step = ".01"> 
+                </div>
             </div>
 
             <div class="row">
                 <div class="col-12">
-                    <p class="instruction">Select Multiclass</p>
+                    <p class="instruction">Select Kernel</p>
                 </div>
             </div>
 
             <div class="row ps-5">
 
                 <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "multiclass" name = "multiclass" value = "ovr" class="form-check-input problem-check"> ovr
+                    <input type = "checkbox" id = "kernel" name = "kernel" value = "linear" class="form-check-input problem-check"> linear
                 </div>
                 <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "multiclass" name = "multiclass" value = "multinomial" class="form-check-input problem-check"> multinomial
+                    <input type = "checkbox" id = "kernel" name = "kernel" value = "poly" class="form-check-input problem-check"> poly
                 </div>
                 <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "multiclass" name = "multiclass" value = "auto" class="form-check-input problem-check"> auto (default)
-                </div>
-                
-            </div>
-
-            <div class="row">
-                <div class="col-12">
-                    <p class="instruction">Select bias</p>
-                </div>
-            </div>
-
-            <div class="row ps-5">
-
-                <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "bias" name = "bias" value = "None" class="form-check-input problem-check"> None
+                    <input type = "checkbox" id = "kernel" name = "kernel" value = "rbf" class="form-check-input problem-check"> rbf (default)
                 </div>
                 <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "bias" name = "bias" value = "l1" class="form-check-input problem-check"> L1 Regularization
+                    <input type = "checkbox" id = "kernel" name = "kernel" value = "sigmoid" class="form-check-input problem-check"> sigmoid
                 </div>
-                <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "bias" name = "bias" value = "l2" class="form-check-input problem-check"> L2 Regularization (Default)
-                </div>
-                <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "bias" name = "bias" value = "elasticnet" class="form-check-input problem-check"> L1 + L2 Both
-                </div>
-                
-            </div>
-
-
-            <div class="row">
-                <div class="col-12">
-                    <p class="instruction">Select Solver</p>
-                </div>
-            </div>
-
-            <div class="row ps-5">
-
-                <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "solver" name = "solver" value = "lbfgs" class="form-check-input problem-check"> lbfgs (default)
-                </div>
-                <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "solver" name = "solver" value = "liblinear" class="form-check-input problem-check"> liblinear
-                </div>
-                <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "solver" name = "solver" value = "newton-cg" class="form-check-input problem-check"> newton-cg
-                </div>
-                <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "solver" name = "solver" value = "newton-cholesky" class="form-check-input problem-check"> newton-cholesky
-                </div>
-                <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "solver" name = "solver" value = "sag" class="form-check-input problem-check"> sag
-                </div>
-                <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "solver" name = "solver" value = "saga" class="form-check-input problem-check"> saga
-                </div>
-
                 
             </div>
 
@@ -249,7 +208,7 @@
 
             <div class="row">
                 <div class="col-12">
-                    <p class="instruction">To Learn more about these parameters: <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html">HERE</a></p>
+                    <p class="instruction">To Learn more about these parameters: <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html">HERE</a></p>
                 </div>
             </div>
         
@@ -271,19 +230,13 @@
 
         document.getElementById("test").addEventListener("click",function(){
             
-            fetch("/test_logistical_regression_classifier")
+            fetch("/test_support_vector_classifier")
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById("test_accuracy").innerText = "Accuracy is: " + data.score;
                 });
         });
 
-        const supportedSolvers = {
-            None : ["lbfgs", "liblinear"],
-            L1 : ["sag","lbfgs"],
-            L2 : ["lbfgs","liblinear"],
-            ElasticNet : ["saga","sag","newton-cg","lbfgs"],
-        };
 
     </script>
     
