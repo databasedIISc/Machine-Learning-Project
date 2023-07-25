@@ -1,80 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Missing Value Analysis</title>
-    <link rel="stylesheet" href="../static/css/missvalue.css">
-    <script src = ../static/js/slot2.js></script>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    
+        <!-- Old External CSS -->
+        <!-- <link rel="stylesheet" href="../static/css/regression.css"> -->
 
 
-    <main class="container">
+        <!-- fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
+    
+        <title>Missing Value Analysis</title>
+            
+        <style>
+    
+            body {
+                background-image: url("../static/images/start/bg2.jpg");
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-color: #050111;
+               
+            }
+    
+            .container {
+                background-color: #f3eff9;
+                margin-top: 3rem;
+                margin-bottom: 3rem;
+                padding: 0;
+                border-radius: 1rem;
+            }
+    
+            .top {
+                background-color: #dcc0fd;
+                border-radius: 1rem 1rem 0 0;
+               
+            }
+    
+            h1 {
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 900;
+                text-align: center;
+                font-size: 6vw;
+                color: #1b0e42;
+                padding: 2rem 1rem 1rem 1rem;
+                
+            }
 
-        <!--heading for page-->
-        <div class="heading">
-            <h1 class="head">
-                Phase2: Missing Value Analysis
-            </h1>
-        </div>
-        
-        
-        <!--Adding python logo-->
-        <div class="pylogo">
-            <img src="../static/images/python(2).png" alt="python" class="python">
-        </div>
+            h2 {
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 900;
+                text-align: center;
+                font-size: 1.5rem;
+                color: #1b0e42;
+                padding: 1rem;
+                /* background-color:#f2e6ff; */
+            }
+    
+            h3 {
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 700;
+                text-align: center;
+                font-size: 1rem;
+                margin: auto;
+                padding: 1rem;
+                color: #7108c1;
+            }
+           
+    
+            .solid-button {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+    
+            .btn-primary {
+                text-align: center;
+                background-color: #7108c1;
+                border: 2pt solid #f2e6ff;
+                font-family: 'Open Sans', sans-serif;
+                font-size: larger;
+                width: 80%;               
+                height:50%; 
+                margin: 1rem;
+                border-radius: 20px;
+            }
 
-        <!--Adding image of robot-->
-        <div class="robot">
-            <img src="../static/images/machine-learning-artificial-intelligence-deep-learning-computer-science-technology-44866d77e0f551758f0ede44987fd317.png" alt="robot" class="robo">
+            p {
+                margin-bottom: 0;
+            }      
+
+            .logo {
+                padding: 1rem;
+            }
+
+            .intro {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 1rem;
+            }
+
+            .python-logo {
+                max-width: 100px;                 
+            }
+
+            .robo {
+                max-width: 120px; 
+            }
+
+            .visualm, .next-button {
+                display: flex;
+                justify-content: center;
+                align-items: center;               
+            }
+
+            .btn-outline-primary {
+                padding: 1rem;
+                margin: 1rem 1.5rem 1rem 0rem;
+                width: 100%;
+                height: 5rem;
+                color: #7108c1;
+                border: 1pt solid #7108c1 !important;
+            }
+
+            .btn-outline-primary:hover {
+                color: white;
+                border: transparent !important;
+                background-color: #7108c1;
+            }
+
+            .continue {
+                width: 100%;
+                height: 5rem;
+                padding: 0px;
+            }
+           
+            #intro-buttons {
+                display: flex;
+                flex-direction: row !important;
+            }
+
+            .button-text {
+                padding: 1rem;
+            }
+
+            .boxplot {
+                padding: 2rem;
+            }
+
+        </style>
+    </head>
+    <body>
+
+        <div class="container">
+
+            <div class="top">
+                <h1>Phase 2: <br>Missing Value Analysis</h1>
             </div>
 
+            <div class="row intro-text-box">
+               
+                <div class="col-md-2 col-12 intro">
+                    <img src="../static/images/python(2).png" alt="python" class="python-logo img-fluid intro">
+                </div>
+                
+                <div class="col-md-8 col-12 intro" id="intro-buttons">
+                    <button class = "solid-button btn btn-primary" onclick = "show_miss_dataset()"><p class="button-text">Check Misses</p></button>
+                    <button class = "solid-button btn btn-primary" onclick = "show_dataset()"><p class="button-text">Check Dataset</p></button>
+                </div>
+                <div class="col-md-2 col-12 intro">
+                    <img src="../static/images/machine-learning-artificial-intelligence-deep-learning-computer-science-technology-44866d77e0f551758f0ede44987fd317.png" alt="robot" class="robo intro img-fluid">
+                </div>
+                   
+            </div>
 
-        <!--Button for checking dataset uploaded-->
-        <div class="forbutton">
-            <button onclick = "show_dataset()" class = "start">
-                Check Dataset
-            </button>    
-        </div>
-        
-        <div class="missbutton">
-            <button onclick = "show_miss_dataset()" class = "start_1">
-                Check Misses
-            </button>    
-        </div>
-        
-        <div class="visualm">
-            {{message}}
-        </div>
+            <div class="row">
+                <div class="col-12 visualm">
+                    {{message}}
+                </div>
+            </div>
 
-        <div class="boxplot">
-            {% for image in images %}
-            <img src = "{{ image }}" alt="boxplot" class="boxplot1">
-            {% endfor %}
+            <div class="row">
+                <div class="column boxplot">
+                    {% for image in images %}
+                    <img src = "{{ image }}" alt="boxplot" class="boxplot1">
+                    {% endfor %}
             
 
-            <form action="/fill_misses" method="POST" class = "features">
-                <p class = "head5">Select Numerical Features</p>
-                {% for i in columns_numerical %}
-                    <input type = "checkbox" id = "columns" name = "columns" value = {{i.replace(" ",",")}}> {{i}}
-                {% endfor %}
-            
-                <input type="submit" value="Fill Feature" class="submit">
-            </form>
+                    <form action="/fill_misses" method="POST" class = "features">
+                        <p class = "head5">Select Numerical Features</p>
+                        {% for i in columns_numerical %}
+                            <input type = "checkbox" id = "columns" name = "columns" class="form-check-input" value = {{i.replace(" ",",")}}> {{i}}
+                        {% endfor %}
 
-            <form action="/fill_misses" method="POST" class = "features">
-                <p class = "head5">Select Categorical Features</p>
-                {% for i in columns_categorical %}
-                    <input type = "checkbox" id = "columns" name = "columns" value = {{i.replace(" ",",")}}> {{i}}
-                {% endfor %}
+                        <div>
+                            <button type="submit" class="submit btn btn-secondary solid-button">Fill Feature</button>
+                        </div>
+                        
+                    </form>
+
+                    <form action="/fill_misses" method="POST" class = "features">
+                        <p class = "head5">Select Categorical Features</p>
+                        {% for i in columns_categorical %}
+                            <input type = "checkbox" id = "columns" name = "columns" class="form-check-input" value = {{i.replace(" ",",")}}> {{i}}
+                        {% endfor %}
+
+                        <div>
+                            <button type="submit" class="submit btn btn-secondary solid-button">Fill Feature</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+           <div class="row">
+                <div class="col next-button">
+                    <button type="submit" class="submit btn btn-primary"><p>Next</p></button>
+                </div>
+           </div>
             
-                <input type="submit" value="Fill Feature" class="submit">
-            </form>
+            
+          
         </div>
-     
-        </main>
-        
-        
-</body>
+        <script src = ../static/js/slot2.js></script>
+        <script src="https://kit.fontawesome.com/920204e445.js" crossorigin="anonymous"></script>
+
+    </body>
+
 </html>
