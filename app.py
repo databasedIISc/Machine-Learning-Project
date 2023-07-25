@@ -805,6 +805,12 @@ def train_random_forest_regressor():
     return render_template("models/RandomForest/RandomForestRegressor.html",
                            training=X_train.shape, target=X_test.shape,train_status="Model is trained Successfully")
 
+@app.route("/test_random_forest_regressor", methods = ["GET","POST"])
+def test_random_forest_regressor():
+    
+    score=check_r2_score(y_test,random_forest_regressor.predict(X_test))
+    score=score*100
+    return jsonify({"score":score})
 
 @app.route("/train_cls_models", methods = ["GET","POST"])
 def train_cls_models():
@@ -1008,7 +1014,7 @@ def train_random_forest_classifier():
 @app.route("/test_random_forest_classifier", methods = ["GET","POST"])
 def test_random_forest_classifier():
     
-    score=check_r2_score(y_test,random_forest_regressor.predict(X_test))
+    score=check_accuracy(y_test,random_forest_classifier.predict(X_test))
     score=score*100
     return jsonify({"score":score})
 

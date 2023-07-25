@@ -203,15 +203,23 @@
                         {% for i in features %}
                             <input type = "checkbox" id = "columns" name = "columns" class="form-check-input" value = {{i.replace(" ",",")}}> {{i}}
                         {% endfor %}
+
+                        <div class="row">
+                            <div class="col next-button">
+                                <button type="submit" class="submit btn btn-primary">Next</button>
+                            </div>
+                       </div>
                     </form>
                 </div>
             </div>
 
-           <div class="row">
-                <div class="col next-button">
-                    <button type="submit" class="submit btn btn-primary">Next</button>
+           
+
+           <div class="row"> 
+                <div class="col solid-button ">
+                    <button class = "continue btn btn-primary" onclick = "next2()"><p>Continue to Phase 3</p></button>
                 </div>
-           </div>
+            </div>
             
             
           
