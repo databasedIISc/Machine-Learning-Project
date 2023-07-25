@@ -180,6 +180,28 @@ def support_vector_regression(X_train,y_train,epsilon,max_iter,kernel,parameter,
     svr.fit(X_train,y_train)
     
     return svr
+
+# Random Forest Classification
+def random_forest_classification(X_train,y_train,n_estimators,max_depth,max_features,criterion,bootstrap,oob_score):
+    
+    if max_depth == "None":
+        max_depth = None 
+    from sklearn.ensemble import RandomForestClassifier
+    forest = RandomForestClassifier(n_estimators=n_estimators, max_depth=max_depth, max_features=max_features, criterion=criterion, bootstrap=bootstrap, oob_score=oob_score)
+    forest.fit(X_train,y_train)
+    
+    return forest
+
+# Random Forest Regression
+def random_forest_regression(X_train,y_train,n_estimators,max_depth,max_features,criterion,bootstrap,oob_score):
+    
+    if max_depth == "None":
+        max_depth = None 
+    from sklearn.ensemble import RandomForestRegressor
+    forest = RandomForestRegressor(n_estimators=n_estimators, max_depth=max_depth, max_features=max_features, criterion=criterion, bootstrap=bootstrap, oob_score=oob_score)
+    forest.fit(X_train,y_train)
+    
+    return forest
     
     
         
@@ -605,6 +627,10 @@ def train_reg_models():
         if i == "svr":
             return render_template("models/SupportVectorMachines/SupportVectorRegressor.html",
                                    target=target, trains=training)
+        if i == "random_forest_reg":
+            return render_template("models/RandomForest/RandomForestRegressor.html",
+                                   target=target, trains=training)
+            
         return render_template("regression2.html")
 
 @app.route("/train_linear_reg", methods = ["GET","POST"])
@@ -682,7 +708,109 @@ def test_decision_tree_reg():
     score=score*100
     return jsonify({"score":score})
 
+@app.route("/train_support_vector_regressor", methods = ["GET","POST"])
+def train_support_vector_regressor():
+    global support_vector_regressor
+    
+   
+    epsilon = request.form.get("epsilon")
+    max_iter = request.form.get("max_iter")
+    kernel = request.form.get("kernel")
+    parameter = request.form.get("parameter")
+    gamma = request.form.get("gamma")
+    
+    if not epsilon:
+        epsilon=0.1
+    else:
+        epsilon = float(epsilon)
+        
+    if not max_iter:
+        max_iter=-1
+    else:
+        max_iter = int(max_iter)
 
+    if not kernel:
+        kernel = "rbf"
+        
+    if not parameter:
+        parameter = 1.0
+    else:
+        parameter = float(parameter)
+        
+    if not gamma:
+        gamma = "scale"
+    elif gamma == "auto":
+        gamma = "auto"
+    else:
+        gamma = float(gamma)
+    
+    support_vector_regressor = support_vector_regression(X_train,y_train,epsilon=epsilon, max_iter=max_iter, kernel=kernel, parameter=parameter, gamma=gamma)
+    return render_template("models/SupportVectorMachines/SupportVectorRegressor.html",
+                           target=target, trains=training,train_status="Model is trained Successfully")
+
+@app.route("/test_support_vector_regressor", methods = ["GET","POST"])
+def test_support_vector_regressor():
+    
+    score=check_r2_score(y_test,support_vector_regressor.predict(X_test))
+    score=score*100
+    return jsonify({"score":score})
+
+@app.route("/train_random_forest_regressor", methods = ["GET","POST"])
+def train_random_forest_regressor():
+    global random_forest_regressor
+    
+    n_estimators = request.form.get("n_estimators")
+    max_depth = request.form.get("max_depth")
+    max_features = request.form.get("max_features")
+    criterion = request.form.get("criterion")
+    bootstrap = request.form.get("bootstrap")
+    oob_score = request.form.get("oob")
+    
+    
+    if not n_estimators:
+        n_estimators=100
+    else:
+        n_estimators = int(n_estimators)
+        
+    if not max_depth:
+        max_depth=None
+    else: 
+        max_depth = int(max_depth)
+        
+    if not max_features:
+        max_features=1
+    elif max_features == "log2":
+        max_features = "log2"
+    elif max_features == "None":
+        max_features = None
+    elif max_features == "sqrt":
+        max_features = "sqrt"
+    else:
+        max_features = float(max_features)
+        
+    if not criterion:
+        criterion="squared_error"
+    
+    if not bootstrap:
+        bootstrap=True
+    else:
+        bootstrap=False
+        
+    if not oob_score:
+        oob_score=False
+    else:
+        oob_score=True
+    
+    random_forest_regressor = random_forest_regression(X_train,y_train,n_estimators=n_estimators, max_depth=max_depth, max_features=max_features, criterion=criterion, bootstrap=bootstrap, oob_score=oob_score)
+    return render_template("models/RandomForest/RandomForestRegressor.html",
+                           training=X_train.shape, target=X_test.shape,train_status="Model is trained Successfully")
+
+@app.route("/test_random_forest_regressor", methods = ["GET","POST"])
+def test_random_forest_regressor():
+    
+    score=check_r2_score(y_test,random_forest_regressor.predict(X_test))
+    score=score*100
+    return jsonify({"score":score})
 
 @app.route("/train_cls_models", methods = ["GET","POST"])
 def train_cls_models():
@@ -703,6 +831,10 @@ def train_cls_models():
         if i == "svc":
             return render_template("models/SupportVectorMachines/SupportVectorClassifier.html",
                                       target=target, trains=training)
+        if i == "random_forest_cls":
+            return render_template("models/RandomForest/RandomForestClassifier.html",
+                                      target=target, trains=training)
+            
 
 @app.route("/train_logistic_regression_classifier", methods = ["GET","POST"])
 def train_logistic_regression_classifier():
@@ -831,50 +963,58 @@ def test_support_vector_classifier():
     score=score*100
     return jsonify({"score":score})
 
-@app.route("/train_support_vector_regressor", methods = ["GET","POST"])
-def train_support_vector_regressor():
-    global support_vector_regressor
+@app.route("/train_random_forest_classifier", methods = ["GET","POST"])
+def train_random_forest_classifier():
+    global random_forest_classifier
     
-   
-    epsilon = request.form.get("epsilon")
-    max_iter = request.form.get("max_iter")
-    kernel = request.form.get("kernel")
-    parameter = request.form.get("parameter")
-    gamma = request.form.get("gamma")
+    n_estimators = request.form.get("n_estimators")
+    max_depth = request.form.get("max_depth")
+    max_features = request.form.get("max_features")
+    criterion = request.form.get("criterion")
+    bootstrap = request.form.get("bootstrap")
+    oob_score = request.form.get("oob")
     
-    if not epsilon:
-        epsilon=0.1
-    else:
-        epsilon = float(epsilon)
-        
-    if not max_iter:
-        max_iter=-1
-    else:
-        max_iter = int(max_iter)
-
-    if not kernel:
-        kernel = "rbf"
-        
-    if not parameter:
-        parameter = 1.0
-    else:
-        parameter = float(parameter)
-        
-    if not gamma:
-        gamma = "scale"
-    elif gamma == "auto":
-        gamma = "auto"
-    else:
-        gamma = float(gamma)
     
-    support_vector_regressor = support_vector_regression(X_train,y_train,epsilon=epsilon, max_iter=max_iter, kernel=kernel, parameter=parameter, gamma=gamma)
-    return render_template("models/SupportVectorMachines/SupportVectorRegressor.html",
+    if not n_estimators:
+        n_estimators=100
+    else:
+        n_estimators = int(n_estimators)
+        
+    if not max_depth:
+        max_depth=None
+    else: 
+        max_depth = int(max_depth)
+        
+    if not max_features:
+        max_features="sqrt"
+    elif max_features == "log2":
+        max_features = "log2"
+    elif max_features == "None":
+        max_features = None
+    else:
+        max_features = float(max_features)
+        
+    if not criterion:
+        criterion="gini"
+    
+    if not bootstrap:
+        bootstrap=True
+    else:
+        bootstrap=False
+        
+    if not oob_score:
+        oob_score=False
+    else:
+        oob_score=True
+        
+    random_forest_classifier=random_forest_classification(X_train,y_train,n_estimators=n_estimators, max_depth=max_depth,max_features=max_features, criterion=criterion, bootstrap=bootstrap, oob_score=oob_score)
+    return render_template("models/RandomForest/RandomForestClassifier.html",
                            target=target, trains=training,train_status="Model is trained Successfully")
 
-@app.route("/test_support_vector_regressor", methods = ["GET","POST"])
-def test_support_vector_regressor():
+@app.route("/test_random_forest_classifier", methods = ["GET","POST"])
+def test_random_forest_classifier():
     
-    score=check_r2_score(y_test,support_vector_regressor.predict(X_test))
+    score=check_accuracy(y_test,random_forest_classifier.predict(X_test))
     score=score*100
     return jsonify({"score":score})
 
