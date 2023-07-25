@@ -150,7 +150,7 @@
             </div>
 
             <div class="row training-head">
-                <div class="col-12 "><h2>Training</h2></div>
+                <div class="col-12 "><h2>Classification Algorithms</h2></div>
             </div>
 
             <form action="/train_cls_models" class = "form" method="post">
@@ -186,10 +186,24 @@
                         <input type="checkbox" name="classification_models" id = "classification_models" value = "knn" class="form-check-input">
                         <h3 class="model-name">K Nearest Neighbors</h3>
                     </div>
-    
-                    <div class="col-12 col-sm-6 gaussian_process model">
-                        <input type="checkbox" name="classification_models" id="classification_models" value = "gaussian_process" class="form-check-input">
-                        <h3 class="model-name">Gaussian Process Classifier</h3>
+
+                    <div class="row training-head">
+                        <div class="col-12 "><h2>Boosting Algorithms</h2></div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 adaboost model">
+                        <input type="checkbox" name="classification_models" id="classification_models" value = "adaboost" class="form-check-input">
+                        <h3 class="model-name">Adaboost Classifier</h3>
+                    </div>
+
+                    <div class="col-12 col-sm-6 gradientboost model">
+                        <input type="checkbox" name="classification_models" id="classification_models" value = "gradientboost" class="form-check-input">
+                        <h3 class="model-name">Gradient Boost Classifier</h3>
+                    </div>
+
+                    <div class="col-12 col-sm-6 xgboost model">
+                        <input type="checkbox" name="classification_models" id="classification_models" value = "xgboost" class="form-check-input">
+                        <h3 class="model-name">Xgboost Classifier</h3>
                     </div>
 
                     <div class="col-12 col-sm-6  start-button">

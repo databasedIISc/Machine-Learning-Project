@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+    <title>Adaboost Classifier</title>
+        
+    <style>
+
+        body {
+            background-image: url("../../../../static/images/start/bg2.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-color: #050111;
+        }
+
+        .container {
+            background-color: #f3eff9;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+            padding: 0;
+            border-radius: 1rem;
+        }
+
+        .top {
+            background-color: #dcc0fd;
+            border-radius: 1rem 1rem 0 0;
+           
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            text-align: center;
+            font-size: 6vw;
+            color: #1b0e42;
+            padding: 2rem 1rem 1rem 1rem;
+        }
+
+        .instruction, .instruction-1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            text-align: left;
+            font-size: 1rem;
+            margin: 1rem 1rem 0rem 1rem;
+            padding: 1rem 2rem 0rem 2rem;
+            color: #7108c1;
+        }
+
+        .choose-box {
+            padding: 1rem;
+        }
+
+        p {
+            font-family: 'Open Sans', sans-serif;
+            text-align: justify;
+            margin: 1rem 2rem;
+            color: #050111;
+            font-weight: 500;
+        }
+        
+
+        .proceed-button {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .btn-primary {
+            text-align: center;
+            width: 50%;
+            height: 10vh;
+            background-color: #7108c1;
+            border: 2pt solid #f2e6ff;
+            font-family: 'Open Sans', sans-serif;
+            font-size: larger;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
+            margin-top: 3rem;
+        }
+
+
+        .body-img {
+            width: 100%;
+        }
+        
+        .row-1 {
+            display: flex;
+        }
+
+        .instruction-1{
+            flex-basis: 40%;
+            margin: 1rem;
+        }
+
+        .test-size-input{
+            flex-basis: 60%;
+            margin-right: 10%;
+        }
+
+        .x {
+            color: rgb(6, 187, 6);
+        }
+
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="top">
+            <h1>Adaboost Classifier</h1>
+        </div>
+
+        <div class="container choose-box">
+          <form action="/train_adaboost_classifier" method = "POST" enctype = "multipart/form-data" target="_self">
+
+            <div class="row">
+                <div class="col row-1">
+                    <p class="instruction-1">Enter n_estimators </p>
+                    <input type="number" name="n_estimators"  id="n_estimators" class="file test-size-input form-control" placeholder="Enter Integer, 50(default)" step = "1"> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col row-1">
+                    <p class="instruction-1">Enter Learning Rate </p>
+                    <input type="number" name="learning_rate"  id="learning_rate" class="file test-size-input form-control" placeholder="Enter float, 1(default)" step = ".01"> 
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <p class="instruction">Select Algorithm</p>
+                </div>
+            </div>
+
+            <div class="row ps-5">
+
+                <div class="col-md-4 col-sm-12">
+                    <input type = "checkbox" id = "algorithm" name = "algorithm" value = "SAMME" class="form-check-input problem-check"> SAMME
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <input type = "checkbox" id = "algorithm" name = "algorithm" value = "SAMME.R" class="form-check-input problem-check"> SAMME.R
+                </div>
+            </div>
+
+            
+            <div class="row">
+                <div class="col-12">
+                    <p class="instruction">Target Feature: {{target}}</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <p class="instruction">Training Features: {{trains}}</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <p class="x instruction" id="test_accuracy">{{train_status}}</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <p class="instruction">To Learn more about these parameters: <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.AdaBoostClassifier.html">HERE</a></p>
+                </div>
+            </div>
+        
+
+            <div class="proceed-button">
+                <button type="submit" class="submit btn btn-primary">Train</button>
+            </div>
+
+
+          </form>
+          <div class="proceed-button">
+            <button type="submit" class="submit btn btn-primary" id = "test">Test</button>
+        </div>
+
+        </div>    
+    </div>
+
+    <script>
+
+        document.getElementById("test").addEventListener("click",function(){
+            
+            fetch("/test_adaboost_classifier")
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("test_accuracy").innerText = "Accuracy is: " + data.score;
+                });
+        });
+
+
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src = "../static/js/intro.js"></script>
+    
+
+</body>
+</html>

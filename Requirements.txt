@@ -3,3 +3,4 @@ Numpy
 flask
 matplotlib
 seaborn
+xgboost
