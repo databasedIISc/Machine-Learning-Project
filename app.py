@@ -5,7 +5,7 @@ import matplotlib
 import seaborn as sns
 import io
 import base64
-import xgboost as xb
+import xgboost as xbs
 matplotlib.use('Agg')
 plt=matplotlib.pyplot
 
@@ -239,7 +239,16 @@ def gradient_boost_regression(X_train,y_train,n_estimators, learning_rate, loss,
     gradient_boost.fit(X_train,y_train)
     
     return gradient_boost
-        
+
+# XGBoost Regressor
+def xgboost_regression(X_train,y_train):
+    
+    xgb_reg=xbs.XGBRegressor()
+    xgb_reg.fit(X_train,y_train)
+    
+    return xgb_reg
+
+
 #Home Page
 @app.route("/")
 def home():
@@ -944,6 +953,21 @@ def test_gradient_boost_regressor():
     score=check_r2_score(y_test,gradient_boost_regressor.predict(X_test))
     score=score*100
     return jsonify({"score":score})
+
+@app.route("/train_xgboost_regressor", methods = ["GET","POST"])
+def train_xgboost_regressor():
+    global xgboost_regressor
+    
+    xgboost_regressor=xgboost_regression(X_train,y_train)
+    return render_template("models/Boosting/Regressors/XgboostRegressor.html",
+                           training=X_train.shape, target=X_test.shape,train_status="Model is trained Successfully")
+    
+@app.route("/test_xgboost_regressor", methods = ["GET","POST"])
+def test_xgboost_regressor():
+        
+        score=check_r2_score(y_test,xgboost_regressor.predict(X_test))
+        score=score*100
+        return jsonify({"score":score})
 
 @app.route("/train_cls_models", methods = ["GET","POST"])
 def train_cls_models():
