@@ -5,6 +5,7 @@ import matplotlib
 import seaborn as sns
 import io
 import base64
+import xgboost as xb
 matplotlib.use('Agg')
 plt=matplotlib.pyplot
 
@@ -202,8 +203,42 @@ def random_forest_regression(X_train,y_train,n_estimators,max_depth,max_features
     forest.fit(X_train,y_train)
     
     return forest
+
+# Adaboost Classification
+def adaboost_classification(X_train,y_train,n_estimators,learning_rate,algorithm):
     
+    from sklearn.ensemble import AdaBoostClassifier
+    adaboost = AdaBoostClassifier(n_estimators=n_estimators, learning_rate=learning_rate, algorithm=algorithm)
+    adaboost.fit(X_train,y_train)
     
+    return adaboost
+    
+# Gradient Boost Classification
+def gradientboost_classification(X_train,y_train,n_estimators,learning_rate,max_depth,criterion):
+    
+    from sklearn.ensemble import GradientBoostingClassifier
+    gradient_boost = GradientBoostingClassifier(n_estimators=n_estimators, learning_rate=learning_rate, max_depth=max_depth,criterion=criterion)
+    gradient_boost.fit(X_train,y_train)
+    
+    return gradient_boost
+
+# Adaboost Regression
+def adaboost_regression(X_train,y_train,n_estimators,learning_rate,loss):
+    
+    from sklearn.ensemble import AdaBoostRegressor
+    adaboost = AdaBoostRegressor(n_estimators=n_estimators, learning_rate=learning_rate, loss=loss)
+    adaboost.fit(X_train,y_train)
+    
+    return adaboost
+
+# Gradient Boost Regressor
+def gradient_boost_regression(X_train,y_train,n_estimators, learning_rate, loss, criterion, max_depth, max_features):
+    
+    from sklearn.ensemble import GradientBoostingRegressor
+    gradient_boost = GradientBoostingRegressor(n_estimators=n_estimators, learning_rate=learning_rate, loss=loss, criterion=criterion, max_depth=max_depth, max_features=max_features)
+    gradient_boost.fit(X_train,y_train)
+    
+    return gradient_boost
         
 #Home Page
 @app.route("/")
@@ -630,8 +665,16 @@ def train_reg_models():
         if i == "random_forest_reg":
             return render_template("models/RandomForest/RandomForestRegressor.html",
                                    target=target, trains=training)
-            
-        return render_template("regression2.html")
+        if i == "adaboost_reg":
+            return render_template("models/Boosting/Regressors/AdaboostRegressor.html",
+                                   target=target, trains=training)
+        if i == "gradientboost_reg":
+            return render_template("models/Boosting/Regressors/GradientBoostRegressor.html",
+                                   target=target, trains=training)
+        if i == "xgboost_reg":
+            return render_template("models/Boosting/Regressors/XgboostRegressor.html",
+                                   target=target, trains=training)
+        
 
 @app.route("/train_linear_reg", methods = ["GET","POST"])
 def train_linear_reg():
@@ -812,6 +855,96 @@ def test_random_forest_regressor():
     score=score*100
     return jsonify({"score":score})
 
+@app.route("/train_adaboost_regressor", methods = ["GET","POST"])
+def train_adaboost_regressor():
+    global adaboost_regressor
+    
+    n_estimators = request.form.get("n_estimators")
+    learning_rate = request.form.get("learning_rate")
+    loss = request.form.get("loss")
+    
+    
+    if not n_estimators:
+        n_estimators=50
+    else:
+        n_estimators = int(n_estimators)
+        
+    if not learning_rate:
+        learning_rate=1.0
+    else:
+        learning_rate = float(learning_rate)
+        
+    if not loss:
+        loss="linear"
+        
+    
+    
+    adaboost_regressor = adaboost_regression(X_train,y_train,n_estimators=n_estimators, learning_rate=learning_rate, loss=loss)
+    return render_template("models/Boosting/Regressors/AdaboostRegressor.html",
+                           training=X_train.shape, target=X_test.shape,train_status="Model is trained Successfully")
+
+@app.route("/test_adaboost_regressor", methods = ["GET","POST"])
+def test_adaboost_regressor():
+    
+    score=check_r2_score(y_test,adaboost_regressor.predict(X_test))
+    score=score*100
+    return jsonify({"score":score})
+
+@app.route("/train_gradient_boost_regressor", methods = ["GET","POST"])
+def train_gradient_boost_regressor():
+    global gradient_boost_regressor
+    
+    n_estimators = request.form.get("n_estimators")
+    learning_rate = request.form.get("learning_rate")
+    loss = request.form.get("loss")
+    criterion = request.form.get("criterion")
+    max_depth = request.form.get("max_depth")
+    max_features = request.form.get("max_features")
+    
+    
+    if not n_estimators:
+        n_estimators=100
+    else:
+        n_estimators = int(n_estimators)
+        
+    if not learning_rate:
+        learning_rate=0.1
+    else:
+        learning_rate = float(learning_rate)
+        
+    if not loss:
+        loss="squared_error"
+        
+    if not criterion:
+        criterion="friedman_mse"
+        
+    if not max_depth:
+        max_depth=3
+    else:
+        max_depth = int(max_depth)
+        
+    if not max_features:
+        max_features=None
+    elif max_features == "log2":
+        max_features = "log2"
+    elif max_features == "None":
+        max_features = None
+    elif max_features == "sqrt":
+        max_features = "sqrt"
+    else:
+        max_features = float(max_features)
+        
+    gradient_boost_regressor = gradient_boost_regression(X_train,y_train,n_estimators=n_estimators, learning_rate=learning_rate, loss=loss, criterion=criterion, max_depth=max_depth, max_features=max_features)
+    return render_template("models/Boosting/Regressors/GradientBoostRegressor.html",
+                           training=X_train.shape, target=X_test.shape,train_status="Model is trained Successfully")
+
+@app.route("/test_gradient_boost_regressor", methods = ["GET","POST"])
+def test_gradient_boost_regressor():
+    
+    score=check_r2_score(y_test,gradient_boost_regressor.predict(X_test))
+    score=score*100
+    return jsonify({"score":score})
+
 @app.route("/train_cls_models", methods = ["GET","POST"])
 def train_cls_models():
     global classification_models
@@ -834,7 +967,15 @@ def train_cls_models():
         if i == "random_forest_cls":
             return render_template("models/RandomForest/RandomForestClassifier.html",
                                       target=target, trains=training)
-            
+        if i == "adaboost":
+            return render_template("models/Boosting/Classifiers/AdaboostClassifier.html",
+                                      target=target, trains=training)
+        if i == "gradientboost":
+            return render_template("models/Boosting/Classifiers/GradientBoostClassifier.html",
+                                      target=target, trains=training)
+        if i == "xgboost":
+            return render_template("models/Boosting/Classifiers/XGBoostClassifier.html",
+                                      target=target, trains=training)
 
 @app.route("/train_logistic_regression_classifier", methods = ["GET","POST"])
 def train_logistic_regression_classifier():
@@ -1017,6 +1158,79 @@ def test_random_forest_classifier():
     score=check_accuracy(y_test,random_forest_classifier.predict(X_test))
     score=score*100
     return jsonify({"score":score})
+
+@app.route("/train_adaboost_classifier", methods = ["GET","POST"])
+def train_adaboost_classifier():
+    global adaboost_classifier
+    
+    n_estimators = request.form.get("n_estimators")
+    learning_rate = request.form.get("learning_rate")
+    algorithm = request.form.get("algorithm")
+    
+    if not n_estimators:
+        n_estimators=50
+    else:
+        n_estimators = int(n_estimators)
+        
+    if not learning_rate:
+        learning_rate=1.0
+    else:
+        learning_rate = float(learning_rate)
+        
+    if not algorithm:
+        algorithm="SAMME.R"
+    
+    adaboost_classifier=adaboost_classification(X_train,y_train,n_estimators=n_estimators, learning_rate=learning_rate, algorithm=algorithm)
+    return render_template("models/Boosting/Classifiers/AdaboostClassifier.html",
+                           target=target, trains=training,train_status="Model is trained Successfully")
+
+@app.route("/test_adaboost_classifier", methods = ["GET","POST"])
+def test_adaboost_classifier():
+    
+    score=check_accuracy(y_test,adaboost_classifier.predict(X_test))
+    score=score*100
+    return jsonify({"score":score})
+
+@app.route("/train_gradientboost_classifier", methods = ["GET","POST"])
+def train_gradientboost_classifier():
+    global gradientboost_classifier
+    
+    n_estimators = request.form.get("n_estimators")
+    learning_rate = request.form.get("learning_rate")
+    max_depth = request.form.get("max_depth")
+    criterion = request.form.get("criterion")
+    
+    
+    if not n_estimators:
+        n_estimators=100
+    else:
+        n_estimators = int(n_estimators)
+        
+    if not learning_rate:
+        learning_rate=0.1
+    else:
+        learning_rate = float(learning_rate)
+        
+    if not max_depth:
+        max_depth=3
+    else:
+        max_depth = int(max_depth)
+        
+    if not criterion:
+        criterion="friedman_mse"
+    
+    
+    gradientboost_classifier=gradientboost_classification(X_train,y_train,n_estimators=n_estimators, learning_rate=learning_rate, max_depth=max_depth, criterion=criterion)
+    return render_template("models/Boosting/Classifiers/GradientBoostClassifier.html",
+                           target=target, trains=training,train_status="Model is trained Successfully")
+
+@app.route("/test_gradientboost_classifier", methods = ["GET","POST"])
+def test_gradientboost_classifier():
+    
+    score=check_accuracy(y_test,gradientboost_classifier.predict(X_test))
+    score=score*100
+    return jsonify({"score":score})
+
 
 if __name__=="__main__":
     app.run(host="0.0.0.0")

@@ -16,12 +16,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
 
-    <title>Random Forest Regressor</title>
+    <title>Adaboost Classifier</title>
         
     <style>
 
         body {
-            background-image: url("../../../static/images/start/bg2.jpg");
+            background-image: url("../../../../static/images/start/bg2.jpg");
             background-repeat: no-repeat;
             background-size: cover;
             background-color: #050111;
@@ -123,96 +123,42 @@
 
     <div class="container">
         <div class="top">
-            <h1>Random Forest Regressor</h1>
+            <h1>Adaboost Classifier</h1>
         </div>
 
         <div class="container choose-box">
-          <form action="/train_random_forest_regressor" method = "POST" enctype = "multipart/form-data" target="_self">
+          <form action="/train_adaboost_classifier" method = "POST" enctype = "multipart/form-data" target="_self">
 
             <div class="row">
                 <div class="col row-1">
-                    <p class="instruction-1">Enter No of Trees</p>
-                    <input type="number" name="n_estimators"  id="n_estimators" class="file test-size-input form-control" placeholder="100 (default)" step = "1">
-                    
-                    <p class="instruction-1">Enter Max Depth</p>
-                    <input type="number" name="max_depth"  id="max_depth" class="file test-size-input form-control" placeholder="Enter Integer, None(default)" step = "1">
+                    <p class="instruction-1">Enter n_estimators </p>
+                    <input type="number" name="n_estimators"  id="n_estimators" class="file test-size-input form-control" placeholder="Enter Integer, 50(default)" step = "1"> 
                 </div>
             </div>
-
             <div class="row">
-                <div class="col-12">
-                    <p class="instruction">Max Features</p>
-                </div>
-            </div>
-
-            <div class="row ps-5">
-
-                <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "max_features" name = "max_features" value = "sqrt" class="form-check-input problem-check"> sqrt
-                </div>
-                <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "max_features" name = "max_features" value = "log2" class="form-check-input problem-check"> log2
-                </div>
                 <div class="col row-1">
-                    <input type="number" name="max_features"  id="max_features" class="file test-size-input form-control" placeholder="Enter Int/Float 1(default)" step = ".01"> 
-                </div>
-                <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "max_features" name = "max_features" value = "None" class="form-check-input problem-check"> None
+                    <p class="instruction-1">Enter Learning Rate </p>
+                    <input type="number" name="learning_rate"  id="learning_rate" class="file test-size-input form-control" placeholder="Enter float, 1(default)" step = ".01"> 
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-12">
-                    <p class="instruction">Criterion</p>
+                    <p class="instruction">Select Algorithm</p>
                 </div>
             </div>
 
             <div class="row ps-5">
 
                 <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "criterion" name = "criterion" value = "squared_error" class="form-check-input problem-check"> squared_error (default)
+                    <input type = "checkbox" id = "algorithm" name = "algorithm" value = "SAMME" class="form-check-input problem-check"> SAMME
                 </div>
                 <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "criterion" name = "criterion" value = "absolute_error" class="form-check-input problem-check"> absolute_error
-                </div>
-                <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "criterion" name = "criterion" value = "friedman_mse" class="form-check-input problem-check"> friedman_mse
-                </div>
-                <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "criterion" name = "criterion" value = "poisson" class="form-check-input problem-check"> poisson
-                </div>
-                
-                
-            </div>
-
-            <div class="row">
-                <div class="col-12">
-                    <p class="instruction">Bootstrap</p>
+                    <input type = "checkbox" id = "algorithm" name = "algorithm" value = "SAMME.R" class="form-check-input problem-check"> SAMME.R
                 </div>
             </div>
 
-            <div class="row ps-5">
-
-                <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "bootstrap" name = "bootstrap" value = "False" class="form-check-input problem-check"> False
-                </div>
-                
-            </div>
-
-            <div class="row">
-                <div class="col-12">
-                    <p class="instruction">oob_score</p>
-                </div>
-            </div>
-
-            <div class="row ps-5">
-
-                <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "oob" name = "oob" value = "True" class="form-check-input problem-check"> True
-                </div>
-                
-            </div>
-
+            
             <div class="row">
                 <div class="col-12">
                     <p class="instruction">Target Feature: {{target}}</p>
@@ -233,7 +179,7 @@
 
             <div class="row">
                 <div class="col-12">
-                    <p class="instruction">To Learn more about these parameters: <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html">HERE</a></p>
+                    <p class="instruction">To Learn more about these parameters: <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.AdaBoostClassifier.html">HERE</a></p>
                 </div>
             </div>
         
@@ -255,7 +201,7 @@
 
         document.getElementById("test").addEventListener("click",function(){
             
-            fetch("/test_random_forest_regressor")
+            fetch("/test_adaboost_classifier")
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById("test_accuracy").innerText = "Accuracy is: " + data.score;
