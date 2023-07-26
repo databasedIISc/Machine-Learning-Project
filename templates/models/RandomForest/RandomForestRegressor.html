@@ -255,7 +255,7 @@
 
         document.getElementById("test").addEventListener("click",function(){
             
-            fetch("/test_random_forest_classifier")
+            fetch("/test_random_forest_regressor")
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById("test_accuracy").innerText = "Accuracy is: " + data.score;
