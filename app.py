@@ -424,8 +424,8 @@ def visual1():
     num = df.select_dtypes(include=["int64","float64"])
     if num.empty:
         return render_template("visualization1.html", message1 = "No Numerical Features Found")
-    plt.figure(figsize=(10,10))
-    sns.heatmap(num.corr().round(2), annot=True, cmap="coolwarm")
+    plt.figure(figsize=(12,12))
+    sns.heatmap(num.corr().round(2), annot=True, cmap="rainbow")
     plt.savefig("static/images/visual1/heatmap.png", bbox_inches = 'tight')
     plt.clf()
     sns.histplot(data=df,x=df.columns[-1], bins = 60, color = "r")
@@ -442,17 +442,25 @@ def histograms():
     arr = request.form.getlist('columns')
     arr = [i.replace(","," ") for i in arr]
     
-    if(len(arr) == 1):
-        return render_template("visualization2.html", message = "Select at least 2 features")
+    
     if(len(arr) > 9):
         return render_template("visualization2.html", message = "Select maximum 9 features")
     if len(arr) != 0:
         sns.set_style("darkgrid")
         
         if(len(arr) == 1):
+            plt.figure(figsize=(12,12))
             sns.histplot(x = df[arr[0]], bins = 30, kde = True, color = "r")
         
-        elif(len(arr) > 1 and len(arr) < 5):
+        elif(len(arr) == 2):
+            fig, axes = plt.subplots(nrows = 1, ncols = 2, figsize = (15,10))
+            for i in range(len(arr)):
+                if (i == 0):
+                    sns.histplot(x = df[arr[0]], ax = axes[0], bins = 30, kde = True, color = "r")
+                if (i == 1):
+                    sns.histplot(x = df[arr[1]], ax = axes[1], bins = 30, kde = True, color = "b")
+        
+        elif(len(arr) > 2 and len(arr) < 5):
             fig, axes = plt.subplots(nrows = 2, ncols = 2, figsize = (15,15))
             for i in range(len(arr)):
                 if (i == 0):
@@ -463,7 +471,21 @@ def histograms():
                     sns.histplot(x = df[arr[2]], ax = axes[1, 0], bins = 30, kde = True, color = "b")
                 if (i == 3):
                     sns.histplot(x = df[arr[3]], ax = axes[1, 1], bins = 30, kde = True, color = "black")
-                    
+        elif(len(arr) == 6):
+            fig, axes = plt.subplots(nrows = 2, ncols = 3, figsize = (15,10))
+            for i in range(len(arr)):
+                if (i == 0):
+                    sns.histplot(x = df[arr[0]], ax = axes[0, 0], bins = 30, kde = True, color = "r")
+                if (i == 1):
+                    sns.histplot(x = df[arr[1]], ax = axes[0, 1], bins = 30, kde = True, color = "b")
+                if (i == 2):
+                    sns.histplot(x = df[arr[2]], ax = axes[0, 2], bins = 30, kde = True, color = "black")
+                if (i == 3):
+                    sns.histplot(x = df[arr[3]], ax = axes[1, 0], bins = 30, kde = True, color = "b")
+                if (i == 4):
+                    sns.histplot(x = df[arr[4]], ax = axes[1, 1], bins = 30, kde = True, color = "r")
+                if (i == 5):
+                    sns.histplot(x = df[arr[5]], ax = axes[1, 2], bins = 30, kde = True, color = "g")
         else:
             fig, axes = plt.subplots(nrows = 3, ncols = 3, figsize = (15,15))
             for i in range(len(arr)):
