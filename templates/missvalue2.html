@@ -118,10 +118,15 @@
                 max-width: 120px; 
             }
 
-            .visualm, .next-button {
+            .visualm, .next-button, .boxplot {
                 display: flex;
                 justify-content: center;
                 align-items: center;               
+            }
+
+            /* change here if you wish to change Next button width  */
+            .continue-button {
+                height: 3rem;
             }
 
             .btn-outline-primary {
@@ -154,7 +159,7 @@
                 padding: 1rem;
             }
 
-            .boxplot {
+            .boxplot, .inputs {
                 padding: 2rem;
             }
 
@@ -190,13 +195,19 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="column boxplot">
-                    {% for image in images %}
-                    <img src = "{{ image }}" alt="boxplot" class="boxplot1">
-                    {% endfor %}
-            
+            <div class="container">
 
+                <div class="row boxplot">
+                    
+                    {% for image in images %}
+                    <div class="col-12 col-md-6">
+                        <img src = "{{ image }}" alt="boxplot" class="boxplot1">
+                    </div>
+                    {% endfor %}
+                    
+                </div>
+            
+                <div class="inputs">
                     <form action="/fill_misses" method="POST" class = "features">
                         <p class = "head5">Select Numerical Features</p>
                         {% for i in columns_numerical %}
@@ -216,7 +227,7 @@
                         {% endfor %}
 
                         <div>
-                            <button type="submit" class="submit btn btn-secondary solid-button">Fill Feature</button>
+                            <button type="submit" class=" submit btn btn-secondary solid-button">Fill Feature</button>
                         </div>
                     </form>
                 </div>
@@ -224,7 +235,7 @@
 
            <div class="row">
                 <div class="col next-button">
-                    <button type="submit" class="submit btn btn-primary"><p>Next</p></button>
+                    <button type="submit" class="continue-button submit btn btn-primary"><p>Next</p></button>
                 </div>
            </div>
             

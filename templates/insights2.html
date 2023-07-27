@@ -1,56 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InsightsII</title>
-    <link rel="stylesheet" href="../static/css/insights.css">
-    <script src = ../static/js/redirect.js></script>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    
+        <!-- Old External CSS -->
+        <!-- <link rel="stylesheet" href="../static/css/regression.css"> -->
 
 
-    <main class="container">
+        <!-- fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
+    
+        <title>InsightsII</title>
+            
+        <style>
+    
+            body {
+                background-image: url("../static/images/start/bg2.jpg");
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-color: #050111;
+               
+            }
+    
+            .container {
+                background-color: #f3eff9;
+                margin-top: 3rem;
+                margin-bottom: 3rem;
+                padding: 0;
+                border-radius: 1rem;
+            }
+    
+            .top {
+                background-color: #dcc0fd;
+                border-radius: 1rem 1rem 0 0;
+               
+            }
+    
+            h1 {
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 900;
+                text-align: center;
+                font-size: 6vw;
+                color: #1b0e42;
+                padding: 2rem 1rem 1rem 1rem;
+                
+            }
 
-        <!--heading for page-->
-        <div class="heading">
-            <h1 class="head">
-                Data Insights: Level II
-            </h1>
+            p {
+                margin-bottom: 0;
+            }      
+           
+            .round-menu, .insightsII {
+                padding: 2rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;  
+            }
 
-            <!--Dropdown menu for round off-->
-            <div class="dropdown">
-                <button class="drop">
-                    Round OFF
-                </button>
-                <div class="dropcontent">
-                    <a href = "/round2">2-Decimals</a>
-                    <a href = "/round3">3-Decimals</a>
+        </style>
+    </head>
+    <body>
+
+        <div class="container">
+
+            <div class="top">
+                <h1>Data Insights:<br>Level II</h1>
+            </div>
+
+            <div class="row">
+                <div class="col-12 round-menu">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Round off
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="/round2">2 Decimal Places</a></li>
+                          <li><a class="dropdown-item" href="/round3">3 Decimal Places</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-               
-
-            <div class="insightsII">
-                {{dataset|safe}}
+            
+            <div class="row"> 
+                <div class="col-12">
+                    <div class="insightsII">
+                        {{dataset|safe}}
+                    </div>
+                </div>
             </div>
-    
         </div>
-        
-        
-        <!--Adding python logo-->
-        <div class="pylogo">
-            <img src="../static/images/python(2).png" alt="python" class="python">
-        </div>
+        <script src = ../static/js/slot2.js></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 
-        <!--Adding image of robot-->
-        <div class="robot">
-            <img src="../static/images/machine-learning-artificial-intelligence-deep-learning-computer-science-technology-44866d77e0f551758f0ede44987fd317.png" alt="robot" class="robo">
-            </div>
+    </body>
 
-        <!--Insights 2 results-->
-        
-        </main>
-        
-        
-</body>
 </html>
