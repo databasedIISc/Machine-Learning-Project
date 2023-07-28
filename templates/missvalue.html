@@ -164,13 +164,21 @@
                 padding: 2rem;
             }
 
-            .miss_table {
+            .boxes {
                 display: flex;
-                flex-direction: row !important;
-                justify-content: space-evenly;
-                padding: 0.5em;
-                overflow-x: auto;
-                width: fit-content;
+                flex-direction: row;
+                border: 2px solid black;
+                margin: 1rem;
+                flex-wrap: wrap;
+                gap: 10px;
+                justify-content: space-between;
+            }
+
+            .boxes img {
+                border: 2px solid black;
+                object-fit: cover;
+                width: 650px;
+                height: 550px;
             }
 
             table {
@@ -240,7 +248,7 @@
 
             <div class="row">
                 <div class="col-12 bar-graph">
-                    <div class="miss_table">
+                    <div class="boxes">
                         {{dataset|safe}}<br>
                         {{message}}<br>
                         <img src = "{{bar_url}}" alt="barplot" class="barplot">
@@ -249,9 +257,18 @@
             </div>
 
             <div class="row">
+                <div class="col next-button">
+                    <h2>Categorical Features</h2>
+                    <button type="submit" class="continue-button btn btn-primary" onclick = fill_cat()>Fill Here</button>
+                </div>
+           </div>
+
+            <div class="row">
                 <div class="column histplot">
-                    <p class = "head1">Select Features: Missing Values will be filled considering these features.</p>
-                    <p class = "head2">Select only 1</p>
+
+                    <h2>Numerical Features</h2>
+                    <h4>Select exactly 1</h4>
+                    <p>Missing values will be filled by considering median</p>
                     <form action="/boxplots" method="POST" class = "features">
     
                         {% for i in features %}
@@ -264,6 +281,7 @@
                             </div>
                        </div>
                     </form>
+
                 </div>
             </div>
 
@@ -278,6 +296,12 @@
             
           
         </div>
+
+        <script>
+            function fill_cat() {
+                window.location.href = "/fill_misses_categorical";
+            }   
+        </script>
         <script src = ../static/js/slot2.js></script>
         <script src="https://kit.fontawesome.com/920204e445.js" crossorigin="anonymous"></script>
 

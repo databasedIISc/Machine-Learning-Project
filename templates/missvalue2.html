@@ -163,6 +163,23 @@
                 padding: 2rem;
             }
 
+            .boxes {
+                display: flex;
+                flex-direction: row;
+                border: 2px solid black;
+                margin: 1rem;
+                flex-wrap: wrap;
+                gap: 20px;
+                justify-content: space-between;
+            }
+
+            .boxes img {
+                border: 2px solid black;
+                object-fit: cover;
+                width: 600px;
+                height: 400px;
+            }
+
         </style>
     </head>
     <body>
@@ -197,21 +214,17 @@
 
             <div class="container">
 
-                <div class="row boxplot">
-                    
+                <div class="boxes">
                     {% for image in images %}
-                    <div class="col-12 col-md-6">
-                        <img src = "{{ image }}" alt="boxplot" class="boxplot1">
-                    </div>
+                        <img src="{{image}}" alt="boxplot">
                     {% endfor %}
-                    
                 </div>
             
                 <div class="inputs">
-                    <form action="/fill_misses" method="POST" class = "features">
-                        <p class = "head5">Select Numerical Features</p>
+                    <form action="/fill_misses_numerical" method="POST" class = "features">
+                        <p class = "head5">Select Numerical Features to fill</p>
                         {% for i in columns_numerical %}
-                            <input type = "checkbox" id = "columns" name = "columns" class="form-check-input" value = {{i.replace(" ",",")}}> {{i}}
+                            <input type = "checkbox" id = "columns" name = "columns_num" class="form-check-input" value = {{i.replace(" ",",")}}> {{i}}
                         {% endfor %}
 
                         <div>
@@ -220,24 +233,9 @@
                         
                     </form>
 
-                    <form action="/fill_misses" method="POST" class = "features">
-                        <p class = "head5">Select Categorical Features</p>
-                        {% for i in columns_categorical %}
-                            <input type = "checkbox" id = "columns" name = "columns" class="form-check-input" value = {{i.replace(" ",",")}}> {{i}}
-                        {% endfor %}
-
-                        <div>
-                            <button type="submit" class=" submit btn btn-secondary solid-button">Fill Feature</button>
-                        </div>
-                    </form>
                 </div>
             </div>
 
-           <div class="row">
-                <div class="col next-button">
-                    <button type="submit" class="continue-button submit btn btn-primary"><p>Next</p></button>
-                </div>
-           </div>
             
             
           

@@ -5,6 +5,8 @@ import numpy as np
 import matplotlib
 import seaborn as sns
 import io
+import warnings
+warnings.filterwarnings("ignore")
 
 # Extreme Gradient booost
 import xgboost as xbs
@@ -516,7 +518,8 @@ def histograms():
 # Missing Value Analysis
 @app.route("/phase2")
 def phase2():
-    global null_df_copy
+    global null_df_copy,y
+    
     null_df = pd.DataFrame(df.isnull().sum().astype(int), columns = ["Null Count"])
     if (null_df["Null Count"].sum() == 0):
         return render_template("missvalue.html", dataset = "No Missing Values Found")
@@ -525,7 +528,7 @@ def phase2():
     null_df["Null Percentage"] = null_df["Null Percentage"].round(2)
     plt.clf()
     null_df["Null Count"].plot(kind="bar", title = "Bar Plot",
-                           ylabel="Miss Value Count", color = "g")   
+                           ylabel="Miss Value Count", color = "b")   
     plt.savefig("static/images/miss/miss_bar.png", bbox_inches ="tight")
     plt.clf() 
     null_df_copy = null_df.copy()
@@ -541,12 +544,32 @@ def phase2():
         if(feat_list[i] > 1 and feat_list[i] < 15):
             feat_list_idx.append(i)
     feat_list = [df.columns.to_list()[i] for i in feat_list_idx] # Feature list having less unique values    
+    
+    flag = False
+    feat = []
+    for i in range(len(feat_list)):
+        if df[null_df.T.columns.to_list()[i]].dtype == "object":
+            flag = True
+            feat.append(null_df.T.columns.to_list()[i])
+        
+        
+    
+    for i in feat:
+        feat_list.remove(i)
+        
+    temp=null_df_copy.T.columns.to_list()
+    y=[]
+    
+    for i in df.select_dtypes(include=["object"]).columns.to_list():
+        if i in temp:
+            y.append(i)
+            
     return render_template("missvalue.html", dataset = null_df.to_html(), message = message, bar_url = "static/images/miss/miss_bar.png", features = feat_list)
 
 # Detecting Outliers Through Boxplots
 @app.route("/boxplots", methods = ["POST"])
 def boxplots():
-    global select_list
+    global select_list,x
     select_list = request.form.getlist("columns") # Feature list selected by user
     select_list = [i.replace(","," ") for i in select_list]
     if(len(select_list) != 1):
@@ -563,6 +586,11 @@ def boxplots():
         plt.savefig(f"static/images/miss/boxplot{i}.png", bbox_inches ="tight")
         plt.clf()
     images = [f"static/images/miss/boxplot{i}.png" for i in range(len(x))]
+            
+    for i in y:
+        if i in x:
+            x.remove(i)   
+    
         
     return render_template("missvalue2.html", length = len(x), images=images, message = "BoxPlots to see the outliers!", columns_numerical = x)
     
@@ -572,9 +600,9 @@ def show_miss():
     return render_template("miss_dataset.html", dataset = df[df.isnull().any(axis=1)].replace(np.nan, '', regex=True).to_html())
 
 # Missing Value Imputation
-@app.route("/fill_misses", methods = ["POST"])
+@app.route("/fill_misses_numerical", methods = ["POST"])
 def miss_fill():
-    features=request.form.getlist("columns")
+    features=request.form.getlist("columns_num")
     features = [i.replace(","," ") for i in features]
 
     array=list(np.unique(df[select_list[0]]))
@@ -585,7 +613,18 @@ def miss_fill():
             target=array[j]
             median=df[df[select_list[0]]==target][feature].median()
             df[feature].fillna(median,inplace=True)
+    plt.clf()
+    return redirect(url_for("phase2"))
+
+@app.route("/fill_misses_categorical", methods = ["GET","POST"])
+def fill_misses_categorical():
+    features = y
+    for i in features:
     
+        mode_value = df[i].mode().iloc[0]
+        df[i] = df[i].fillna(mode_value)
+
+        
     return redirect(url_for("phase2"))
             
 #Encoding Categorical Features
