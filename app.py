@@ -1,11 +1,34 @@
+# Required Dependencies
 from flask import Flask, render_template, request, redirect, url_for, jsonify, send_file
 import pandas as pd
 import numpy as np
 import matplotlib
 import seaborn as sns
 import io
-import base64
-import xgboost as xb
+import warnings
+warnings.filterwarnings("ignore")
+
+# Extreme Gradient booost
+import xgboost as xbs
+
+# Classification Models
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.naive_bayes import MultinomialNB
+
+# Regression Models
+from sklearn.linear_model import LinearRegression
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.svm import SVR
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import AdaBoostRegressor
+from sklearn.ensemble import GradientBoostingRegressor
+
 matplotlib.use('Agg')
 plt=matplotlib.pyplot
 
@@ -239,7 +262,16 @@ def gradient_boost_regression(X_train,y_train,n_estimators, learning_rate, loss,
     gradient_boost.fit(X_train,y_train)
     
     return gradient_boost
-        
+
+# XGBoost Regressor
+def xgboost_regression(X_train,y_train):
+    
+    xgb_reg=xbs.XGBRegressor()
+    xgb_reg.fit(X_train,y_train)
+    
+    return xgb_reg
+
+
 #Home Page
 @app.route("/")
 def home():
@@ -394,8 +426,8 @@ def visual1():
     num = df.select_dtypes(include=["int64","float64"])
     if num.empty:
         return render_template("visualization1.html", message1 = "No Numerical Features Found")
-    plt.figure(figsize=(10,10))
-    sns.heatmap(num.corr().round(2), annot=True, cmap="coolwarm")
+    plt.figure(figsize=(12,12))
+    sns.heatmap(num.corr().round(2), annot=True, cmap="rainbow")
     plt.savefig("static/images/visual1/heatmap.png", bbox_inches = 'tight')
     plt.clf()
     sns.histplot(data=df,x=df.columns[-1], bins = 60, color = "r")
@@ -412,17 +444,25 @@ def histograms():
     arr = request.form.getlist('columns')
     arr = [i.replace(","," ") for i in arr]
     
-    if(len(arr) == 1):
-        return render_template("visualization2.html", message = "Select at least 2 features")
+    
     if(len(arr) > 9):
         return render_template("visualization2.html", message = "Select maximum 9 features")
     if len(arr) != 0:
         sns.set_style("darkgrid")
         
         if(len(arr) == 1):
+            plt.figure(figsize=(12,12))
             sns.histplot(x = df[arr[0]], bins = 30, kde = True, color = "r")
         
-        elif(len(arr) > 1 and len(arr) < 5):
+        elif(len(arr) == 2):
+            fig, axes = plt.subplots(nrows = 1, ncols = 2, figsize = (15,10))
+            for i in range(len(arr)):
+                if (i == 0):
+                    sns.histplot(x = df[arr[0]], ax = axes[0], bins = 30, kde = True, color = "r")
+                if (i == 1):
+                    sns.histplot(x = df[arr[1]], ax = axes[1], bins = 30, kde = True, color = "b")
+        
+        elif(len(arr) > 2 and len(arr) < 5):
             fig, axes = plt.subplots(nrows = 2, ncols = 2, figsize = (15,15))
             for i in range(len(arr)):
                 if (i == 0):
@@ -433,7 +473,21 @@ def histograms():
                     sns.histplot(x = df[arr[2]], ax = axes[1, 0], bins = 30, kde = True, color = "b")
                 if (i == 3):
                     sns.histplot(x = df[arr[3]], ax = axes[1, 1], bins = 30, kde = True, color = "black")
-                    
+        elif(len(arr) == 6):
+            fig, axes = plt.subplots(nrows = 2, ncols = 3, figsize = (15,10))
+            for i in range(len(arr)):
+                if (i == 0):
+                    sns.histplot(x = df[arr[0]], ax = axes[0, 0], bins = 30, kde = True, color = "r")
+                if (i == 1):
+                    sns.histplot(x = df[arr[1]], ax = axes[0, 1], bins = 30, kde = True, color = "b")
+                if (i == 2):
+                    sns.histplot(x = df[arr[2]], ax = axes[0, 2], bins = 30, kde = True, color = "black")
+                if (i == 3):
+                    sns.histplot(x = df[arr[3]], ax = axes[1, 0], bins = 30, kde = True, color = "b")
+                if (i == 4):
+                    sns.histplot(x = df[arr[4]], ax = axes[1, 1], bins = 30, kde = True, color = "r")
+                if (i == 5):
+                    sns.histplot(x = df[arr[5]], ax = axes[1, 2], bins = 30, kde = True, color = "g")
         else:
             fig, axes = plt.subplots(nrows = 3, ncols = 3, figsize = (15,15))
             for i in range(len(arr)):
@@ -464,7 +518,8 @@ def histograms():
 # Missing Value Analysis
 @app.route("/phase2")
 def phase2():
-    global null_df_copy
+    global null_df_copy,y
+    
     null_df = pd.DataFrame(df.isnull().sum().astype(int), columns = ["Null Count"])
     if (null_df["Null Count"].sum() == 0):
         return render_template("missvalue.html", dataset = "No Missing Values Found")
@@ -473,7 +528,7 @@ def phase2():
     null_df["Null Percentage"] = null_df["Null Percentage"].round(2)
     plt.clf()
     null_df["Null Count"].plot(kind="bar", title = "Bar Plot",
-                           ylabel="Miss Value Count", color = "g")   
+                           ylabel="Miss Value Count", color = "b")   
     plt.savefig("static/images/miss/miss_bar.png", bbox_inches ="tight")
     plt.clf() 
     null_df_copy = null_df.copy()
@@ -489,12 +544,32 @@ def phase2():
         if(feat_list[i] > 1 and feat_list[i] < 15):
             feat_list_idx.append(i)
     feat_list = [df.columns.to_list()[i] for i in feat_list_idx] # Feature list having less unique values    
+    
+    flag = False
+    feat = []
+    for i in range(len(feat_list)):
+        if df[null_df.T.columns.to_list()[i]].dtype == "object":
+            flag = True
+            feat.append(null_df.T.columns.to_list()[i])
+        
+        
+    
+    for i in feat:
+        feat_list.remove(i)
+        
+    temp=null_df_copy.T.columns.to_list()
+    y=[]
+    
+    for i in df.select_dtypes(include=["object"]).columns.to_list():
+        if i in temp:
+            y.append(i)
+            
     return render_template("missvalue.html", dataset = null_df.to_html(), message = message, bar_url = "static/images/miss/miss_bar.png", features = feat_list)
 
 # Detecting Outliers Through Boxplots
 @app.route("/boxplots", methods = ["POST"])
 def boxplots():
-    global select_list
+    global select_list,x
     select_list = request.form.getlist("columns") # Feature list selected by user
     select_list = [i.replace(","," ") for i in select_list]
     if(len(select_list) != 1):
@@ -511,6 +586,11 @@ def boxplots():
         plt.savefig(f"static/images/miss/boxplot{i}.png", bbox_inches ="tight")
         plt.clf()
     images = [f"static/images/miss/boxplot{i}.png" for i in range(len(x))]
+            
+    for i in y:
+        if i in x:
+            x.remove(i)   
+    
         
     return render_template("missvalue2.html", length = len(x), images=images, message = "BoxPlots to see the outliers!", columns_numerical = x)
     
@@ -520,9 +600,9 @@ def show_miss():
     return render_template("miss_dataset.html", dataset = df[df.isnull().any(axis=1)].replace(np.nan, '', regex=True).to_html())
 
 # Missing Value Imputation
-@app.route("/fill_misses", methods = ["POST"])
+@app.route("/fill_misses_numerical", methods = ["POST"])
 def miss_fill():
-    features=request.form.getlist("columns")
+    features=request.form.getlist("columns_num")
     features = [i.replace(","," ") for i in features]
 
     array=list(np.unique(df[select_list[0]]))
@@ -533,7 +613,18 @@ def miss_fill():
             target=array[j]
             median=df[df[select_list[0]]==target][feature].median()
             df[feature].fillna(median,inplace=True)
+    plt.clf()
+    return redirect(url_for("phase2"))
+
+@app.route("/fill_misses_categorical", methods = ["GET","POST"])
+def fill_misses_categorical():
+    features = y
+    for i in features:
     
+        mode_value = df[i].mode().iloc[0]
+        df[i] = df[i].fillna(mode_value)
+
+        
     return redirect(url_for("phase2"))
             
 #Encoding Categorical Features
@@ -651,6 +742,10 @@ def start_machine():
 def train_reg_models():
     global regression_models
     regression_models=request.form.getlist("regression_models")
+    
+    if len(regression_models) > 1:
+        return render_template("regression2.html",training=X_train.shape, testing=X_test.shape)
+    
     for i in regression_models:
         
         if i == "linear_reg":
@@ -945,10 +1040,84 @@ def test_gradient_boost_regressor():
     score=score*100
     return jsonify({"score":score})
 
+@app.route("/train_xgboost_regressor", methods = ["GET","POST"])
+def train_xgboost_regressor():
+    global xgboost_regressor
+    
+    xgboost_regressor=xgboost_regression(X_train,y_train)
+    return render_template("models/Boosting/Regressors/XgboostRegressor.html",
+                           training=X_train.shape, target=X_test.shape,train_status="Model is trained Successfully")
+    
+@app.route("/test_xgboost_regressor", methods = ["GET","POST"])
+def test_xgboost_regressor():
+        
+        score=check_r2_score(y_test,xgboost_regressor.predict(X_test))
+        score=score*100
+        return jsonify({"score":score})
+    
+@app.route("/test_reg_models", methods = ["GET","POST"])
+def test_reg_models():
+    
+    for i in regression_models:
+        
+        if i == "linear_reg":
+            lin_reg = LinearRegression()
+            lin_reg.fit(X_train,y_train)
+            accuracy_linear_reg = check_r2_score(y_test,lin_reg.predict(X_test))
+            accuracy_linear_reg = accuracy_linear_reg*100
+            
+        elif i == "decision_tree_reg":
+            dt_reg = DecisionTreeRegressor()
+            dt_reg.fit(X_train,y_train)
+            accuracy_decision_tree_reg=check_r2_score(y_test,dt_reg.predict(X_test))
+            accuracy_decision_tree_reg=accuracy_decision_tree_reg*100
+            
+        elif i == "svr":
+            svr = SVR()
+            svr.fit(X_train,y_train)
+            accuracy_svr=check_r2_score(y_test,svr.predict(X_test))
+            accuracy_svr=accuracy_svr*100
+            
+        elif i == "random_forest_reg":
+            rf_reg = RandomForestRegressor()
+            rf_reg.fit(X_train,y_train)
+            accuracy_random_forest_reg=check_r2_score(y_test,rf_reg.predict(X_test))
+            accuracy_random_forest_reg=accuracy_random_forest_reg*100
+            
+        elif i == "adaboost_reg":
+            ada_reg = AdaBoostRegressor()
+            ada_reg.fit(X_train,y_train)
+            accuracy_adaboost_reg=check_r2_score(y_test,ada_reg.predict(X_test))
+            accuracy_adaboost_reg=accuracy_adaboost_reg*100
+            
+        elif i == "gradientboost_reg":
+            gb_reg = GradientBoostingRegressor()
+            gb_reg.fit(X_train,y_train)
+            accuracy_gradient_boost_reg=check_r2_score(y_test,gb_reg.predict(X_test))
+            accuracy_gradient_boost_reg=accuracy_gradient_boost_reg*100
+            
+        elif i == "xgboost_reg":
+            xgb_reg = xbs.XGBRegressor()
+            xgb_reg.fit(X_train,y_train)
+            accuracy_xgboost_reg=check_r2_score(y_test,xgb_reg.predict(X_test))
+            accuracy_xgboost_reg=accuracy_xgboost_reg*100
+    
+    return render_template("regression2.html",training=X_train.shape, testing=X_test.shape,
+                           accuracy_linear_reg=accuracy_linear_reg,
+                           accuracy_decision_tree_reg=accuracy_decision_tree_reg,
+                           accuracy_svr=accuracy_svr,
+                           accuracy_random_forest_reg=accuracy_random_forest_reg,
+                           accuracy_adaboost_reg=accuracy_adaboost_reg,
+                           accuracy_gradient_boost_reg=accuracy_gradient_boost_reg,
+                           accuracy_xgboost_reg=accuracy_xgboost_reg)
+            
 @app.route("/train_cls_models", methods = ["GET","POST"])
 def train_cls_models():
     global classification_models
     classification_models=request.form.getlist("classification_models")
+    
+    if len(classification_models) > 1:
+        return render_template("classification2.html",training=X_train.shape, testing=X_test.shape)
     
     for i in classification_models:
         
@@ -972,9 +1141,6 @@ def train_cls_models():
                                       target=target, trains=training)
         if i == "gradientboost":
             return render_template("models/Boosting/Classifiers/GradientBoostClassifier.html",
-                                      target=target, trains=training)
-        if i == "xgboost":
-            return render_template("models/Boosting/Classifiers/XGBoostClassifier.html",
                                       target=target, trains=training)
 
 @app.route("/train_logistic_regression_classifier", methods = ["GET","POST"])
@@ -1231,7 +1397,77 @@ def test_gradientboost_classifier():
     score=score*100
     return jsonify({"score":score})
 
-
+@app.route("/test_cls_models", methods = ["GET","POST"])
+def test_cls_models():
+    
+    for i in classification_models:
+        
+        if i == "logistic":
+            
+            if len(y_train.unique()) > 2:
+                log_cls = LogisticRegression(multi_class="ovr")
+                log_cls.fit(X_train,y_train)
+                accuracy_logistic = check_accuracy(y_test,log_cls.predict(X_test))
+                accuracy_logistic=accuracy_logistic*100
+            else:
+                log_cls = LogisticRegression()
+                log_cls.fit(X_train,y_train)
+                accuracy_logistic = check_accuracy(y_test,log_cls.predict(X_test))
+                accuracy_logistic=accuracy_logistic*100
+            
+        elif i == "decision_tree_cls":
+            dt_cls = DecisionTreeClassifier()
+            dt_cls.fit(X_train,y_train)
+            accuracy_decision_tree_cls=check_accuracy(y_test,dt_cls.predict(X_test))
+            accuracy_decision_tree_cls=accuracy_decision_tree_cls*100
+            
+        elif i == "naive_bayes":
+            
+            if len(y_train.unique()) > 2:
+                nb_cls = MultinomialNB()
+                nb_cls.fit(X_train,y_train)
+                accuracy_naive_bayes=check_accuracy(y_test,nb_cls.predict(X_test))
+                accuracy_naive_bayes=accuracy_naive_bayes*100
+            else:
+                nb_cls = GaussianNB()
+                nb_cls.fit(X_train,y_train)
+                accuracy_naive_bayes=check_accuracy(y_test,nb_cls.predict(X_test))
+                accuracy_naive_bayes=accuracy_naive_bayes*100
+        
+        elif i == "svc":
+            svc_cls = SVC()
+            svc_cls.fit(X_train,y_train)
+            accuracy_svc=check_accuracy(y_test,svc_cls.predict(X_test))
+            accuracy_svc=accuracy_svc*100
+        
+        elif i == "random_forest_cls":
+            rf_cls = RandomForestClassifier()
+            rf_cls.fit(X_train,y_train)
+            accuracy_random_forest_cls=check_accuracy(y_test,rf_cls.predict(X_test))
+            accuracy_random_forest_cls=accuracy_random_forest_cls*100
+            
+        elif i == "adaboost":
+            adaboost_cls = AdaBoostClassifier()
+            adaboost_cls.fit(X_train,y_train)
+            accuracy_adaboost=check_accuracy(y_test,adaboost_cls.predict(X_test))
+            accuracy_adaboost=accuracy_adaboost*100
+            
+        elif i == "gradientboost":
+            gradientboost_cls = GradientBoostingClassifier()
+            gradientboost_cls.fit(X_train,y_train)
+            accuracy_gradientboost=check_accuracy(y_test,gradientboost_cls.predict(X_test))
+            accuracy_gradientboost=accuracy_gradientboost*100
+            
+    return render_template("classification2.html",training=X_train.shape, testing=X_test.shape,
+                               accuracy_logistic=accuracy_logistic,
+                               accuracy_decision_tree_cls=accuracy_decision_tree_cls,
+                               accuracy_naive_bayes=accuracy_naive_bayes,
+                               accuracy_svc=accuracy_svc,
+                               accuracy_random_forest_cls=accuracy_random_forest_cls,
+                               accuracy_adaboost=accuracy_adaboost,
+                               accuracy_gradientboost=accuracy_gradientboost)
+        
+        
 if __name__=="__main__":
     app.run(host="0.0.0.0")
 
