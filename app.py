@@ -20,6 +20,7 @@ from sklearn.ensemble import AdaBoostClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.naive_bayes import MultinomialNB
+from sklearn.neighbors import KNeighborsClassifier
 
 # Regression Models
 from sklearn.linear_model import LinearRegression
@@ -28,6 +29,7 @@ from sklearn.svm import SVR
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.ensemble import AdaBoostRegressor
 from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.neighbors import KNeighborsRegressor
 
 matplotlib.use('Agg')
 plt=matplotlib.pyplot
@@ -270,6 +272,24 @@ def xgboost_regression(X_train,y_train):
     xgb_reg.fit(X_train,y_train)
     
     return xgb_reg
+
+# KNN Classifier
+def knn_classification(X_train,y_train,n_neighbors,weights,algorithm,leaf_size,p):
+    
+    from sklearn.neighbors import KNeighborsClassifier
+    knn = KNeighborsClassifier(n_neighbors=n_neighbors, weights=weights, algorithm=algorithm, leaf_size=leaf_size, p=p)
+    knn.fit(X_train,y_train)
+    
+    return knn
+
+# KNN Regressor
+def knn_regression(X_train,y_train,n_neighbors,weights,algorithm,leaf_size,p):
+    
+    from sklearn.neighbors import KNeighborsRegressor
+    knn = KNeighborsRegressor(n_neighbors=n_neighbors, weights=weights, algorithm=algorithm, leaf_size=leaf_size, p=p)
+    knn.fit(X_train,y_train)
+    
+    return knn
 
 
 #Home Page
@@ -769,6 +789,10 @@ def train_reg_models():
         if i == "xgboost_reg":
             return render_template("models/Boosting/Regressors/XgboostRegressor.html",
                                    target=target, trains=training)
+            
+        if i == "knn_reg":
+            return render_template("models/KNearestNeighbours/KNNRegressor.html",
+                                   target=target, trains=training)
         
 
 @app.route("/train_linear_reg", methods = ["GET","POST"])
@@ -1055,6 +1079,50 @@ def test_xgboost_regressor():
         score=score*100
         return jsonify({"score":score})
     
+@app.route("/train_knn_regressor", methods = ["GET","POST"])
+def train_knn_regressor():
+    global knn_regressor
+    
+    n_neighbors = request.form.get("n_neighbors")
+    weights = request.form.get("weights")
+    algorithm = request.form.get("algorithm")
+    leaf_size = request.form.get("leaf_size")
+    p = request.form.get("p")
+    
+    if not n_neighbors:
+        n_neighbors=5
+    else:
+        n_neighbors = int(n_neighbors)
+        
+    if not weights:
+        weights="uniform"
+    
+        
+    if not algorithm:
+        algorithm="auto"
+        
+    if not leaf_size:
+        leaf_size=30
+    else:
+        leaf_size = int(leaf_size)
+        
+    if not p:
+        p=2
+    else:
+        p = int(p)
+        
+    knn_regressor=knn_regression(X_train,y_train,n_neighbors=n_neighbors, weights=weights, algorithm=algorithm, leaf_size=leaf_size, p=p)
+    return render_template("models/KNearestNeighbours/KNNRegressor.html",
+                           target=target, trains=training,train_status="Model is trained Successfully")
+    
+@app.route("/test_knn_regressor", methods = ["GET","POST"])
+def test_knn_regressor():
+        
+        score=check_r2_score(y_test,knn_regressor.predict(X_test))
+        score=score*100
+        return jsonify({"score":score})
+
+    
 @app.route("/test_reg_models", methods = ["GET","POST"])
 def test_reg_models():
     
@@ -1101,6 +1169,12 @@ def test_reg_models():
             xgb_reg.fit(X_train,y_train)
             accuracy_xgboost_reg=check_r2_score(y_test,xgb_reg.predict(X_test))
             accuracy_xgboost_reg=accuracy_xgboost_reg*100
+            
+        elif i == "knn_reg":
+            knn_reg = KNeighborsRegressor()
+            knn_reg.fit(X_train,y_train)
+            accuracy_knn_reg=check_r2_score(y_test,knn_reg.predict(X_test))
+            accuracy_knn_reg=accuracy_knn_reg*100
     
     return render_template("regression2.html",training=X_train.shape, testing=X_test.shape,
                            accuracy_linear_reg=accuracy_linear_reg,
@@ -1109,7 +1183,8 @@ def test_reg_models():
                            accuracy_random_forest_reg=accuracy_random_forest_reg,
                            accuracy_adaboost_reg=accuracy_adaboost_reg,
                            accuracy_gradient_boost_reg=accuracy_gradient_boost_reg,
-                           accuracy_xgboost_reg=accuracy_xgboost_reg)
+                           accuracy_xgboost_reg=accuracy_xgboost_reg,
+                           accuracy_knn_reg=accuracy_knn_reg)
             
 @app.route("/train_cls_models", methods = ["GET","POST"])
 def train_cls_models():
@@ -1142,7 +1217,10 @@ def train_cls_models():
         if i == "gradientboost":
             return render_template("models/Boosting/Classifiers/GradientBoostClassifier.html",
                                       target=target, trains=training)
-
+        if i == "knn_cls":
+            return render_template("models/KNearestNeighbours/KNNClassifier.html",
+                                      target=target, trains=training)
+            
 @app.route("/train_logistic_regression_classifier", methods = ["GET","POST"])
 def train_logistic_regression_classifier():
     global logistic_regression_classifier
@@ -1397,6 +1475,50 @@ def test_gradientboost_classifier():
     score=score*100
     return jsonify({"score":score})
 
+@app.route("/train_knn_classifier", methods = ["GET","POST"])
+def train_knn_classifier():
+    global knn_classifier
+    
+    n_neighbors = request.form.get("n_neighbours")
+    weights = request.form.get("weights")
+    algorithm = request.form.get("algorithm")
+    leaf_size = request.form.get("leaf_size")
+    p = request.form.get("p")
+    
+    if not n_neighbors:
+        n_neighbors=5
+    else:
+        n_neighbors = int(n_neighbors)
+        
+    if not weights:
+        weights="uniform"
+    
+        
+    if not algorithm:
+        algorithm="auto"
+        
+    if not leaf_size:
+        leaf_size=30
+    else:
+        leaf_size = int(leaf_size)
+        
+    if not p:
+        p=2
+    else:
+        p = int(p)
+        
+    knn_classifier=knn_classification(X_train,y_train,n_neighbors=n_neighbors, weights=weights, algorithm=algorithm, leaf_size=leaf_size, p=p)
+    return render_template("models/KNearestNeighbours/KNNClassifier.html",
+                           target=target, trains=training,train_status="Model is trained Successfully")
+
+@app.route("/test_knn_classifier", methods = ["GET","POST"])
+def test_knn_classifier():
+    
+    score=check_accuracy(y_test,knn_classifier.predict(X_test))
+    score=score*100
+    return jsonify({"score":score})
+    
+
 @app.route("/test_cls_models", methods = ["GET","POST"])
 def test_cls_models():
     
@@ -1458,6 +1580,12 @@ def test_cls_models():
             accuracy_gradientboost=check_accuracy(y_test,gradientboost_cls.predict(X_test))
             accuracy_gradientboost=accuracy_gradientboost*100
             
+        elif i == "knn_cls":
+            knn_cls = KNeighborsClassifier()
+            knn_cls.fit(X_train,y_train)
+            accuracy_knn_cls=check_accuracy(y_test,knn_cls.predict(X_test))
+            accuracy_knn_cls=accuracy_knn_cls*100
+            
     return render_template("classification2.html",training=X_train.shape, testing=X_test.shape,
                                accuracy_logistic=accuracy_logistic,
                                accuracy_decision_tree_cls=accuracy_decision_tree_cls,
@@ -1465,8 +1593,8 @@ def test_cls_models():
                                accuracy_svc=accuracy_svc,
                                accuracy_random_forest_cls=accuracy_random_forest_cls,
                                accuracy_adaboost=accuracy_adaboost,
-                               accuracy_gradientboost=accuracy_gradientboost)
-        
+                               accuracy_gradientboost=accuracy_gradientboost,
+                               accuracy_knn_cls=accuracy_knn_cls)
         
 if __name__=="__main__":
     app.run(host="0.0.0.0")

@@ -16,12 +16,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
 
-    <title>Train Test Split</title>
+    <title>KNN Regressor</title>
         
     <style>
 
         body {
-            background-image: url("../static/images/start/bg2.jpg");
+            background-image: url("../../../static/images/start/bg2.jpg");
             background-repeat: no-repeat;
             background-size: cover;
             background-color: #050111;
@@ -46,15 +46,6 @@
             font-weight: 900;
             text-align: center;
             font-size: 6vw;
-            color: #1b0e42;
-            padding: 2rem 1rem 1rem 1rem;
-        }
-
-        h5 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 900;
-            text-align: center;
-            font-size: 2vw;
             color: #1b0e42;
             padding: 2rem 1rem 1rem 1rem;
         }
@@ -120,6 +111,10 @@
             margin-right: 10%;
         }
 
+        .x {
+            color: rgb(6, 187, 6);
+        }
+
 
     </style>
 </head>
@@ -128,102 +123,117 @@
 
     <div class="container">
         <div class="top">
-            <h1>Introduction to ML</h1>
-            <h5>Split into Training and Testing Part</h5>
+            <h1>KNN Regressor</h1>
         </div>
 
         <div class="container choose-box">
-          <form action="/start_machine" method = "POST" enctype = "multipart/form-data" target="_blank">
+          <form action="/train_knn_regressor" method = "POST" enctype = "multipart/form-data" target="_self">
 
             <div class="row">
                 <div class="col row-1">
-                    <p class="instruction-1">Enter Test Size</p>
-                    <input type="number" name="test_size" min="0" max="1" id="test_size" class="file test-size-input form-control" placeholder="Enter a number between 0 and 1" step = ".01">
+                    <p class="instruction-1">Enter n_neighbours</p>
+                    <input type="number" name="n_neighbours"  id="n_neighbours" class="file test-size-input form-control" placeholder="Enter Integer, 5(default)" step = "1">
+                    
+                    <p class="instruction-1">Enter leaf_size</p>
+                    <input type="number" name="leaf_size"  id="leaf_size" class="file test-size-input form-control" placeholder="Enter Integer, 30(default)" step = "1">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col row-1">
+                    <p class="instruction-1">Enter Power Parameter (p)</p>
+                    <input type="number" name="p"  id="p" class="file test-size-input form-control" placeholder="Enter Integer, 2(default)" step = ".01"> 
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-12">
-                    <p class="instruction">Select Problem Statement</p>
+                    <p class="instruction">Enter Algorithm</p>
                 </div>
             </div>
 
             <div class="row ps-5">
+
                 <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "problem-1" name = "problem" value = "Regression" class="form-check-input problem-check"> Regression
+                    <input type = "checkbox" id = "algorithm" name = "algorithm" value = "auto" class="form-check-input problem-check"> auto (default)
                 </div>
                 <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "problem-2" name = "problem" value = "Classification" class="form-check-input problem-check"> Classification
+                    <input type = "checkbox" id = "algorithm" name = "algorithm" value = "ball_tree" class="form-check-input problem-check"> ball_tree
                 </div>
                 <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "problem-select-all" name = "problem" value = "Select All" class="form-check-input problem-check"> Select All
+                    <input type = "checkbox" id = "algorithm" name = "algorithm" value = "kd_tree" class="form-check-input problem-check"> kd_tree
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <input type = "checkbox" id = "algorithm" name = "algorithm" value = "brute" class="form-check-input problem-check"> brute
+                </div>
+                
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <p class="instruction">Select Weights</p>
+                </div>
+            </div>
+
+            <div class="row ps-5">
+
+                <div class="col-md-4 col-sm-12">
+                    <input type = "checkbox" id = "weights" name = "weights" value = "uniform" class="form-check-input problem-check"> uniform (default)
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <input type = "checkbox" id = "weights" name = "weights" value = "distance" class="form-check-input problem-check"> distance
+                </div>
+               
+                
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <p class="instruction">Target Feature: {{target}}</p>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-12">
-                    <p class="instruction">Select Target Feature</p>
-                </div>
-            </div>
-
-            <div class="row ps-5">
-                <div class="col-12">
-                    {% for column in columns %}
-                    <input type = "checkbox" id = "columns" name = "columns" value = {{column.replace(" ",",")}} class="form-check-input target-check"> {{column}}
-                    {% endfor %}
-                </div>
-                <div class="col-12">
-                    <input type = "checkbox" id = "target-select-all" value = "Select All" class="form-check-input target-check"> Select All
+                    <p class="instruction">Training Features: {{trains}}</p>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-12">
-                    <p class="instruction">Select Training Features</p>
+                    <p class="x instruction" id="test_accuracy">{{train_status}}</p>
                 </div>
             </div>
 
-            <div class="row ps-5">
-                <div class="col">
-                    {% for column in columns %}
-                    <input type = "checkbox" id = "columns1" name = "columns1" value = {{column.replace(" ",",")}} class="form-check-input training-check"> {{column}}
-                    {% endfor %}
-                </div>
+            <div class="row">
                 <div class="col-12">
-                    <input type = "checkbox" id = "training-select-all" value = "Select All" class="form-check-input training-check"> Select All
+                    <p class="instruction">To Learn more about these parameters: <a href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsRegressor.html">HERE</a></p>
                 </div>
             </div>
+        
 
             <div class="proceed-button">
-                <button type="submit" class="submit btn btn-primary">Proceed</button>
+                <button type="submit" class="submit btn btn-primary">Train</button>
             </div>
 
+
           </form>
-          
+          <div class="proceed-button">
+            <button type="submit" class="submit btn btn-primary" id = "test">Test</button>
+        </div>
+
         </div>    
     </div>
 
     <script>
 
-        var problemSelectAll = document.getElementById("problem-select-all");
-        problemSelectAll.addEventListener("click", function(){
-            for (let i = 0; i < document.querySelectorAll(".problem-check").length; i++){
-                document.querySelectorAll(".problem-check")[i].checked = problemSelectAll.checked;
-            }
-        });
-
-        var targetSelectAll = document.getElementById("target-select-all");
-        targetSelectAll.addEventListener("click", function(){
-            for (let i = 0; i < document.querySelectorAll(".target-check").length; i++){
-                document.querySelectorAll(".target-check")[i].checked = targetSelectAll.checked;
-            }
-        });
-
-        var trainingSelectAll = document.getElementById("training-select-all");
-        trainingSelectAll.addEventListener("click", function(){
-            for (let i = 0; i < document.querySelectorAll(".training-check").length; i++){
-                document.querySelectorAll(".training-check")[i].checked = trainingSelectAll.checked;
-            }
+        document.getElementById("test").addEventListener("click",function(){
+            
+            fetch("/test_knn_regressor")
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("test_accuracy").innerText = "Accuracy is: " + data.score;
+                });
         });
 
 
