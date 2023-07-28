@@ -39,5 +39,5 @@ function next3() {
 }
 
 function next4() {
-    window.location.href = "/show_tts";
+    window.open("/show_tts", "_blank");
 }
