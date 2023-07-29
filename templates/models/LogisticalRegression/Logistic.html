@@ -115,6 +115,10 @@
             color: rgb(6, 187, 6);
         }
 
+        .invisible {
+            display: none;
+        }
+
 
     </style>
 </head>
@@ -147,10 +151,10 @@
             <div class="row ps-5">
 
                 <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "log-1" name = "logistic" value = "Binary" class="form-check-input problem-check"> Binary Classifier
+                    <input type = "checkbox" id = "log-1" name = "logistic" value = "Binary" class="form-check-input "> Binary Classifier
                 </div>
                 <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "log-1" name = "logistic" value = "MultiClass" class="form-check-input problem-check"> MultiClass Classifier
+                    <input type = "checkbox" id = "log-1" name = "logistic" value = "MultiClass" class="form-check-input "> MultiClass Classifier
                 </div>
                 
             </div>
@@ -164,13 +168,13 @@
             <div class="row ps-5">
 
                 <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "multiclass" name = "multiclass" value = "ovr" class="form-check-input problem-check"> ovr
+                    <input type = "checkbox" id = "multiclass" name = "multiclass" value = "ovr" class="form-check-input "> ovr
                 </div>
                 <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "multiclass" name = "multiclass" value = "multinomial" class="form-check-input problem-check"> multinomial
+                    <input type = "checkbox" id = "multiclass" name = "multiclass" value = "multinomial" class="form-check-input "> multinomial
                 </div>
                 <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "multiclass" name = "multiclass" value = "auto" class="form-check-input problem-check"> auto (default)
+                    <input type = "checkbox" id = "multiclass" name = "multiclass" value = "auto" class="form-check-input "> auto (default)
                 </div>
                 
             </div>
@@ -184,16 +188,16 @@
             <div class="row ps-5">
 
                 <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "bias" name = "bias" value = "None" class="form-check-input problem-check"> None
+                    <input type = "checkbox" id = "None" name = "bias" value = "None" class="form-check-input  bias none-check"> None
                 </div>
                 <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "bias" name = "bias" value = "l1" class="form-check-input problem-check"> L1 Regularization
+                    <input type = "checkbox" id = "L1" name = "bias" value = "l1" class="form-check-input  bias l1-check"> L1 Regularization
                 </div>
                 <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "bias" name = "bias" value = "l2" class="form-check-input problem-check"> L2 Regularization (Default)
+                    <input type = "checkbox" id = "L2" name = "bias" value = "l2" class="form-check-input  bias l2-check"> L2 Regularization (Default)
                 </div>
                 <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "bias" name = "bias" value = "elasticnet" class="form-check-input problem-check"> L1 + L2 Both
+                    <input type = "checkbox" id = "ElasticNet" name = "bias" value = "elasticnet" class="form-check-input  bias l12-check"> L1 + L2 Both
                 </div>
                 
             </div>
@@ -207,23 +211,27 @@
 
             <div class="row ps-5">
 
-                <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "solver" name = "solver" value = "lbfgs" class="form-check-input problem-check"> lbfgs (default)
+                <div class="col-md-4 col-sm-12 solver-pre-text">
+                    Select a bias for Solver options.
                 </div>
-                <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "solver" name = "solver" value = "liblinear" class="form-check-input problem-check"> liblinear
+
+                <div class="col-md-4 col-sm-12 solver-option lbfgs">
+                    <input type = "checkbox" id = "solver" name = "solver" value = "lbfgs" class="form-check-input "> lbfgs (default)
                 </div>
-                <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "solver" name = "solver" value = "newton-cg" class="form-check-input problem-check"> newton-cg
+                <div class="col-md-4 col-sm-12 solver-option liblinear">
+                    <input type = "checkbox" id = "solver" name = "solver" value = "liblinear" class="form-check-input "> liblinear
                 </div>
-                <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "solver" name = "solver" value = "newton-cholesky" class="form-check-input problem-check"> newton-cholesky
+                <div class="col-md-4 col-sm-12 solver-option newton-cg">
+                    <input type = "checkbox" id = "solver" name = "solver" value = "newton-cg" class="form-check-input "> newton-cg
                 </div>
-                <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "solver" name = "solver" value = "sag" class="form-check-input problem-check"> sag
+                <div class="col-md-4 col-sm-12 solver-option newton-cholesky">
+                    <input type = "checkbox" id = "solver" name = "solver" value = "newton-cholesky" class="form-check-input "> newton-cholesky
                 </div>
-                <div class="col-md-4 col-sm-12">
-                    <input type = "checkbox" id = "solver" name = "solver" value = "saga" class="form-check-input problem-check"> saga
+                <div class="col-md-4 col-sm-12 solver-option sag">
+                    <input type = "checkbox" id = "solver" name = "solver" value = "sag" class="form-check-input "> sag
+                </div>
+                <div class="col-md-4 col-sm-12 solver-option saga">
+                    <input type = "checkbox" id = "solver" name = "solver" value = "saga" class="form-check-input "> saga
                 </div>
 
                 
@@ -284,6 +292,35 @@
             L2 : ["lbfgs","liblinear"],
             ElasticNet : ["saga","sag","newton-cg","lbfgs"],
         };
+
+        for (let i =0; i<document.querySelectorAll(".solver-option").length; i++){
+            var option = document.querySelectorAll(".solver-option")[i];
+            option.classList.add("invisible");
+        }
+
+        function showSolvers(solverArray) {
+            for (let j=0; j<solverArray.length; j++) {
+                var targetClass = solverArray[j];
+                document.querySelector("."+targetClass).classList.toggle("invisible");
+            }
+        }
+       
+        document.querySelector(".none-check").addEventListener("click", function() {
+            showSolvers(supportedSolvers.None);
+        });
+
+        document.querySelector(".l1-check").addEventListener("click", function() {
+            showSolvers(supportedSolvers.L1);
+        });
+
+        document.querySelector(".l2-check").addEventListener("click", function() {
+            showSolvers(supportedSolvers.L2);
+        });
+
+        document.querySelector(".l12-check").addEventListener("click", function() {
+            showSolvers(supportedSolvers.ElasticNet);
+        });
+
 
     </script>
     
