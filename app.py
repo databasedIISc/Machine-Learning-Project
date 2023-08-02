@@ -36,7 +36,7 @@ plt=matplotlib.pyplot
 
 # This is our main python file that will run the flask app
 app = Flask(__name__)
-
+app.debug = True
 
 
 # To scale down training data
@@ -1595,7 +1595,12 @@ def test_cls_models():
                                accuracy_adaboost=accuracy_adaboost,
                                accuracy_gradientboost=accuracy_gradientboost,
                                accuracy_knn_cls=accuracy_knn_cls)
-        
+
+@app.route("/graph", methods = ["GET","POST"])
+def grapher():
+
+    return render_template("/Graph/main.html")
+
 if __name__=="__main__":
     app.run(host="0.0.0.0")
 

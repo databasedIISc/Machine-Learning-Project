@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+    <title>Visualization</title>
+        
+    <style>
+
+        body {
+            background-image: url("../static/images/start/bg2.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-color: #050111;
+        }
+
+        .container {
+            background-color: #f3eff9;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+            padding: 0;
+            border-radius: 1rem;
+        }
+
+        .top {
+            background-color: #dcc0fd;
+            border-radius: 1rem 1rem 0 0;
+           
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            text-align: center;
+            font-size: 6vw;
+            color: #1b0e42;
+            padding: 2rem 1rem 1rem 1rem;
+        }
+
+        h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            text-align: center;
+            font-size: 3vw;
+            color: #1b0e42;
+            padding: 2rem 1rem 1rem 1rem;
+        }
+
+        h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            text-align: center;
+            font-size: 2vw;
+            color: #1b0e42;
+            padding: 2rem 1rem 1rem 1rem;
+        }
+
+        .instruction, .instruction-1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            text-align: left;
+            font-size: 1rem;
+            margin: 1rem 1rem 0rem 1rem;
+            padding: 1rem 2rem 0rem 2rem;
+            color: #7108c1;
+        }
+
+        .choose-box {
+            padding: 1rem;
+        }
+
+        p {
+            font-family: 'Open Sans', sans-serif;
+            text-align: justify;
+            margin: 1rem 2rem;
+            color: #050111;
+            font-weight: 500;
+        }
+        
+
+        .proceed-button {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .btn-primary {
+            text-align: center;
+            width: 50%;
+            height: 10vh;
+            background-color: #7108c1;
+            border: 2pt solid #f2e6ff;
+            font-family: 'Open Sans', sans-serif;
+            font-size: larger;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
+            margin-top: 3rem;
+        }
+
+
+        .body-img {
+            width: 100%;
+        }
+        
+        .row-1 {
+            display: flex;
+        }
+
+        .instruction-1{
+            flex-basis: 40%;
+            margin: 1rem;
+        }
+
+        .test-size-input{
+            flex-basis: 60%;
+            margin-right: 10%;
+        }
+
+        .col {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="top">
+            <h1>Visualization Pro Max</h1>
+        </div>
+
+        <div class="container choose-box">
+          <form action="/start_machine" method = "POST" enctype = "multipart/form-data" target="_blank">
+
+            <h4>Graph 1</h4>
+            <div class="row">
+                <div class="col-12">
+                    <p class="instruction">Select Feature 1</p>
+                </div>
+            </div>
+
+            <div class="row ps-5">
+                <div class="col-12">
+                    {% for column in columns %}
+                    <input type = "checkbox" id = "columns" name = "columns" value = {{column.replace(" ",",")}} class="form-check-input target-check"> {{column}}
+                    {% endfor %}
+                </div>
+                
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <p class="instruction">Select Column 2</p>
+                </div>
+            </div>
+
+            <div class="row ps-5">
+                <div class="col">
+                    {% for column in columns %}
+                    <input type = "checkbox" id = "columns1" name = "columns1" value = {{column.replace(" ",",")}} class="form-check-input training-check"> {{column}}
+                    {% endfor %}
+                </div>
+                
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <p class="instruction">Select Plot</p>
+                </div>
+            </div>
+
+            <div class="row ps-5">
+                <div class="col">
+                    <input type = "checkbox" id = "columns1" name = "columns1" value = "scatter plot" class="form-check-input training-check"> scatter plot
+                    <input type = "checkbox" id = "columns1" name = "columns1" value = "line plot" class="form-check-input training-check"> line plot
+                    <input type = "checkbox" id = "columns1" name = "columns1" value = "bar plot" class="form-check-input training-check"> bar plot
+                    <input type = "checkbox" id = "columns1" name = "columns1" value = "box plot" class="form-check-input training-check"> box plot
+                    <input type = "checkbox" id = "columns1" name = "columns1" value = "violin plot" class="form-check-input training-check"> violin plot
+
+                </div>
+            </div>
+
+            <h4>Graph 2</h4>
+            <div class="row">
+                <div class="col-12">
+                    <p class="instruction">Select Feature 1</p>
+                </div>
+            </div>
+
+            <div class="row ps-5">
+                <div class="col-12">
+                    {% for column in columns %}
+                    <input type = "checkbox" id = "columns" name = "columns" value = {{column.replace(" ",",")}} class="form-check-input target-check"> {{column}}
+                    {% endfor %}
+                </div>
+                
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <p class="instruction">Select Column 2</p>
+                </div>
+            </div>
+
+            <div class="row ps-5">
+                <div class="col">
+                    {% for column in columns %}
+                    <input type = "checkbox" id = "columns1" name = "columns1" value = {{column.replace(" ",",")}} class="form-check-input training-check"> {{column}}
+                    {% endfor %}
+                </div>
+                
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <p class="instruction">Select Plot</p>
+                </div>
+            </div>
+
+            <div class="row ps-5">
+                <div class="col">
+                    <input type = "checkbox" id = "columns1" name = "columns2" value = "scatter plot" class="form-check-input training-check"> scatter plot
+                    <input type = "checkbox" id = "columns1" name = "columns2" value = "line plot" class="form-check-input training-check"> line plot
+                    <input type = "checkbox" id = "columns1" name = "columns2" value = "bar plot" class="form-check-input training-check"> bar plot
+                    <input type = "checkbox" id = "columns1" name = "columns2" value = "box plot" class="form-check-input training-check"> box plot
+                    <input type = "checkbox" id = "columns1" name = "columns2" value = "violin plot" class="form-check-input training-check"> violin plot
+
+                </div>
+            </div>
+
+            <div class="proceed-button">
+                <button type="submit" class="submit btn btn-primary">Proceed</button>
+            </div>
+
+          </form>
+          
+        </div>    
+    </div>
+
+    <script>
+
+        var problemSelectAll = document.getElementById("problem-select-all");
+        problemSelectAll.addEventListener("click", function(){
+            for (let i = 0; i < document.querySelectorAll(".problem-check").length; i++){
+                document.querySelectorAll(".problem-check")[i].checked = problemSelectAll.checked;
+            }
+        });
+
+        var targetSelectAll = document.getElementById("target-select-all");
+        targetSelectAll.addEventListener("click", function(){
+            for (let i = 0; i < document.querySelectorAll(".target-check").length; i++){
+                document.querySelectorAll(".target-check")[i].checked = targetSelectAll.checked;
+            }
+        });
+
+        var trainingSelectAll = document.getElementById("training-select-all");
+        trainingSelectAll.addEventListener("click", function(){
+            for (let i = 0; i < document.querySelectorAll(".training-check").length; i++){
+                document.querySelectorAll(".training-check")[i].checked = trainingSelectAll.checked;
+            }
+        });
+
+
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src = "../static/js/intro.js"></script>
+    
+
+</body>
+</html>
