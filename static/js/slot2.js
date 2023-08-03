@@ -35,7 +35,7 @@ function encoder() {
 }
 
 function next3() {
-    window.location.href = "/phase4";
+    window.location.href = "/graph";
 }
 
 function next4() {

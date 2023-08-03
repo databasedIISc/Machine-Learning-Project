@@ -21,7 +21,7 @@
     <style>
 
         body {
-            background-image: url("../static/images/start/bg2.jpg");
+            background-image: url("../../static/images/start/bg2.jpg");
             background-repeat: no-repeat;
             background-size: cover;
             background-color: #050111;
@@ -82,6 +82,12 @@
             padding: 1rem;
         }
 
+        .continue {
+            width: 100%;
+            height: 5rem;
+            padding: 0px;
+        }
+
         p {
             font-family: 'Open Sans', sans-serif;
             text-align: justify;
@@ -136,6 +142,12 @@
             gap: 10px;
         }
 
+        .solid-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
 
     </style>
 </head>
@@ -148,7 +160,7 @@
         </div>
 
         <div class="container choose-box">
-          <form action="/start_machine" method = "POST" enctype = "multipart/form-data" target="_blank">
+          <form action="/plot_graph" method = "POST" enctype = "multipart/form-data" target="_blank">
 
             <h4>Graph 1</h4>
             <div class="row">
@@ -158,9 +170,9 @@
             </div>
 
             <div class="row ps-5">
-                <div class="col-12">
+                <div class="col">
                     {% for column in columns %}
-                    <input type = "checkbox" id = "columns" name = "columns" value = {{column.replace(" ",",")}} class="form-check-input target-check"> {{column}}
+                    <input type = "checkbox" id = "columns" name = "feature11" value = {{column.replace(" ",",")}} class="form-check-input target-check"> {{column}}
                     {% endfor %}
                 </div>
                 
@@ -168,14 +180,14 @@
 
             <div class="row">
                 <div class="col-12">
-                    <p class="instruction">Select Column 2</p>
+                    <p class="instruction">Select Feature 2</p>
                 </div>
             </div>
 
             <div class="row ps-5">
                 <div class="col">
                     {% for column in columns %}
-                    <input type = "checkbox" id = "columns1" name = "columns1" value = {{column.replace(" ",",")}} class="form-check-input training-check"> {{column}}
+                    <input type = "checkbox" id = "columns1" name = "feature12" value = {{column.replace(" ",",")}} class="form-check-input training-check"> {{column}}
                     {% endfor %}
                 </div>
                 
@@ -194,10 +206,11 @@
                     <input type = "checkbox" id = "columns1" name = "columns1" value = "bar plot" class="form-check-input training-check"> bar plot
                     <input type = "checkbox" id = "columns1" name = "columns1" value = "box plot" class="form-check-input training-check"> box plot
                     <input type = "checkbox" id = "columns1" name = "columns1" value = "violin plot" class="form-check-input training-check"> violin plot
-
+                    <input type = "checkbox" id = "columns1" name = "columns1" value = "heatmap" class="form-check-input training-check"> heatmap
+                    <input type = "checkbox" id = "columns1" name = "columns1" value = "hexbin" class="form-check-input training-check"> hexbin
                 </div>
             </div>
-
+            <hr>
             <h4>Graph 2</h4>
             <div class="row">
                 <div class="col-12">
@@ -206,9 +219,9 @@
             </div>
 
             <div class="row ps-5">
-                <div class="col-12">
+                <div class="col">
                     {% for column in columns %}
-                    <input type = "checkbox" id = "columns" name = "columns" value = {{column.replace(" ",",")}} class="form-check-input target-check"> {{column}}
+                    <input type = "checkbox" id = "columns" name = "feature21" value = {{column.replace(" ",",")}} class="form-check-input target-check"> {{column}}
                     {% endfor %}
                 </div>
                 
@@ -216,14 +229,14 @@
 
             <div class="row">
                 <div class="col-12">
-                    <p class="instruction">Select Column 2</p>
+                    <p class="instruction">Select Feature 2</p>
                 </div>
             </div>
 
             <div class="row ps-5">
                 <div class="col">
                     {% for column in columns %}
-                    <input type = "checkbox" id = "columns1" name = "columns1" value = {{column.replace(" ",",")}} class="form-check-input training-check"> {{column}}
+                    <input type = "checkbox" id = "columns1" name = "feature22" value = {{column.replace(" ",",")}} class="form-check-input training-check"> {{column}}
                     {% endfor %}
                 </div>
                 
@@ -237,52 +250,109 @@
 
             <div class="row ps-5">
                 <div class="col">
+
                     <input type = "checkbox" id = "columns1" name = "columns2" value = "scatter plot" class="form-check-input training-check"> scatter plot
                     <input type = "checkbox" id = "columns1" name = "columns2" value = "line plot" class="form-check-input training-check"> line plot
                     <input type = "checkbox" id = "columns1" name = "columns2" value = "bar plot" class="form-check-input training-check"> bar plot
                     <input type = "checkbox" id = "columns1" name = "columns2" value = "box plot" class="form-check-input training-check"> box plot
                     <input type = "checkbox" id = "columns1" name = "columns2" value = "violin plot" class="form-check-input training-check"> violin plot
+                    <input type = "checkbox" id = "columns1" name = "columns2" value = "heatmap" class="form-check-input training-check"> heatmap
+                    <input type = "checkbox" id = "columns1" name = "columns2" value = "hexbin" class="form-check-input training-check"> hexbin
 
                 </div>
             </div>
 
             <div class="proceed-button">
-                <button type="submit" class="submit btn btn-primary">Proceed</button>
+                <button type="submit" class="submit btn btn-primary">Plot Graphs</button>
             </div>
 
           </form>
+
+          <hr>
+          <form action="/plot_piechart" method = "POST" enctype = "multipart/form-data" target="_blank">
+
+            <h4>Pie Chart</h4>
+            <div class="row">
+                <div class="col-12">
+                    <p class="instruction">Select Feature</p>
+                </div>
+            </div>
+
+            <div class="row ps-5">
+                <div class="col">
+                    {% for column in columns %}
+                    <input type = "checkbox" id = "columns" name = "feature31" value = {{column.replace(" ",",")}} class="form-check-input target-check"> {{column}}
+                    {% endfor %}
+                </div>
+                
+            </div>
+
+            <div class="proceed-button">
+                <button type="submit" class="submit btn btn-primary">Plot Pie Chart</button>
+            </div>
+
+          </form>
+
+          <hr>
+
+          <form action="/plot_gbarplot" method = "POST" enctype = "multipart/form-data" target="_blank">
+
+            <h4>Grouped Bar Plot</h4>
+            <div class="row">
+                <div class="col-12">
+                    <p class="instruction">Select Target Feature</p>
+                </div>
+            </div>
+
+            <div class="row ps-5">
+                <div class="col">
+                    {% for column in columns %}
+                    <input type = "checkbox" id = "columns" name = "feature41" value = {{column.replace(" ",",")}} class="form-check-input target-check"> {{column}}
+                    {% endfor %}
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <p class="instruction">Select 2 features</p>
+                </div>
+            </div>
+
+            <div class="row ps-5">
+                <div class="col">
+                    {% for column in columns %}
+                    <input type = "checkbox" id = "columns" name = "feature42" value = {{column.replace(" ",",")}} class="form-check-input target-check"> {{column}}
+                    {% endfor %}
+                </div>
+                
+            </div>
+
+            <div class="proceed-button">
+                <button type="submit" class="submit btn btn-primary">Plot Grouped Bar Plot</button>
+            </div>
+
+          </form>
+          <hr>
+          <div class="row"> 
+            <div class="col solid-button ">
+                <button class = "continue btn btn-primary" onclick = "next4()"><p>Continue to ML</p></button>
+            </div>
+        </div>
           
         </div>    
     </div>
 
+    
+
     <script>
 
-        var problemSelectAll = document.getElementById("problem-select-all");
-        problemSelectAll.addEventListener("click", function(){
-            for (let i = 0; i < document.querySelectorAll(".problem-check").length; i++){
-                document.querySelectorAll(".problem-check")[i].checked = problemSelectAll.checked;
-            }
-        });
-
-        var targetSelectAll = document.getElementById("target-select-all");
-        targetSelectAll.addEventListener("click", function(){
-            for (let i = 0; i < document.querySelectorAll(".target-check").length; i++){
-                document.querySelectorAll(".target-check")[i].checked = targetSelectAll.checked;
-            }
-        });
-
-        var trainingSelectAll = document.getElementById("training-select-all");
-        trainingSelectAll.addEventListener("click", function(){
-            for (let i = 0; i < document.querySelectorAll(".training-check").length; i++){
-                document.querySelectorAll(".training-check")[i].checked = trainingSelectAll.checked;
-            }
-        });
+        
 
 
     </script>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-    <script src = "../static/js/intro.js"></script>
+    <script src = "../static/js/slot2.js"></script>
     
 
 </body>
