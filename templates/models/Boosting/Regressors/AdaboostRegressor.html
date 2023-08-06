@@ -200,6 +200,29 @@
             <button type="submit" class="submit btn btn-primary" id = "test">Test</button>
         </div>
 
+        <hr>
+
+        <form action="/predict_{{model}}" method = "POST" enctype = "multipart/form-data" target="_self" id = "predictionForm">
+
+            
+            {% for column in columns %}
+
+            <div class="row">
+                <div class="col row-1">
+                    <p class="instruction-1">Enter {{column}}</p>
+                    <input type="number" name="data"  id="parameter" class="data-input file test-size-input form-control" step = ".01">
+                </div>
+            </div>
+
+            {% endfor %} 
+        
+
+            <div class="proceed-button">
+                <button type="submit" class="submit btn btn-primary" id = "prediction">Predict</button>
+            </div>
+
+            </form>
+
         </div>    
     </div>
 

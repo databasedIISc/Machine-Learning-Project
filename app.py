@@ -38,7 +38,6 @@ plt=matplotlib.pyplot
 app = Flask(__name__)
 
 
-
 # To scale down training data
 def scale_down(X_train, X_test):
     
@@ -809,22 +808,23 @@ def train_linear_reg():
         linear_regressor=lasso_regression(X_train,y_train)
         return render_template("models/LinearRegression/LinearRegression.html",
                            target=target, trains=training,train_status="Model is trained Successfully",
-                           message="Click Here")
+                           message="Click Here",columns = training,model = "linear_reg")
         
     elif bias == "L2 Regularization":
         linear_regressor=ridge_regression(X_train,y_train)
         return render_template("models/LinearRegression/LinearRegression.html",
                            target=target, trains=training,train_status="Model is trained Successfully",
-                           message="Click Here")
+                           message="Click Here",columns = training,model = "linear_reg")
     elif bias == "Both":
         linear_regressor=ridge_regression(X_train,y_train)
         return render_template("models/LinearRegression/LinearRegression.html",
                            target=target, trains=training,train_status="Model is trained Successfully",
-                           message="Click Here")
+                           message="Click Here",columns = training,model = "linear_reg")
     else:
         linear_regressor=linear_regression(X_train,y_train)
         return render_template("models/LinearRegression/LinearRegression.html",
-                            target=target, trains=training,train_status="Model is trained Successfully")
+                            target=target, trains=training,train_status="Model is trained Successfully",
+                            columns = training,model = "linear_reg")
 
 @app.route("/test_linear_reg", methods = ["GET","POST"])
 def test_linear_reg():
@@ -861,7 +861,8 @@ def train_decision_tree_reg():
     else:
         decision_tree_regressor=decision_tree_regression(X_train,y_train)
         return render_template("models/DecisionTree/DecisionTreeRegressor.html",
-                            target=target, trains=training,train_status="Model is trained Successfully")
+                            target=target, trains=training,train_status="Model is trained Successfully",
+                            columns=training,model="decision_tree_reg")
         
 @app.route("/test_decision_tree_reg", methods = ["GET","POST"])
 def test_decision_tree_reg():
@@ -908,7 +909,8 @@ def train_support_vector_regressor():
     
     support_vector_regressor = support_vector_regression(X_train,y_train,epsilon=epsilon, max_iter=max_iter, kernel=kernel, parameter=parameter, gamma=gamma)
     return render_template("models/SupportVectorMachines/SupportVectorRegressor.html",
-                           target=target, trains=training,train_status="Model is trained Successfully")
+                           target=target, trains=training,train_status="Model is trained Successfully",
+                           columns=training,model="support_vector_reg")
 
 @app.route("/test_support_vector_regressor", methods = ["GET","POST"])
 def test_support_vector_regressor():
@@ -965,7 +967,8 @@ def train_random_forest_regressor():
     
     random_forest_regressor = random_forest_regression(X_train,y_train,n_estimators=n_estimators, max_depth=max_depth, max_features=max_features, criterion=criterion, bootstrap=bootstrap, oob_score=oob_score)
     return render_template("models/RandomForest/RandomForestRegressor.html",
-                           training=X_train.shape, target=X_test.shape,train_status="Model is trained Successfully")
+                           training=X_train.shape, target=X_test.shape,train_status="Model is trained Successfully",
+                           columns=training,model="random_forest_reg")
 
 @app.route("/test_random_forest_regressor", methods = ["GET","POST"])
 def test_random_forest_regressor():
@@ -1000,7 +1003,8 @@ def train_adaboost_regressor():
     
     adaboost_regressor = adaboost_regression(X_train,y_train,n_estimators=n_estimators, learning_rate=learning_rate, loss=loss)
     return render_template("models/Boosting/Regressors/AdaboostRegressor.html",
-                           training=X_train.shape, target=X_test.shape,train_status="Model is trained Successfully")
+                           training=X_train.shape, target=X_test.shape,train_status="Model is trained Successfully",
+                           columns=training,model="adaboost_reg")
 
 @app.route("/test_adaboost_regressor", methods = ["GET","POST"])
 def test_adaboost_regressor():
@@ -1055,7 +1059,8 @@ def train_gradient_boost_regressor():
         
     gradient_boost_regressor = gradient_boost_regression(X_train,y_train,n_estimators=n_estimators, learning_rate=learning_rate, loss=loss, criterion=criterion, max_depth=max_depth, max_features=max_features)
     return render_template("models/Boosting/Regressors/GradientBoostRegressor.html",
-                           training=X_train.shape, target=X_test.shape,train_status="Model is trained Successfully")
+                           training=X_train.shape, target=X_test.shape,train_status="Model is trained Successfully",
+                           columns=training,model="gradient_boost_reg")
 
 @app.route("/test_gradient_boost_regressor", methods = ["GET","POST"])
 def test_gradient_boost_regressor():
@@ -1070,7 +1075,8 @@ def train_xgboost_regressor():
     
     xgboost_regressor=xgboost_regression(X_train,y_train)
     return render_template("models/Boosting/Regressors/XgboostRegressor.html",
-                           training=X_train.shape, target=X_test.shape,train_status="Model is trained Successfully")
+                           training=X_train.shape, target=X_test.shape,train_status="Model is trained Successfully",
+                           columns=training,model="xgboost_reg")
     
 @app.route("/test_xgboost_regressor", methods = ["GET","POST"])
 def test_xgboost_regressor():
@@ -1113,7 +1119,8 @@ def train_knn_regressor():
         
     knn_regressor=knn_regression(X_train,y_train,n_neighbors=n_neighbors, weights=weights, algorithm=algorithm, leaf_size=leaf_size, p=p)
     return render_template("models/KNearestNeighbours/KNNRegressor.html",
-                           target=target, trains=training,train_status="Model is trained Successfully")
+                           target=target, trains=training,train_status="Model is trained Successfully",
+                           columns=training,model = "knn_reg")
     
 @app.route("/test_knn_regressor", methods = ["GET","POST"])
 def test_knn_regressor():
@@ -1255,7 +1262,8 @@ def train_logistic_regression_classifier():
     
     logistic_regression_classifier=logistic_regression(X_train,y_train,types=classify, random_state=random_state, max_iter=max_iter, multiclass=multiclass, bias=bias, solver=solver)
     return render_template("models/LogisticalRegression/Logistic.html",
-                            target=target, trains=training,train_status=f"{classify} Logistic Model is trained Successfully")
+                            target=target, trains=training,train_status=f"{classify} Logistic Model is trained Successfully",
+                            columns=training,model="logistic_cls")
     
 
 @app.route("/test_logistical_regression_classifier", methods = ["GET","POST"])
@@ -1271,7 +1279,8 @@ def train_native_bayes_classifier():
     classify = request.form.get("algos")
     native_bayes_classifier=naive_bayes_classifier(X_train,y_train,types=classify)
     return render_template("models/NaiveBayes/NaiveBayes.html",
-                            target=target, trains=training,train_status=f"{classify} Naive Bayes Model is trained Successfully")    
+                            target=target, trains=training,train_status=f"{classify} Naive Bayes Model is trained Successfully",
+                            columns=training,model="naive_bayes")    
 
 @app.route("/test_naive_bayes_classifier", methods = ["GET","POST"])
 def test_native_bayes_classifier():
@@ -1288,11 +1297,13 @@ def train_decision_tree_classifier():
     if tree == "ExtraTreeClassifier":
         decision_tree_classifier=extra_tree_classification(X_train,y_train)
         return render_template("models/DecisionTree/DecisionTreeClassifier.html",
-                                target=target, trains=training,train_status="Extra Tree Model is trained Successfully")
+                                target=target, trains=training,train_status="Extra Tree Model is trained Successfully",
+                                columns=training,model="decision_tree_cls")
     else:
         decision_tree_classifier=decision_tree_classification(X_train,y_train)
         return render_template("models/DecisionTree/DecisionTreeClassifier.html",
-                                target=target, trains=training,train_status="Model is trained Successfully")
+                                target=target, trains=training,train_status="Model is trained Successfully",
+                                columns=training,model="decision_tree_cls")
 
 @app.route("/test_decision_tree_classifier", methods = ["GET","POST"])
 def test_decision_tree_classifier():
@@ -1339,7 +1350,8 @@ def train_support_vector_classifier():
     
     support_vector_classifier = support_vector_classification(X_train,y_train,random_state=random_state, max_iter=max_iter, kernel=kernel, parameter=parameter, gamma=gamma)
     return render_template("models/SupportVectorMachines/SupportVectorClassifier.html",
-                           target=target, trains=training,train_status="Model is trained Successfully")
+                           target=target, trains=training,train_status="Model is trained Successfully",
+                           columns=training,model="svc")
 
 @app.route("/test_support_vector_classifier", methods = ["GET","POST"])
 def test_support_vector_classifier():
@@ -1394,7 +1406,8 @@ def train_random_forest_classifier():
         
     random_forest_classifier=random_forest_classification(X_train,y_train,n_estimators=n_estimators, max_depth=max_depth,max_features=max_features, criterion=criterion, bootstrap=bootstrap, oob_score=oob_score)
     return render_template("models/RandomForest/RandomForestClassifier.html",
-                           target=target, trains=training,train_status="Model is trained Successfully")
+                           target=target, trains=training,train_status="Model is trained Successfully",
+                           columns=training,model="random_forest_cls")
 
 @app.route("/test_random_forest_classifier", methods = ["GET","POST"])
 def test_random_forest_classifier():
@@ -1426,7 +1439,8 @@ def train_adaboost_classifier():
     
     adaboost_classifier=adaboost_classification(X_train,y_train,n_estimators=n_estimators, learning_rate=learning_rate, algorithm=algorithm)
     return render_template("models/Boosting/Classifiers/AdaboostClassifier.html",
-                           target=target, trains=training,train_status="Model is trained Successfully")
+                           target=target, trains=training,train_status="Model is trained Successfully",
+                           columns=training,model="adaboost_cls")
 
 @app.route("/test_adaboost_classifier", methods = ["GET","POST"])
 def test_adaboost_classifier():
@@ -1466,7 +1480,8 @@ def train_gradientboost_classifier():
     
     gradientboost_classifier=gradientboost_classification(X_train,y_train,n_estimators=n_estimators, learning_rate=learning_rate, max_depth=max_depth, criterion=criterion)
     return render_template("models/Boosting/Classifiers/GradientBoostClassifier.html",
-                           target=target, trains=training,train_status="Model is trained Successfully")
+                           target=target, trains=training,train_status="Model is trained Successfully",
+                           columns=training,model="gradient_boosting_cls")
 
 @app.route("/test_gradientboost_classifier", methods = ["GET","POST"])
 def test_gradientboost_classifier():
@@ -1509,7 +1524,8 @@ def train_knn_classifier():
         
     knn_classifier=knn_classification(X_train,y_train,n_neighbors=n_neighbors, weights=weights, algorithm=algorithm, leaf_size=leaf_size, p=p)
     return render_template("models/KNearestNeighbours/KNNClassifier.html",
-                           target=target, trains=training,train_status="Model is trained Successfully")
+                           target=target, trains=training,train_status="Model is trained Successfully",
+                           columns=training,model="knn_cls")
 
 @app.route("/test_knn_classifier", methods = ["GET","POST"])
 def test_knn_classifier():
@@ -1595,7 +1611,308 @@ def test_cls_models():
                                accuracy_adaboost=accuracy_adaboost,
                                accuracy_gradientboost=accuracy_gradientboost,
                                accuracy_knn_cls=accuracy_knn_cls)
+
+@app.route("/graph", methods = ["GET","POST"])
+def grapher():
+    columns = df.columns.to_list()
+    return render_template("/Graph/main.html",columns=columns)
+
+@app.route("/plot_graph", methods = ["GET","POST"])
+def show_graph():
+    
+    feature11 = request.form.get("feature11")
+    feature12 = request.form.get("feature12")
+    feature21 = request.form.get("feature21")
+    feature22 = request.form.get("feature22")
+    
+    if feature11:
+        feature11 = feature11.replace(","," ")
+    
+    if feature12:
+        feature12 = feature12.replace(","," ")
         
+    if feature21:
+        feature21 = feature21.replace(","," ")
+        
+    if feature22:
+        feature22 = feature22.replace(","," ")
+        
+
+    plot1 = request.form.get("columns1")
+    plot2 = request.form.get("columns2")
+    
+    fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(18, 10))
+    
+    if plot1 == "scatter plot":
+        axes[0].scatter(df[feature11],df[feature12])
+        axes[0].set_xlabel(feature11)
+        axes[0].set_ylabel(feature12)
+        
+    elif plot1 == "line plot":
+        axes[0].plot(df[feature11],df[feature12])
+        axes[0].set_xlabel(feature11)
+        axes[0].set_ylabel(feature12)
+        
+    elif plot1 == "bar plot":
+        axes[0].bar(df[feature11],df[feature12])
+        axes[0].set_xlabel(feature11)
+        axes[0].set_ylabel(feature12)
+        
+    elif plot1 == "box plot":
+        axes[0].boxplot(df[feature11])
+        axes[0].set_xlabel(feature11)
+        axes[0].set_ylabel(feature12)
+    
+    elif plot1 == "violin plot":
+        axes[0].violinplot(df[feature11])
+        axes[0].set_xlabel(feature11)
+        axes[0].set_ylabel(feature12)   
+        
+    elif plot1 == "heatmap":
+        df1 = df[[feature11,feature12]]
+        sns.heatmap(df1.corr(),annot=True, ax = axes[0])
+        axes[0].set_xlabel(feature11)
+        axes[0].set_ylabel(feature12)
+    
+    elif plot1 == "hexbin":
+        left_hex = axes[0].hexbin(df[feature11],df[feature12],gridsize=20, cmap = "Blues")
+        axes[0].set_title(f"Hexbin plot of {feature11} and {feature12}")
+        plt.colorbar(left_hex, ax=axes[0], label = "Density")
+        axes[0].set_xlabel(feature11)
+        axes[0].set_ylabel(feature12)
+        
+    
+        
+        
+    # Same for plot 2
+    if plot2 == "scatter plot":
+        axes[1].scatter(df[feature21],df[feature22])
+        axes[1].set_xlabel(feature21)
+        axes[1].set_ylabel(feature22)
+        
+    elif plot2 == "line plot":
+        axes[1].plot(df[feature21],df[feature22])
+        axes[1].set_xlabel(feature21)
+        axes[1].set_ylabel(feature22)
+        
+    elif plot2 == "bar plot":
+        axes[1].bar(df[feature21],df[feature22])
+        axes[1].set_xlabel(feature21)
+        axes[1].set_ylabel(feature22)
+        
+    elif plot2 == "box plot":
+        axes[1].boxplot(df[feature21])
+        axes[1].set_xlabel(feature21)
+        axes[1].set_ylabel(feature22)
+    
+    elif plot2 == "violin plot":
+        axes[1].violinplot(df[feature21])
+        axes[1].set_xlabel(feature21)
+        axes[1].set_ylabel(feature22)
+        
+    elif plot2 == "heatmap":
+        df2 = df[[feature21,feature22]]
+        sns.heatmap(df2.corr(),annot=True, ax = axes[1])
+        axes[1].set_xlabel(feature21)
+        axes[1].set_ylabel(feature22)
+        
+    elif plot2 == "hexbin":
+        right_hex = axes[1].hexbin(df[feature21],df[feature22],gridsize=20, cmap = "Reds")
+        axes[1].set_title(f"Hexbin plot of {feature21} and {feature22}")
+        axes[1].set_xlabel(feature21)
+        axes[1].set_ylabel(feature22)
+        plt.colorbar(right_hex, ax=axes[1], label = "Density")
+        
+        
+    
+    
+    plt.savefig("static/images/GraphTool/plotter.png", bbox_inches='tight')
+    
+    return render_template("Graph/graph1.html", graph = "static/images/GraphTool/plotter.png", message = "Graph plotted successfully")
+
+
+@app.route("/plot_piechart", methods = ["GET","POST"])
+def plot_pie():
+    
+    feature31 = request.form.get("feature31")
+    if feature31:
+        feature31 = feature31.replace(","," ")
+        
+    count = df[feature31].value_counts()
+    plt.figure(figsize=(10,10))
+    plt.pie(count, labels = count.index, autopct='%1.1f%%', shadow=True, startangle=90)
+    
+    plt.title(f"Pie chart for {feature31}")
+    
+    plt.savefig("static/images/GraphTool/pie.png", bbox_inches='tight')
+    
+    return render_template("Graph/graph2.html", graph = "static/images/GraphTool/pie.png", message = "Pie chart plotted successfully")
+
+@app.route("/plot_gbarplot", methods = ["GET","POST"])
+def gbarplot():
+    
+    target_feature = request.form.get("feature41")
+    
+    if target_feature:
+        target_feature = target_feature.replace(","," ")
+    
+    features = request.form.getlist("feature42")
+    features = [feature.replace(","," ") for feature in features]
+    
+    feature41 = features[0];
+    feature42 = features[1];
+    
+    group_data = df.groupby(target_feature)[[feature41,feature42]].mean()
+    
+    plt.figure(figsize=(15,15))
+    width = 0.4 # width of bar
+    
+    bar_positions1 = np.arange(len(group_data))
+    bar_position2 = bar_positions1 + width
+    
+    plt.bar(bar_positions1, group_data[feature41], width=width, label=feature41)
+    plt.bar(bar_position2, group_data[feature42], width=width, label=feature42)
+    
+    plt.xticks((bar_positions1+bar_position2)/2, group_data.index)
+    plt.xlabel(target_feature)
+    plt.ylabel("Average Value")
+    plt.title(f"Grouped bar plot for {feature41} and {feature42}")
+    plt.legend()
+    
+    plt.savefig("static/images/GraphTool/gbarplot.png", bbox_inches='tight')
+    
+    return render_template("Graph/graph3.html", graph = "static/images/GraphTool/gbarplot.png", message = "Grouped bar plot plotted successfully")
+
+# Predictions Regressions
+@app.route("/predict_linear_reg", methods = ["GET","POST"])
+def predict_linear_reg():
+    
+    data = request.form.getlist("data")
+    data = [float(d) for d in data]
+    score = linear_regressor.predict([data])
+    return render_template("Prediction/prediction.html", modelname = "Linear Regression", prediction=score[0])    
+
+@app.route("/predict_decision_tree_reg", methods = ["GET","POST"])
+def predict_decision_tree_reg():
+    
+    data = request.form.getlist("data")
+    data = [float(d) for d in data]
+    score = decision_tree_regressor.predict([data])
+    return render_template("Prediction/prediction.html", modelname = "Decision Tree Regression", prediction=score[0])
+
+@app.route("/predict_support_vector_reg", methods = ["GET","POST"])
+def predict_svr():
+    
+    data = request.form.getlist("data")
+    data = [float(d) for d in data]
+    score = support_vector_regressor.predict([data])
+    return render_template("Prediction/prediction.html", modelname = "Support Vector Regression", prediction=score[0])
+
+@app.route("/predict_random_forest_reg", methods = ["GET","POST"])
+def predict_random_forest_reg():
+    
+    data = request.form.getlist("data")
+    data = [float(d) for d in data]
+    score = random_forest_regressor.predict([data])
+    return render_template("Prediction/prediction.html", modelname = "Random Forest Regression", prediction=score[0])
+
+@app.route("/predict_knn_reg", methods = ["GET","POST"])
+def predict_knn_reg():
+    
+    data = request.form.getlist("data")
+    data = [float(d) for d in data]
+    score = knn_regressor.predict([data])
+    return render_template("Prediction/prediction.html", modelname = "K Nearest Neighbors Regression", prediction=score[0])
+
+@app.route("/predict_adaboost_reg", methods = ["GET","POST"])
+def predict_adaboost_reg():
+    
+    data = request.form.getlist("data")
+    data = [float(d) for d in data]
+    score = adaboost_regressor.predict([data])
+    return render_template("Prediction/prediction.html", modelname = "AdaBoost Regression", prediction=score[0])
+
+@app.route("/predict_gradient_boost_reg", methods = ["GET","POST"])
+def predict_gradient_boosting_reg():
+    
+    data = request.form.getlist("data")
+    data = [float(d) for d in data]
+    score = gradient_boost_regressor.predict([data])
+    return render_template("Prediction/prediction.html", modelname = "Gradient Boosting Regression", prediction=score[0])
+
+@app.route("/predict_xgboost_reg", methods = ["GET","POST"])
+def predict_xgboost_reg():
+    
+    data = request.form.getlist("data")
+    data = [float(d) for d in data]
+    score = xgboost_regressor.predict([data])
+    return render_template("Prediction/prediction.html", modelname = "XGBoost Regression", prediction=score[0])
+
+# Prediction classification all models
+@app.route("/predict_logistic_cls", methods = ["GET","POST"])
+def predict_logistic_reg():
+    
+    data = request.form.getlist("data")
+    data = [float(d) for d in data]
+    score = logistic_regression_classifier.predict([data])
+    return render_template("Prediction/prediction.html", modelname = "Logistic Regression", prediction=score[0])
+
+@app.route("/predict_knn_cls", methods = ["GET","POST"])
+def predict_knn_cls():
+    
+    data = request.form.getlist("data")
+    data = [float(d) for d in data]
+    score = knn_classifier.predict([data])
+    return render_template("Prediction/prediction.html", modelname = "K Nearest Neighbors Classifier", prediction=score[0])
+
+@app.route("/predict_svc", methods = ["GET","POST"])
+def predict_svc():
+    
+    data = request.form.getlist("data")
+    data = [float(d) for d in data]
+    score = support_vector_classifier.predict([data])
+    return render_template("Prediction/prediction.html", modelname = "Support Vector Classifier", prediction=score[0])
+
+@app.route("/predict_naive_bayes", methods = ["GET","POST"])
+def predict_naive_bayes():
+    
+    data = request.form.getlist("data")
+    data = [float(d) for d in data]
+    score = native_bayes_classifier.predict([data])
+    return render_template("Prediction/prediction.html", modelname = "Naive Bayes Classifier", prediction=score[0])
+
+@app.route("/predict_decision_tree_cls", methods = ["GET","POST"])
+def predict_decision_tree_cls():
+    
+    data = request.form.getlist("data")
+    data = [float(d) for d in data]
+    score = decision_tree_classifier.predict([data])
+    return render_template("Prediction/prediction.html", modelname = "Decision Tree Classifier", prediction=score[0])
+
+@app.route("/predict_random_forest_cls", methods = ["GET","POST"])
+def predict_random_forest_cls():
+    
+    data = request.form.getlist("data")
+    data = [float(d) for d in data]
+    score = random_forest_classifier.predict([data])
+    return render_template("Prediction/prediction.html", modelname = "Random Forest Classifier", prediction=score[0])
+
+@app.route("/predict_adaboost_cls", methods = ["GET","POST"])
+def predict_adaboost_cls():
+    
+    data = request.form.getlist("data")
+    data = [float(d) for d in data]
+    score = adaboost_classifier.predict([data])
+    return render_template("Prediction/prediction.html", modelname = "AdaBoost Classifier", prediction=score[0])
+
+@app.route("/predict_gradient_boosting_cls", methods = ["GET","POST"])
+def predict_gradient_boosting_cls():
+    
+    data = request.form.getlist("data")
+    data = [float(d) for d in data]
+    score = gradientboost_classifier.predict([data])
+    return render_template("Prediction/prediction.html", modelname = "Gradient Boosting Classifier", prediction=score[0])
+
 if __name__=="__main__":
     app.run(host="0.0.0.0")
 

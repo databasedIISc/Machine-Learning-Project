@@ -16,12 +16,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
 
-    <title>Extreme Gradient Regressor(XGB)</title>
+    <title>Prediction</title>
         
     <style>
 
         body {
-            background-image: url("../../../../static/images/start/bg2.jpg");
+            background-image: url("../../../static/images/start/bg2.jpg");
             background-repeat: no-repeat;
             background-size: cover;
             background-color: #050111;
@@ -123,77 +123,21 @@
 
     <div class="container">
         <div class="top">
-            <h1>Extreme Gradient Boost Regressor (XGB)</h1>
+            <h1>Prediction: {{modelname}}</h1>
         </div>
 
-        <div class="container choose-box">
-          <form action="/train_xgboost_regressor" method = "POST" enctype = "multipart/form-data" target="_self">
-
-            
-            <div class="row">
-                <div class="col-12">
-                    <p class="instruction">Target Feature: {{target}}</p>
-                </div>
+        <div class="row">
+            <div class="col row-1">
+                <p class="instruction-1">Your Prediction is: {{prediction}}</p>
             </div>
-
-            <div class="row">
-                <div class="col-12">
-                    <p class="instruction">Training Features: {{trains}}</p>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-12">
-                    <p class="x instruction" id="test_accuracy">{{train_status}}</p>
-                </div>
-            </div>
-
-
-            <div class="proceed-button">
-                <button type="submit" class="submit btn btn-primary">Train</button>
-            </div>
-
-
-          </form>
-          <div class="proceed-button">
-            <button type="submit" class="submit btn btn-primary" id = "test">Test</button>
         </div>
-
-        <hr>
-        <form action="/predict_{{model}}" method = "POST" enctype = "multipart/form-data" target="_self" id = "predictionForm">
-
-            
-            {% for column in columns %}
-
-            <div class="row">
-                <div class="col row-1">
-                    <p class="instruction-1">Enter {{column}}</p>
-                    <input type="number" name="data"  id="parameter" class="data-input file test-size-input form-control" step = ".01">
-                </div>
-            </div>
-
-            {% endfor %} 
-        
-
-            <div class="proceed-button">
-                <button type="submit" class="submit btn btn-primary" id = "prediction">Predict</button>
-            </div>
-
-            </form>
 
         </div>    
     </div>
 
     <script>
 
-        document.getElementById("test").addEventListener("click",function(){
-            
-            fetch("/test_xgboost_regressor")
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("test_accuracy").innerText = "Accuracy is: " + data.score;
-                });
-        });
+       
 
 
     </script>

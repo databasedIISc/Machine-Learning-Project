@@ -19,12 +19,12 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
     
-        <title>Encoding</title>
+        <title>Visualization</title>
             
         <style>
     
             body {
-                background-image: url("../static/images/start/bg2.jpg");
+                background-image: url("../../static/images/start/bg2.jpg");
                 background-repeat: no-repeat;
                 background-size: cover;
                 background-color: #050111;
@@ -37,6 +37,7 @@
                 margin-bottom: 3rem;
                 padding: 0;
                 border-radius: 1rem;
+                overflow-x: auto;
             }
     
             .top {
@@ -80,6 +81,7 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
+                padding-bottom: 1rem;
             }
     
             .btn-primary {
@@ -144,6 +146,11 @@
                 height: 5rem;
                 padding: 0px;
             }
+
+            /* change here if you wish to change Next button width  */
+            .continue-button {
+                height: 3rem;
+            }
            
             #intro-buttons {
                 display: flex;
@@ -154,13 +161,21 @@
                 padding: 1rem;
             }
 
-            .encoding {
+            .histplot {
                 padding: 2rem;
-                padding-top: 0;
             }
 
-            .msg {
-                padding: 0;
+            .histograms {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: fit-content;
+            }
+
+            .histograms img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
             }
 
         </style>
@@ -170,42 +185,39 @@
         <div class="container">
 
             <div class="top">
-                <h1>Phase 3: <br>Encoding Categorical Features</h1>
+                <h1>Required Plots</h1>
             </div>
 
             <div class="row intro-text-box">
-                <div class="col intro" id="intro-buttons">
+               
+                <div class="col-md-2 col-12 intro">
+                    <img src="../../static/images/python(2).png" alt="python" class="python-logo img-fluid intro">
+                </div>
+                
+                <div class="col-md-8 col-12 intro" id="intro-buttons">
+                    <button class = "solid-button btn btn-primary" onclick = "show_miss_dataset()"><p class="button-text">Check Misses</p></button>
                     <button class = "solid-button btn btn-primary" onclick = "show_dataset()"><p class="button-text">Check Dataset</p></button>
                 </div>
-            </div>
-
-            <div class="row messages">
-                <div class="col-12 ">
-                    <h2 class="msg">{{message1}}</h2><br>
-                    <h2 class="msg">{{message2}}</h2><br>
+                <div class="col-md-2 col-12 intro">
+                    <img src="../../static/images/machine-learning-artificial-intelligence-deep-learning-computer-science-technology-44866d77e0f551758f0ede44987fd317.png" alt="robot" class="robo intro img-fluid">
                 </div>
+                   
             </div>
 
             <div class="row">
-                <div class="column encoding">
-                    {% for features,values in send.items() %}
-                    <form action = "/encoding" method = "POST" class = "features">
-                        
-                        <h2>{{features}}</h2>
-
-                        {% for value in values %}
-                        <input type="number" name = "{{value}}" step="1" placeholder = "Enter Integer Only!" class="form-control"> {{value}}<br><br>
-                        {% endfor %}
-                            
-                        <input type="submit" value="Encode" class="submit btn btn-secondary">
-                    </form>
-                    {% endfor %}
+                <div class="col-12 bar-graph">
+                    <div class="histograms">
+                        <img src = "{{graph}}" alt="Pie Chart" class="heatmap">
+                    </div>
                 </div>
             </div>
 
-            <div class="row"> 
+            
+           
+
+           <div class="row"> 
                 <div class="col solid-button ">
-                    <button class = "continue btn btn-primary" onclick = "next3()"><p>Continue to Visualization</p></button>
+                    {{message}}
                 </div>
             </div>
             
