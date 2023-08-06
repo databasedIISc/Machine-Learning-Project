@@ -1654,7 +1654,7 @@ def show_graph():
         axes[0].set_ylabel(feature12)
         
     elif plot1 == "bar plot":
-        axes[0].bar(df[feature11],df[feature12],bins = 30)
+        axes[0].bar(df[feature11],df[feature12])
         axes[0].set_xlabel(feature11)
         axes[0].set_ylabel(feature12)
         
@@ -1696,7 +1696,7 @@ def show_graph():
         axes[1].set_ylabel(feature22)
         
     elif plot2 == "bar plot":
-        axes[1].bar(df[feature21],df[feature22], bins = 30)
+        axes[1].bar(df[feature21],df[feature22])
         axes[1].set_xlabel(feature21)
         axes[1].set_ylabel(feature22)
         
