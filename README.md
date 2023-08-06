@@ -1,4 +1,5 @@
 # Data Analytical and Machine Learning Tool 
+You can see the deployed thing [HERE](https://automaticmltool.onrender.com/) but it may run very slow
 
 ## Our Team: 
 1. Ayush Raina (Project Lead): handled most of the Backend part of this Project (Indian Institute of Science, Bengaluru, Maths and Computing)
