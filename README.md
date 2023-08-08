@@ -5,6 +5,7 @@ You can see the deployed thing [HERE](https://automaticmltool.onrender.com/) but
 1. Ayush Raina (Project Lead): handled most of the Backend part of this Project (Indian Institute of Science, Bengaluru, Maths and Computing)
 2. Aastha Verma (Design) : handled all the designing(Frontend) of the Project (Indian Institute of Technology, Delhi, Computer Science and Engineering)
 3. Srijan : helped in managing tasks and finding errors (Indian Institute of Science, Bengaluru, Maths and Computing)
+4. Saivinayak : Gave new ideas that can be added to project(NIT Warangal)
 
 ## Aim
 With this tool anyone who does not have any knowledge of Machine Learning will be able to train Machine Learning models and can make predictions on his/her new data. We have tried our best to make the layout of this tool very simple and attractive. You will just require a dataset to get started with. This tool is packed with numerous other features for Data Analysis. You can even plot a number of graphs to visualize the data, its trends and patterns.
