@@ -4,7 +4,7 @@ You can see the deployed thing [HERE](https://automaticmltool.onrender.com/) but
 ## Our Team: 
 1. Ayush Raina (Project Lead): handled most of the Backend part of this Project (Indian Institute of Science, Bengaluru, Maths and Computing)
 2. Aastha Verma (Design) : handled all the designing(Frontend) of the Project (Indian Institute of Technology, Delhi, Computer Science and Engineering)
-3. Srijan : helped in managing tasks and finding errors (Indian Institute of Science, Bengaluru, Maths and Computing)
+3. Sirjan : helped with the backend and finding errors (Indian Institute of Science, Bengaluru, Maths and Computing)
 4. Saivinayak : Gave new ideas that can be added to project(NIT Warangal)
 
 ## Aim
